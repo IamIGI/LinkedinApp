@@ -1,0 +1,11 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // I want my default to be 4, but JavaScript/JSON to be 2
+  "editor.tabSize": 2,
+  "[json]": {
+    "editor.tabSize": 2
+  }
+}
