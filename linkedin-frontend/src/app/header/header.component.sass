@@ -1,5 +1,7 @@
 @use 'src/styles/index' as i
 
+$nav-fontSize: 10px
+
 nav 
   padding: 12px 27% 0px 20%
   display: flex
@@ -54,7 +56,7 @@ ul li
 
 .link
   width: 65px
-  //  border-bottom: 0px solid transparent
+
   a
     text-decoration: none
     cursor: pointer
@@ -62,7 +64,7 @@ ul li
     display: flex
     flex-direction: column
     align-items: center 
-    font-size: 10px
+    font-size: $nav-fontSize
 
     .icon
       font-size: 25px
@@ -72,7 +74,7 @@ ul li
   width: 0%
   height: 2px
   background-color: i.$color-nav-icon-acitve
-  transition: width 1s
+  transition: width 0.5s
 
 .activeLink
   a
@@ -82,3 +84,36 @@ ul li
     width: 100%
     background-color: i.$color-nav-icon-acitve
 
+.avatar
+
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+  align-items: center
+  font-size: $nav-fontSize
+
+  img
+    width: 30px
+
+  span
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    font-size: 10px
+    
+    mat-icon
+      font-size: 15px
+      height: 13px
+
+.avatarButton
+  height: 100%
+  margin-left: 30px
+
+@media screen and (max-width: 1400px)
+  nav 
+    padding: 12px 17% 0px 10%
+
+@media screen and (max-width: 1000px)
+  nav 
+    padding: 12px 7% 0px 3%
+    

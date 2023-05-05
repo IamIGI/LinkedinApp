@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
-('');
+import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,6 +23,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   exports: [
+    MatMenuModule,
     MatBadgeModule,
     MatDatepickerModule,
     MatButtonModule,
@@ -45,6 +46,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule,
   ],
   imports: [
+    MatMenuModule,
     MatBadgeModule,
     MatDatepickerModule,
     MatButtonModule,
