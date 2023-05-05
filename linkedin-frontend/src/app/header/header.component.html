@@ -59,16 +59,17 @@
       </a>
       <div class="showActive"></div>
     </li>
-    <li
-      class="link"
-      routerLinkActive="activeLink"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-      <a routerLink="/account">
+    <button mat-button [matMenuTriggerFor]="beforeMenu" class="avatarButton">
+      <div class="avatar">
         <img alt="navIcon" src="../../assets/images/nav-profile-icon.JPG" />
-        Ja
-      </a>
-      <div class="showActive"></div>
-    </li>
+        <span>
+          Ja
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </span>
+      </div>
+    </button>
+    <mat-menu #beforeMenu="matMenu" xPosition="before">
+      <app-popover></app-popover>
+    </mat-menu>
   </ul>
 </nav>

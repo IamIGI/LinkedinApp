@@ -1,0 +1,112 @@
+@use 'src/styles/index' as i
+
+@mixin flexColumnStart
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+  align-items: flex-start
+
+@mixin flexRowCenter
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+  align-items: center
+
+.container
+  width: 100%
+  @include flexColumnStart
+  gap: 5px
+
+.section
+  width: 92%
+  padding: 0 4%
+  @include flexColumnStart
+  border-bottom: 1px solid i.$color-light
+  font-size: i.$font-m
+  padding-bottom: 5px
+
+  ul
+    list-style-type: none
+    margin: 0px
+    padding: 0px
+
+    li
+      margin: 7px 0
+      height: fit-content
+
+      &:not(:first-child) 
+        cursor: pointer
+
+        &:hover
+          text-decoration: underline
+
+      &:first-child
+        font-weight: 700
+        font-size: i.$font-m_plus
+        letter-spacing: 2px
+
+  .section-avatar
+    @include flexRowCenter
+    gap: 8px
+
+    h2
+      font-size: i.$font-m
+      margin: 0px
+      margin-bottom: 5px
+
+    p
+      margin: 0
+      font-size: i.$font-s
+
+    img
+      width: 60px
+
+
+
+.showProfile
+  width: 20px
+  border-radius: 10px
+  font-weight: 700
+  border: 1px solid i.$color-primary
+  color: i.$color-primary
+  background-color: white
+  font-size:  i.$font-s
+  width: 100%
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  margin-top: 10px
+  padding: 2px 0px
+  outline: 1px solid transparent
+  transition: border 0.5s
+  transition: outline 0.5s
+
+  &:hover
+    background-color: i.$color-primaryHover
+    border: 1px solid i.$color-primaryBorder
+    outline: 1px solid i.$color-primaryBorder
+    cursor: pointer
+
+
+.section-logout
+  width: 92%
+  padding: 0 4%
+  @include flexColumnStart
+  ul
+    list-style-type: none
+    margin: 0px
+    padding: 0px
+
+    li
+      margin: 10px 0
+      height: fit-content
+      cursor: pointer
+
+      &:hover
+        text-decoration: underline
+
+.premium-text
+  color: gray
+  font-weight: 700
+

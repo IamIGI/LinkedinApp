@@ -12,9 +12,10 @@ import { WorkComponent } from './work/work.component';
 import { MessagesComponent } from './messages/messages.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { AccountComponent } from './account/account.component';
+import { PopoverComponent } from './header/popover/popover.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, HeaderComponent, NetworkComponent, WorkComponent, MessagesComponent, NotificationsComponent, AccountComponent],
+  declarations: [AppComponent, HomeComponent, HeaderComponent, NetworkComponent, WorkComponent, MessagesComponent, NotificationsComponent, AccountComponent, PopoverComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
