@@ -1,0 +1,219 @@
+@use "@angular/material" as mat;
+
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define your theme with color palettes, typography and density
+// $mat-theme-primary-palette: mat.define-palette(mat.$indigo-palette, 700);
+// $mat-theme-primary-palette: map-merge(
+//   mat.$red-palette,
+//   (
+//     contrast: (
+//       100: #150c4a,
+//     ),
+//   )
+// );
+$mat-theme-primary: mat.define-palette(
+  mat.$blue-palette,
+  $default: 600,
+  $lighter: 400,
+  $darker: 800,
+  $text: 500
+);
+
+$mat-theme-accent-palette: map-merge(
+  mat.$teal-palette,
+  (
+    501: #4d77b6,
+    contrast: (
+      501: white,
+      A100: white,
+      A200: white,
+    ),
+  )
+);
+$mat-theme-accent: mat.define-palette(
+  $mat-theme-accent-palette,
+  $default: 501,
+  $lighter: A100,
+  $darker: A200,
+  $text: 600
+);
+
+$mat-theme-warn-palette: map-merge(mat.$pink-palette, ());
+$mat-theme-warn: mat.define-palette(
+  $mat-theme-warn-palette,
+  $default: A200,
+  $lighter: 500,
+  $darker: 500,
+  $text: A700
+);
+
+$mat-dark-theme-primary-palette: map-merge(
+  mat.$blue-palette,
+  (
+    501: #0847ca,
+    201: #1d6ff7,
+    701: #0834b1,
+  )
+);
+$mat-dark-theme-primary: mat.define-palette(
+  $mat-dark-theme-primary-palette,
+  $default: 501,
+  $lighter: 201,
+  $darker: 701,
+  $text: 700
+);
+
+$mat-dark-theme-accent-palette: map-merge(
+  mat.$grey-palette,
+  (
+    501: #b8b8b8,
+    201: #dcdbdb,
+    701: #959595,
+  )
+);
+$mat-dark-theme-accent: mat.define-palette(
+  $mat-dark-theme-accent-palette,
+  $default: 501,
+  $lighter: 201,
+  $darker: 701,
+  $text: A100
+);
+
+$mat-dark-theme-warn-palette: map-merge(
+  mat.$pink-palette,
+  (
+    contrast: (
+      A100: black,
+      100: white,
+    ),
+  )
+);
+$mat-dark-theme-warn: mat.define-palette(
+  $mat-dark-theme-warn-palette,
+  $default: A100,
+  $lighter: 100,
+  $darker: A700,
+  $text: 100
+);
+
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap");
+
+$mat-typography: mat.define-typography-config(
+  $font-family: "Rubik",
+  $headline-1:
+    mat.define-typography-level(
+      $font-size: 96px,
+      $font-weight: 300,
+      $font-family: Rubik,
+    ),
+  $headline-2:
+    mat.define-typography-level(
+      $font-size: 60px,
+      $font-weight: 500,
+      $font-family: Rubik,
+    ),
+  $headline-3:
+    mat.define-typography-level(
+      $font-size: 48px,
+      $font-weight: 500,
+      $font-family: Rubik,
+    ),
+  $headline-4:
+    mat.define-typography-level(
+      $font-size: 34px,
+      $font-weight: 500,
+      $font-family: Rubik,
+    ),
+  $headline-5:
+    mat.define-typography-level(
+      $font-size: 24px,
+      $font-weight: 500,
+      $font-family: Rubik,
+    ),
+  $headline-6:
+    mat.define-typography-level(
+      $font-size: 20px,
+      $font-weight: 500,
+      $font-family: Rubik,
+    ),
+  $body-2:
+    mat.define-typography-level(
+      $font-size: 16px,
+      $font-weight: 400,
+      $font-family: Rubik,
+    ),
+  $body-1:
+    mat.define-typography-level(
+      $font-size: 18px,
+      $font-weight: 400,
+      $font-family: Rubik,
+    ),
+  $caption:
+    mat.define-typography-level(
+      $font-size: 16px,
+      $font-weight: Medium,
+      $font-family: Rubik,
+    ),
+  $button:
+    mat.define-typography-level(
+      $font-size: 16px,
+      $font-weight: 500,
+      $font-family: Rubik,
+    ),
+);
+
+$mat-density: 0;
+// @include mat.elevation(
+//   $zValue: 12,
+//   $color: #000,
+//   $opacity: 0.5
+// );
+
+$mat-core-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $mat-theme-primary,
+      accent: $mat-theme-accent,
+      warn: $mat-theme-warn,
+    ),
+    typography: $mat-typography,
+    density: $mat-density,
+  )
+);
+
+$mat-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $mat-dark-theme-primary,
+      accent: $mat-dark-theme-accent,
+      warn: $mat-dark-theme-warn,
+    ),
+  )
+);
+
+@include mat.all-component-themes($mat-core-theme);
+
+.dark-theme {
+  @include mat.all-component-colors($mat-dark-theme);
+}
+// @use "@angular/material" as mat;
+
+// @include mat.core();
+
+// $my-primary: mat.define-palette(mat.$indigo-palette, 700);
+// $my-accent: mat.define-palette(mat.$brown-palette, A400, A100, A700);
+
+// $my-theme: mat.define-light-theme(
+//   (
+//     color: (
+//       primary: $my-primary,
+//       accent: $my-accent,
+//     ),
+//     typography: mat.define-typography-config(),
+//     density: 0,
+//   )
+// );
+
+// @include mat.all-component-themes($my-theme);

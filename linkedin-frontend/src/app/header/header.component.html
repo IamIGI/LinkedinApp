@@ -1,0 +1,74 @@
+<nav>
+  <div class="nav-left">
+    <a routerLink="/">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/800px-LinkedIn_logo_initials.png"
+      />
+    </a>
+    <div class="searchbar">
+      <input type="search" placeholder="Search" />
+      <mat-icon>search</mat-icon>
+    </div>
+  </div>
+
+  <ul>
+    <li
+      class="link"
+      routerLinkActive="activeLink"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <a routerLink="/"
+        ><mat-icon class="icon">home</mat-icon> Strona główna
+      </a>
+      <div class="showActive"></div>
+    </li>
+    <li
+      class="link"
+      routerLinkActive="activeLink"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <a routerLink="/network"><mat-icon class="icon">group</mat-icon> Sieć </a>
+      <div class="showActive"></div>
+    </li>
+    <li
+      class="link"
+      routerLinkActive="activeLink"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <a routerLink="/work"><mat-icon class="icon">work</mat-icon> Praca </a>
+      <div class="showActive"></div>
+    </li>
+    <li
+      class="link"
+      routerLinkActive="activeLink"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <a routerLink="/messages"
+        ><mat-icon class="icon">sms</mat-icon> Wiadomość
+      </a>
+      <div class="showActive"></div>
+    </li>
+    <li
+      class="link"
+      routerLinkActive="activeLink"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <a routerLink="/notifications"
+        ><mat-icon matBadge="15" matBadgeColor="warn">notifications</mat-icon>
+        Powiadomienia
+      </a>
+      <div class="showActive"></div>
+    </li>
+    <li
+      class="link"
+      routerLinkActive="activeLink"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <a routerLink="/account">
+        <img alt="navIcon" src="../../assets/images/nav-profile-icon.JPG" />
+        Ja
+      </a>
+      <div class="showActive"></div>
+    </li>
+  </ul>
+</nav>

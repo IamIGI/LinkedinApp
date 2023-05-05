@@ -11,7 +11,8 @@
 /bazel-out
 
 # Node
-/node_modules
+api/node_modules
+linkedin-frontend/node_modules
 npm-debug.log
 yarn-error.log
 
@@ -33,7 +34,7 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
+linkedin-frontend/.angular/cache
 .sass-cache/
 /connect.lock
 /coverage

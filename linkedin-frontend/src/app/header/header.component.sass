@@ -1,0 +1,84 @@
+@use 'src/styles/index' as i
+
+nav 
+  padding: 12px 27% 0px 20%
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  border-bottom: 1px solid #D0D0D0
+
+.nav-left 
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+  gap: 10px
+  align-items: center
+  height: 35px
+
+  img 
+    width: 35px
+
+  input 
+    border: none
+    background-color: i.$color-background-input
+    height: 100%
+    padding-left: 35px
+    border-radius:  i.$radius-input
+    
+  .searchbar
+    height: 100%
+    position: relative
+    
+
+    mat-icon
+      position: absolute
+      left: 5px
+      top: 20%
+      font-size: 20px
+
+
+nav ul
+  float: right
+  list-style-type: none
+  margin: 0px
+  padding: 0px
+
+ul li
+  display: inline-block
+  margin: 0 2px
+  height: 100%
+  padding-bottom: 3px
+
+
+
+.link
+  width: 65px
+  //  border-bottom: 0px solid transparent
+  a
+    text-decoration: none
+    cursor: pointer
+    color: i.$color-nav-icon  
+    display: flex
+    flex-direction: column
+    align-items: center 
+    font-size: 10px
+
+    .icon
+      font-size: 25px
+      height: fit-content
+
+.showActive
+  width: 0%
+  height: 2px
+  background-color: i.$color-nav-icon-acitve
+  transition: width 1s
+
+.activeLink
+  a
+    color: i.$color-nav-icon-acitve
+
+  .showActive
+    width: 100%
+    background-color: i.$color-nav-icon-acitve
+
