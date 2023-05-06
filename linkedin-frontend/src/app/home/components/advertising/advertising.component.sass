@@ -1,7 +1,71 @@
 @use 'src/styles/index' as i
 
 .content-container
-  @include i.flex-ColumnStartCenter
+  @include i.flex-ColumnStartStart
   // flex-grow: 1
   // height: 10px
-  outline: 1px solid blue
+  padding: 15px 4% 10px 4%
+  width: 280px
+  border-radius: i.$radius-container
+  background-color: white
+
+.title
+  font-size: i.$font-m
+  margin: 0px
+  margin-bottom: 16px
+  // color: gray
+  letter-spacing: 1px
+  font-weight: 500
+
+.section
+  @include i.flex-ColumnStartStart
+  gap: 10px
+  margin-bottom: 15px
+
+.advert
+  @include i.flex-RowStartStart
+  gap: 10px
+
+  .image
+    height: 60px
+    width: 55px
+
+  
+  .information
+    @include i.flex-ColumnStartStart
+    gap: 5px
+
+    h2
+      font-size: i.$font-m
+      margin: 0px
+      margin-bottom: 2px
+
+    p
+      font-size: i.$font-s_minus
+      color: gray
+      margin: 0px
+
+    button
+      border-radius: 15px
+      padding: 3px 15px
+      border: 2px solid gray
+      outline: 1px solid transaprent
+      font-size: i.$font-m_plus
+      background-color: white
+      cursor: pointer
+
+      span
+        font-size: i.$font-l
+        margin-right: 5px
+
+      &:hover
+        background-color: i.$color-gray-hover
+
+.allAdverts
+  p
+    font-size: i.$font-m
+    color: gray
+    margin: 0px
+
+
+
