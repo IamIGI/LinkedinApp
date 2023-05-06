@@ -1,27 +1,16 @@
 @use 'src/styles/index' as i
 
-@mixin flexColumnStart
-  display: flex
-  flex-direction: column
-  justify-content: flex-start
-  align-items: flex-start
-
-@mixin flexRowCenter
-  display: flex
-  flex-direction: row
-  justify-content: flex-start
-  align-items: center
 
 .container
   width: 100%
-  @include flexColumnStart
+  @include i.flex-ColumnStartCenter
   gap: 5px
 
 .section
   width: 92%
   padding: 0 4%
-  @include flexColumnStart
-  border-bottom: 1px solid i.$color-light
+  @include i.flex-ColumnStartStart
+  @include i.inElements-border(border-bottom)
   font-size: i.$font-m
   padding-bottom: 5px
 
@@ -46,7 +35,7 @@
         letter-spacing: 2px
 
   .section-avatar
-    @include flexRowCenter
+    @include i.flex-RowStartCenter
     gap: 8px
 
     h2
@@ -92,7 +81,7 @@
 .section-logout
   width: 92%
   padding: 0 4%
-  @include flexColumnStart
+  @include i.flex-RowStartCenter
   ul
     list-style-type: none
     margin: 0px
