@@ -1,0 +1,121 @@
+@use 'src/styles/index' as i
+
+
+@mixin borderTop($radius)
+  border-top-right-radius: $radius
+  border-top-left-radius: $radius
+
+.content-container
+  @include i.flex-ColumnStartCenter
+  // flex-grow: 1
+  // outline: 1px solid blue
+  height: fit-content
+  width: 220px
+  
+.profile-summary
+  @include i.flex-ColumnStartStart
+  border-radius: 15px
+  background-color: i.$color-white
+  font-size: i.$font-s_minus
+  padding-bottom: 5px
+
+.profile-information
+  position: relative
+  @include i.flex-ColumnStartCenter
+  height: fit-content
+  @include borderTop(15px)
+
+  .wallpaper
+    @include borderTop(15px)
+    width: 100%
+    height: 70px
+    img
+      @include borderTop(15px)
+      height: 100%
+      width: 100%
+  
+  .profile-image
+    $border-radius: 50%
+    position: absolute
+    top: 25px
+    left: 30%
+    border-radius: $border-radius
+    border: 3px solid white
+
+    width: 80px
+
+    img
+      border-radius: $border-radius
+      height: 100%
+      width:100%
+
+.information
+  @include i.flex-ColumnStartCenter
+  margin-top: 50px
+  padding: 0 3%
+  
+  h1
+    margin: 0px
+    margin-bottom: 5px
+    font-size: i.$font-l
+  
+  p
+    color: gray
+    margin: 0px
+    
+    text-align: center
+
+.section
+  width: 92%
+  padding: 0 4%
+  @include i.inElements-border(border-top)
+  $space: 10px
+  margin-top: $space
+  padding-top: $space
+
+  p
+    margin: 0
+    margin-bottom: 5px
+    color: gray
+
+  span
+    color: gray
+    font-weight: 700
+    text-decoration: underline
+
+
+ul
+  list-style-type: none
+  margin: 0px
+  padding: 0px
+
+  li 
+    margin: 10px 0
+    height: fit-content
+    cursor: pointer
+    @include i.flex-RowStartCenter
+    justify-content: space-between
+    font-size: i.$font-s_minus
+    color: gray
+
+    span
+      font-weight: 700
+    
+    .number
+      color: i.$color-primary
+
+    &:hover
+      text-decoration: underline
+
+.my-elements
+    p
+      color: black
+      display: flex
+      flex-direction: row
+      justify-content: flex-start
+      align-content: center
+
+      mat-icon
+        margin-top: -3px
+        margin-right: 5px
+
