@@ -23,6 +23,7 @@
   
   .information
     @include i.flex-ColumnStartStart
+    @include i.inElement-button-gray
     gap: 5px
 
     h2
@@ -30,26 +31,11 @@
       margin: 0px
 
     p
-      font-size: i.$font-s_minus
+      font-size: i.$font-micro_plus
       color: gray
       margin: 0px
 
-    button
-      margin-top: 5px
-      border-radius: 15px
-      padding: 3px 15px
-      border: 1px solid gray
-      outline: 1px solid transaprent
-      font-size: i.$font-m_plus
-      background-color: white
-      cursor: pointer
-      transition: border 0.5s
-      transition: outline 0.5s
-      
-      &:hover
-        background-color: i.$color-gray-hover
-        border: 1px solid gray
-        outline: 1px solid gray
+    
 
       span
         font-size: i.$font-l

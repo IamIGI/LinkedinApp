@@ -1,0 +1,73 @@
+@use 'src/styles/index' as i
+
+$content-width: 700px
+
+.content-container
+  position: relative
+  @include i.flex-ColumnStartStart
+  gap: 15px
+  padding: 15px
+  width: $content-width
+
+  border-bottom: 1px solid i.$color-light
+
+.content-finish
+  @include i.flex-RowStartCenter
+  justify-content: flex-end
+  padding: 15px
+  gap: 5px
+  width: $content-width
+
+  .custom-button
+    @include i.inElement-button-gray
+    margin-bottom: 7px
+
+
+.user
+  @include i.flex-RowStartCenter
+  gap: 10px
+
+  padding: 10px
+  border-radius: 10px
+
+  &:hover
+    background-color: i.$color-gray-hover
+    cursor: pointer
+
+  h1
+    font-size: i.$font-l
+    font-weight: 400
+    margin: 0px
+
+  p
+    margin: 0px
+    font-size: i.$font-m
+    color: gray
+
+  .image
+    @include i.inElement-profile-image(50px)
+
+
+.close
+  position: absolute
+  right: 10px
+  top: 10px
+
+.text
+  width: 100%
+
+  textarea
+    width: 100%
+    min-height: 250px
+    border: 0px
+    font-size: i.$font-l
+
+
+
+.assignment
+  @include i.flex-RowStartCenter
+  gap: 15px
+  width: 100%
+
+
+

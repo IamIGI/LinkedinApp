@@ -1,1 +1,46 @@
-<p>modal works!</p>
+<div class="content-container">
+  <div class="close">
+    <button
+      mat-icon-button
+      mat-dialog-close
+      aria-label="Example icon button with a menu icon"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="user">
+    <div class="image">
+      <img alt="profile" src="../../../../../assets/images/profile-image.png" />
+    </div>
+    <div>
+      <h1>Igor Kłusek</h1>
+      <p>Opublikuj: Każdy</p>
+    </div>
+    <mat-icon>arrow_drop_down</mat-icon>
+  </div>
+  <div class="text">
+    <textarea
+      name="text"
+      id="text"
+      placeholder="O czym chcesz porozmawiać?"
+    ></textarea>
+  </div>
+  <div class="assignment">
+    <button
+      *ngFor="let button of passedData"
+      mat-fab
+      aria-label="Example icon button with a menu icon"
+      [ngStyle]="{ 'background-color': button.color }"
+    >
+      <mat-icon>{{ button.icon }}</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="content-finish">
+  <button mat-icon-button aria-label="Example icon button with a menu icon">
+    <mat-icon>access_time</mat-icon>
+  </button>
+  <div class="custom-button">
+    <button mat-dialog-close>Opublikuj</button>
+  </div>
+</div>

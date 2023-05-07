@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { options } from './data';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from './modal/modal.component';
 
 @Component({
   selector: 'app-start-post',
@@ -8,4 +10,17 @@ import { options } from './data';
 })
 export class StartPostComponent {
   options = options;
+
+  constructor(private dialog: MatDialog) {}
+
+  openModal() {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      panelClass: 'panel',
+      data: options,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog closed`);
+    });
+  }
 }
