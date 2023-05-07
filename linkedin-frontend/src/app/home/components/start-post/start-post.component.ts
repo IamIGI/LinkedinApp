@@ -13,9 +13,9 @@ export class StartPostComponent {
 
   constructor(private dialog: MatDialog) {}
 
-  openModal() {
+  async openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {
-      panelClass: 'panel',
+      panelClass: 'modalClass',
       data: options,
     });
 

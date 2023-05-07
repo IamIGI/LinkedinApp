@@ -1,0 +1,16 @@
+<a routerLink="/">
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/800px-LinkedIn_logo_initials.png"
+  />
+</a>
+<form [formGroup]="searchForm" (keyup.enter)="onSubmit()">
+  <div class="searchbar">
+    <input
+      id="search"
+      formControlName="search"
+      type="text"
+      placeholder="Szukaj"
+    />
+    <mat-icon>search</mat-icon>
+  </div>
+</form>
