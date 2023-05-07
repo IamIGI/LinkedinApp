@@ -1,7 +1,54 @@
 @use 'src/styles/index' as i
 
-.content-container
-  @include i.flex-ColumnStartCenter
-  // flex-grow: 2
-  // height: 10px
-  outline: 1px solid blue
+
+.form
+  width: 100%
+  @include i.flex-RowStartCenter
+  gap:10px
+
+  .image
+    @include i.inElement-profile-image(50px)
+
+  button
+    text-align: left
+    flex: 1
+    height: 50px
+    padding: 0px 15px
+    border-radius: 30px
+    border: 1px solid i.$color-medium-tint
+    color: i.$color-medium-tint
+    font-size: i.$font-m
+    font-weight: 600
+    background-color: white
+    cursor: pointer
+    transition: background-color 0.3s
+
+    &:hover
+      background-color: i.$color-gray-hover
+
+.options
+  width: 100%
+  @include i.flex-RowStartCenter
+  justify-content: space-between
+  fap: 20px
+
+  .option
+    @include i.flex-RowStartCenter
+    gap: 10px
+
+    p
+      margin: 0px
+      font-size: i.$font-m
+      color: i.$color-medium-tint
+
+    .red
+      color: red
+    
+    .blue
+      color: blue
+    
+    .orange
+      color: orange
+    
+    .green
+      color: green

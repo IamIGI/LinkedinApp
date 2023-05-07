@@ -1,1 +1,15 @@
-<div class="content-container"></div>
+<div class="form">
+  <div class="image">
+    <img src="../../../../assets/images/profile-image.png" alt="profile" />
+  </div>
+  <button>Zacznij publikację</button>
+</div>
+<div class="options">
+  <div *ngFor="let option of options; index as i" class="option">
+    <mat-icon
+      [ngClass]="i == 0 ? 'blue' : i == 1 ? 'green' : i == 2 ? 'orange' : 'red'"
+      >{{ option.icon }}</mat-icon
+    >
+    <p>{{ option.text }}</p>
+  </div>
+</div>
