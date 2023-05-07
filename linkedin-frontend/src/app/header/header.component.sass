@@ -86,15 +86,13 @@ ul li
     background-color: i.$color-nav-icon-acitve
 
 .avatar
-
   display: flex
   flex-direction: column
   justify-content: flex-start
   align-items: center
   font-size: $nav-fontSize
 
-  img
-    width: 30px
+  @include i.inElement-profile-image(30px)
 
   span
     display: flex

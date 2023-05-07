@@ -10,7 +10,7 @@
   width: 92%
   padding: 0 4%
   @include i.flex-ColumnStartStart
-  @include i.inElements-border(border-bottom)
+  @include i.inElement-border(border-bottom)
   font-size: i.$font-m
   padding-bottom: 5px
 
@@ -47,9 +47,8 @@
       margin: 0
       font-size: i.$font-s
 
-    img
-      width: 60px
-
+  .image
+    @include i.inElement-profile-image(70px)
 
 
 .showProfile

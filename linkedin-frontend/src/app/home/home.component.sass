@@ -1,9 +1,30 @@
 @use 'src/styles/index' as i
 
 .content-container
- 
+  width: 62%
   @include i.flex-RowStartStart
-  gap: 10px
-  // border: 1px solid red
+  justify-content: space-between
+  gap: 20px
   margin: 30px 19%
   height: fit-content
+
+.profile-summary
+  @include i.flex-ColumnStartCenter
+  width: 220px
+  
+
+.post-start
+  border-radius: i.$radius-container
+  @include i.flex-ColumnStartStart
+  flex: 1
+  background-color: i.$color-white
+  padding: 15px 15px 
+  gap: 15px
+
+
+.advertising
+  @include i.flex-ColumnStartStart
+  padding: 15px 2% 10px 2%
+  width: 260px
+  border-radius: i.$radius-container
+  background-color: white
