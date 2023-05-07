@@ -1,19 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 @use 'src/styles/index' as i
-    
-html, body
-    font-family: 'Roboto', sans-serif
-    height: 100%
 
+html, body
+	font-family: 'Roboto', sans-serif
+	height: 100%
 
 body
-    margin: 0px
-    background-color: i.$color-app-backgroundColor
-
+	margin: 0px
+	background-color: i.$color-app-backgroundColor
 
 .click
-    cursor: pointer
+	cursor: pointer
+	
+	&:hover
+		text-decoration: underline
 
-    &:hover
-        text-decoration: underline
 
+.modalClass
+	border-radius: 25px
