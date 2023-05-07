@@ -2,14 +2,11 @@
   <div class="image">
     <img src="../../../../assets/images/profile-image.png" alt="profile" />
   </div>
-  <button>Zacznij publikację</button>
+  <button (click)="openModal()">Zacznij publikację</button>
 </div>
 <div class="options">
   <div *ngFor="let option of options; index as i" class="option">
-    <mat-icon
-      [ngClass]="i == 0 ? 'blue' : i == 1 ? 'green' : i == 2 ? 'orange' : 'red'"
-      >{{ option.icon }}</mat-icon
-    >
+    <mat-icon [ngStyle]="{ color: option.color }">{{ option.icon }}</mat-icon>
     <p>{{ option.text }}</p>
   </div>
 </div>

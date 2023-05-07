@@ -1,4 +1,5 @@
 @use 'src/styles/abstract/colors' as color
+@use 'src/styles/abstract/fonts' as font
 
 @mixin border($border)
   #{$border}: 1px solid color.$light
@@ -12,3 +13,21 @@
     border-radius: $border-radius
     height: 100%
     width: 100%
+
+@mixin button-gray
+  button
+    margin-top: 5px
+    border-radius: 15px
+    padding: 3px 15px
+    border: 1px solid gray
+    outline: 1px solid transaprent
+    font-size: font.$m_plus
+    background-color: white
+    cursor: pointer
+    transition: border 0.5s
+    transition: outline 0.5s
+      
+    &:hover
+      background-color: color.$gray-hover
+      border: 1px solid gray
+      outline: 1px solid gray
