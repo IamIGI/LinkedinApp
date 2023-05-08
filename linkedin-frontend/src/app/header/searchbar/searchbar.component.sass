@@ -2,11 +2,12 @@
 
 form
   height: 100%
+  display: block
 
 input 
   border: none
   background-color: i.$color-background-input
-  height: 100%
+  height: 35px
   padding-left: 35px
   border-radius:  i.$radius-input
 
@@ -22,3 +23,20 @@ img
     left: 5px
     top: 20%
     font-size: 20px
+
+.mobileView
+    display: none
+    width: 40px !important
+    height: 40px !important
+    padding: 8px !important
+
+    mat-icon
+      font-size: 24px !important
+
+
+@media screen and (max-width: 700px)
+  .searchbar
+    display: none
+
+  .mobileView
+    display: block
