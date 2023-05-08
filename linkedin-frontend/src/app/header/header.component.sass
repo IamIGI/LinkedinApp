@@ -11,32 +11,34 @@ nav
   align-items: center
   border-bottom: 1px solid #D0D0D0
 
+  ul
+    height: 100%
+    display: flex
+    flex-direction: row
+    justify-content: flex-start
+    align-content: center
+    list-style-type: none
+    margin: 0px
+    padding: 0px
+
+    li
+      display: inline-block
+      margin: 0 2px
+      height: 100%
+      padding-bottom: 3px
+
+
+
 .nav-left 
   display: flex
   flex-direction: row
   justify-content: flex-start
   gap: 10px
   align-items: center
-  height: 35px
+  height: 40px
 
   img 
     width: 35px
-
-
-
-nav ul
-  float: right
-  list-style-type: none
-  margin: 0px
-  padding: 0px
-
-ul li
-  display: inline-block
-  margin: 0 2px
-  height: 100%
-  padding-bottom: 3px
-
-
 
 .link
   width: 65px
@@ -50,11 +52,16 @@ ul li
     align-items: center 
     font-size: $nav-fontSize
 
+    &:hover
+      color: i.$color-nav-icon-acitve
+
     .icon
       font-size: 25px
+      width: 25px
       height: fit-content
 
 .showActive
+  display: block
   width: 0%
   height: 2px
   background-color: i.$color-nav-icon-acitve
@@ -69,27 +76,30 @@ ul li
     background-color: i.$color-nav-icon-acitve
 
 .avatar
+  height: 100%
   display: flex
   flex-direction: column
   justify-content: flex-start
   align-items: center
   font-size: $nav-fontSize
-
   @include i.inElement-profile-image(30px)
-
-  span
-    display: flex
-    justify-content: flex-start
-    align-items: center
-    font-size: 10px
-    
-    mat-icon
-      font-size: 15px
-      height: 13px
 
 .avatarButton
   height: 100%
   margin-left: 30px
+
+.hideDescription-avatar
+  display: flex
+  justify-content: flex-start
+  align-items: center
+  font-size: 10px
+  
+  mat-icon
+    font-size: 15px
+    height: 13px
+
+.hideDescription
+  display: block
 
 @media screen and (max-width: 1400px)
   nav 
@@ -99,3 +109,28 @@ ul li
   nav 
     padding: 12px 7% 0px 3%
     
+
+
+@media screen and (max-width: 800px)
+  .hideDescription
+    display: none
+    
+  .hideDescription-avatar
+    display: none
+
+  .avatar
+    @include i.inElement-profile-image(40px)
+    padding-bottom: 5px
+
+  .showActive
+    display: none
+
+  .link
+    width: 50px
+
+  nav
+    ul
+      height: 31px
+      li
+        padding-top: 1px
+        padding-bottom: 0px
