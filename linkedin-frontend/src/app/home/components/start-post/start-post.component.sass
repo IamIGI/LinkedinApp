@@ -3,6 +3,7 @@
 
 .form
   width: 100%
+  // padding: 15px 15px 5px 15px
   @include i.flex-RowStartCenter
   gap:10px
 
@@ -30,26 +31,30 @@
   width: 100%
   @include i.flex-RowStartCenter
   justify-content: space-between
-  fap: 20px
+  flex-wrap: wrap
 
   .option
     @include i.flex-RowStartCenter
-    gap: 10px
+    gap: 5px
+    padding: 7px 3px
+    border-radius: i.$radius-button-default
+    min-width: 100px
+
+    &:hover
+      background-color: i.$color-gray-hover
+      cursor: pointer
 
     p
       margin: 0px
-      font-size: i.$font-m
+      font-size: i.$font-s
       color: i.$color-medium-tint
 
-    .red
-      color: red
-    
-    .blue
-      color: blue
-    
-    .orange
-      color: orange
-    
-    .green
-      color: green
+@media screen and (max-width: 1060px)
+  .options
+    justify-content: center
+    gap: 5px
 
+@media screen and (max-width: 800px)
+  .form
+    width: 95%
+    padding: 15px 15px 5px 15px
