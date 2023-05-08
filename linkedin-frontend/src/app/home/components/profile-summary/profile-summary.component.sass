@@ -5,19 +5,12 @@
   border-top-right-radius: $radius
   border-top-left-radius: $radius
 
-.profile-summary
-  @include i.flex-ColumnStartStart
-  border-radius: i.$radius-container
-  background-color: i.$color-white
-  font-size: i.$font-s_minus
-  padding-bottom: 5px
-
 .profile-information
   width: 100%
   position: relative
   @include i.flex-ColumnStartCenter
-  height: fit-content
   @include borderTop(i.$radius-container)
+  height: fit-content
 
   .wallpaper
     @include borderTop(i.$radius-container)
@@ -53,6 +46,7 @@
     text-align: center
 
 .section
+  display: block
   width: 92%
   padding: 0 4%
   @include i.inElement-border(border-top)
@@ -106,3 +100,40 @@ ul
         margin-top: -3px
         margin-right: 5px
 
+@media screen and (max-width: 800px)
+  .section
+    display: none
+
+  .profile-information
+
+    .wallpaper
+      height: 60px
+
+    .profile-image
+      @include i.inElement-profile-image(70px)
+      left: 43%
+
+  .information
+    margin-top: 40px
+
+@media screen and (max-width: 650px)
+  .profile-information
+    .profile-image
+      left: 42%
+
+@media screen and (max-width: 600px)
+  .profile-information
+    .profile-image
+      left: 41%
+
+@media screen and (max-width: 500px)
+  .profile-information
+    .profile-image
+      left: 40%
+
+@media screen and (max-width: 400px)
+  .profile-information
+    .profile-image
+      left: 37%
+
+    
