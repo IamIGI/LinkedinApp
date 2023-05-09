@@ -1,6 +1,9 @@
 <nav>
-  <app-searchbar class="nav-left"></app-searchbar>
-  <ul>
+  <app-searchbar
+    (showMenu)="showMenuFromChild($event)"
+    class="nav-left"
+  ></app-searchbar>
+  <ul [style.display]="showMenu ? 'flex' : 'none'">
     <li
       class="link"
       routerLinkActive="activeLink"
