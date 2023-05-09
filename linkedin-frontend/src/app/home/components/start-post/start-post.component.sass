@@ -1,9 +1,15 @@
 @use 'src/styles/index' as i
 
+.start-post
+  @include i.flex-ColumnStartStart
+  width: 100%
+  border-radius: i.$radius-container
+  background-color: i.$color-white
+  padding: 15px 15px 5px 15px
+  gap: 15px
 
 .form
   width: 100%
-  // padding: 15px 15px 5px 15px
   @include i.flex-RowStartCenter
   gap:10px
 

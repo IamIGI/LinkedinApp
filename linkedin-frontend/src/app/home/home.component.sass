@@ -1,7 +1,6 @@
 @use 'src/styles/index' as i
 
 .content-container
-  // width: 62%
   @include i.flex-RowStartStart
   justify-content: space-between
   gap: 15px
@@ -16,15 +15,10 @@
   font-size: i.$font-s_minus
   padding-bottom: 5px
   
-
-.post-start
+.main-section
   @include i.flex-ColumnStartStart
+  gap: 10px 
   flex: 1
-  border-radius: i.$radius-container
-  background-color: i.$color-white
-  padding: 15px 15px 5px 15px
-  gap: 15px
-
 
 .advertising
   @include i.flex-ColumnStartStart
@@ -33,6 +27,9 @@
   width: 240px
   border-radius: i.$radius-container
   background-color: white
+
+.fullWidth
+  width: 100%
 
 @media screen and (max-width: 1700px)
   .content-container
