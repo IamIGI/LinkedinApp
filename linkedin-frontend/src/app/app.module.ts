@@ -16,6 +16,7 @@ import { HomePageModule } from './home/home.module';
 import { HeaderComponent } from './header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SearchbarComponent } from './header/searchbar/searchbar.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SearchbarComponent } from './header/searchbar/searchbar.component';
     HomePageModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
