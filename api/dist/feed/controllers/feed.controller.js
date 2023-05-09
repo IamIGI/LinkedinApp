@@ -23,8 +23,9 @@ let FeedController = class FeedController {
     create(post) {
         return this.feedService.createPost(post);
     }
-    getAllPosts() {
-        return this.feedService.findAllPosts();
+    findSelected(take = 1, skip = 1) {
+        take = take > 20 ? 20 : take;
+        return this.feedService.findPosts(take, skip);
     }
     updatePost(id, feedPost) {
         return this.feedService.updatePost(id, feedPost);
@@ -42,10 +43,12 @@ __decorate([
 ], FeedController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)('take')),
+    __param(1, (0, common_1.Query)('skip')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", rxjs_1.Observable)
-], FeedController.prototype, "getAllPosts", null);
+], FeedController.prototype, "findSelected", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),
