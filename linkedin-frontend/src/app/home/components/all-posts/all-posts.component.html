@@ -1,1 +1,43 @@
-<p>all-posts works!</p>
+<div class="content-container">
+  <div class="post" *ngFor="let number of [0, 0, 0, 0, 0, 0, 0]">
+    <div class="author">
+      <div class="information">
+        <div class="image">
+          <img src="../../../../assets/images/profiles/agh.JPG" alt="profile" />
+        </div>
+        <div>
+          <h1>Akademia Górniczo Hutnicza</h1>
+          <p>
+            101 468 obserwujących <br />
+            1 tydzień temu
+          </p>
+        </div>
+      </div>
+      <button mat-stroked-button color="primary">
+        <span>+</span> Obserwuj
+      </button>
+    </div>
+    <div class="text">
+      <p>
+        W minionym tygodniu w #AGH odbyło się spotkanie inaugurujące inicjatywę
+        Women4Cyber – polskiego oddziału wiodącej europejskiej fundacji
+        wspierającej udział kobiet w sektorze cyberbezpieczeństwa 💚🖤❤️
+      </p>
+    </div>
+    <div class="reactions">
+      <div class="underline"><p>51 polubień</p></div>
+      <div>
+        <p>
+          <span class="underline"> 4 komentarze </span>•
+          <span class="underline">1 udostępnienie</span>
+        </p>
+      </div>
+    </div>
+    <div class="options">
+      <div *ngFor="let option of options; index as i" class="option">
+        <mat-icon>{{ option.icon }}</mat-icon>
+        <p>{{ option.text }}</p>
+      </div>
+    </div>
+  </div>
+</div>
