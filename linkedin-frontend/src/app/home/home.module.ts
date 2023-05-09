@@ -6,6 +6,7 @@ import { StartPostComponent } from './components/start-post/start-post.component
 import { AdvertisingComponent } from './components/advertising/advertising.component';
 import { HomeComponent } from './home.component';
 import { MaterialModule } from '../material.module';
+import { AllPostsComponent } from './components/all-posts/all-posts.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, MaterialModule],
@@ -14,6 +15,7 @@ import { MaterialModule } from '../material.module';
     ProfileSummaryComponent,
     StartPostComponent,
     AdvertisingComponent,
+    AllPostsComponent,
   ],
 })
 export class HomePageModule {}

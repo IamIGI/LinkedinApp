@@ -28,6 +28,11 @@ let FeedService = class FeedService {
     createPost(feedPost) {
         return (0, rxjs_1.from)(this.feedPostRepository.save(feedPost));
     }
+    findPosts(take = 10, skip = 0) {
+        return (0, rxjs_1.from)(this.feedPostRepository.findAndCount({ take, skip }).then(([posts]) => {
+            return posts;
+        }));
+    }
     findAllPosts() {
         return (0, rxjs_1.from)(this.feedPostRepository.find());
     }

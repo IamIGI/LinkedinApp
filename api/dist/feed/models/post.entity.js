@@ -22,7 +22,7 @@ __decorate([
     __metadata("design:type", String)
 ], FeedPostEntity.prototype, "body", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }),
+    (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], FeedPostEntity.prototype, "createdAt", void 0);
 __decorate([

@@ -7,6 +7,7 @@ export declare class FeedService {
     constructor(feedPostRepository: Repository<FeedPostEntity>);
     postHasBeenUpdated(feedPost: FeedPost): Date;
     createPost(feedPost: FeedPost): Observable<FeedPost>;
+    findPosts(take?: number, skip?: number): Observable<FeedPost[]>;
     findAllPosts(): Observable<FeedPost[]>;
     updatePost(id: number, feedPost: FeedPost): Observable<UpdateResult>;
     deletePost(id: number): Observable<DeleteResult>;
