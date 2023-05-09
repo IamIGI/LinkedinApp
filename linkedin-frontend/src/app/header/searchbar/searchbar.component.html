@@ -3,8 +3,17 @@
     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/800px-LinkedIn_logo_initials.png"
   />
 </a>
-<form [formGroup]="searchForm" (keyup.enter)="onSubmit()">
-  <div class="searchbar">
+<form
+  [formGroup]="searchForm"
+  (keyup.enter)="onSubmit()"
+  [style.width]="showMobileSearchBarButton ? '100%' : '400px'"
+>
+  <div
+    [style.display]="
+      showMobileSearchBarButton && widthIsSmallerThan700px ? 'none' : 'block'
+    "
+    class="searchbar"
+  >
     <input
       id="search"
       formControlName="search"
@@ -18,6 +27,10 @@
     mat-icon-button
     aria-label="Example icon button with a vertical three dot icon"
     class="mobileView"
+    (click)="changeMobileSearchBarVisibility()"
+    [style.display]="
+      showMobileSearchBarButton && widthIsSmallerThan700px ? 'block' : 'none'
+    "
   >
     <mat-icon>search</mat-icon>
   </button>
