@@ -23,7 +23,6 @@ export class AllPostsComponent implements OnInit {
   }
 
   getPosts() {
-    const numberOfAvailablePosts = 20;
     this.queryParams = `?take=${this.numberOfPosts}&skip=${this.skipPosts}`;
     this.toggleLoading(),
       this.postService.getSelectedPost(this.queryParams).subscribe({
@@ -32,7 +31,6 @@ export class AllPostsComponent implements OnInit {
             this.allLoadedPosts.push(posts[i]);
           }
           this.skipPosts = this.skipPosts + this.numberOfPosts;
-          console.log(this.allLoadedPosts);
         },
         error: (err) => console.log(err),
         complete: () => this.toggleLoading(),
