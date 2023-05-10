@@ -7,9 +7,10 @@ import { AdvertisingComponent } from './components/advertising/advertising.compo
 import { HomeComponent } from './home.component';
 import { MaterialModule } from '../material.module';
 import { AllPostsComponent } from './components/all-posts/all-posts.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, MaterialModule],
+  imports: [CommonModule, FormsModule, MaterialModule, InfiniteScrollModule],
   declarations: [
     HomeComponent,
     ProfileSummaryComponent,

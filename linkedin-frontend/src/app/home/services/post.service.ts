@@ -11,6 +11,7 @@ export class PostService {
   constructor(private http: HttpClient) {}
 
   getSelectedPost(params: any) {
-    return this.http.get<Post[]>(URL + '/feed' + params);
+    const modifiedURL = `${this.URL}/feed${params}`;
+    return this.http.get<Post[]>(modifiedURL);
   }
 }

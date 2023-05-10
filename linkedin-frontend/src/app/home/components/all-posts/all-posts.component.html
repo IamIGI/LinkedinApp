@@ -1,5 +1,12 @@
-<div class="content-container">
-  <div class="post" *ngFor="let number of [0, 0, 0, 0, 0, 0, 0]">
+<div
+  class="content-container"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="500"
+  (scrolled)="getPosts()"
+  [scrollWindow]="true"
+>
+  <div class="post" *ngFor="let post of allLoadedPosts">
     <div class="author">
       <div class="information">
         <div class="image">
@@ -40,4 +47,5 @@
       </div>
     </div>
   </div>
+  <div *ngIf="isLoading">Loading...</div>
 </div>
