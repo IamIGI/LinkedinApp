@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { FeedService } from '../services/feed.service';
-import { FeedPost } from '../models/post.interface';
+import { FeedPost } from '../models/post/post.interface';
 import { Observable } from 'rxjs';
 import { UpdateResult, DeleteResult } from 'typeorm';
 

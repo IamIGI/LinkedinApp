@@ -11,6 +11,7 @@
 /bazel-out
 
 # Node
+api/dist
 api/node_modules
 linkedin-frontend/node_modules
 npm-debug.log
