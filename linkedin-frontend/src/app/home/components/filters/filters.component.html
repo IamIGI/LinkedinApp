@@ -1,0 +1,17 @@
+<div class="content-container">
+  <div class="line"></div>
+  <div class="text" [matMenuTriggerFor]="menu">
+    <p>
+      Sortuj wg:
+      <span>Najpopularniejsze: <mat-icon>keyboard_arrow_down</mat-icon></span>
+    </p>
+  </div>
+  <mat-menu #menu="matMenu" xPosition="before">
+    <div class="menu">
+      <ul>
+        <li>Najpopularniejsze</li>
+        <li>ostatnie</li>
+      </ul>
+    </div>
+  </mat-menu>
+</div>

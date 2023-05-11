@@ -26,7 +26,12 @@
           </p>
         </div>
       </div>
-      <button *ngIf="!post.privateAccount" mat-stroked-button color="primary">
+      <button
+        *ngIf="!post.privateAccount"
+        mat-stroked-button
+        color="primary"
+        class="subscribe-button"
+      >
         <span>+</span> Obserwuj
       </button>
     </div>
