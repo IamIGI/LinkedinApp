@@ -13,30 +13,41 @@
           <img src="../../../../assets/images/profiles/agh.JPG" alt="profile" />
         </div>
         <div>
-          <h1>Akademia Górniczo Hutnicza</h1>
-          <p>
-            101 468 obserwujących <br />
-            1 tydzień temu
+          <h1>{{ post.author }}</h1>
+          <p class="information-account">
+            <span *ngIf="post.privateAccount; else show_subscribers">
+              {{ post.company }}</span
+            >
+            <ng-template #show_subscribers>
+              {{ post.subscribers }} obserwujących
+            </ng-template>
+            <br />
+            {{ post.updatedAt | date }}
           </p>
         </div>
       </div>
-      <button mat-stroked-button color="primary">
+      <button *ngIf="!post.privateAccount" mat-stroked-button color="primary">
         <span>+</span> Obserwuj
       </button>
     </div>
     <div class="text">
       <p>
-        W minionym tygodniu w #AGH odbyło się spotkanie inaugurujące inicjatywę
-        Women4Cyber – polskiego oddziału wiodącej europejskiej fundacji
-        wspierającej udział kobiet w sektorze cyberbezpieczeństwa 💚🖤❤️
+        {{ post.content }}
       </p>
     </div>
     <div class="reactions">
-      <div class="underline"><p>51 polubień</p></div>
+      <div class="underline">
+        <p *ngIf="post.likes !== 0">{{ post.likes }} polubień</p>
+      </div>
       <div>
         <p>
-          <span class="underline"> 4 komentarze </span>•
-          <span class="underline">1 udostępnienie</span>
+          <span class="underline" *ngIf="post.comments !== 0"
+            >{{ post.comments }} komentarze
+          </span>
+          <span *ngIf="post.likes !== 0 && post.shared !== 0">•</span>
+          <span class="underline" *ngIf="post.shared !== 0">
+            {{ post.shared }} udostępnienie
+          </span>
         </p>
       </div>
     </div>
