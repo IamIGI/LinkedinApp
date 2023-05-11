@@ -1,6 +1,13 @@
 export interface Post {
   id: number;
-  body: string;
+  author: string;
+  company: string;
+  privateAccount: boolean;
+  subscribers: number;
+  content: string;
+  likes?: number;
+  comments?: number;
+  shared?: number;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt: Date;
 }
