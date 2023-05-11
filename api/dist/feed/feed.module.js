@@ -11,7 +11,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const feed_service_1 = require("./services/feed.service");
 const feed_controller_1 = require("./controllers/feed.controller");
-const post_entity_1 = require("./models/post.entity");
+const post_entity_1 = require("./models/post/post.entity");
 let FeedModule = class FeedModule {
 };
 FeedModule = __decorate([

@@ -1,6 +1,6 @@
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
-import { FeedPostEntity } from '../models/post.entity';
-import { FeedPost } from '../models/post.interface';
+import { FeedPostEntity } from '../models/post/post.entity';
+import { FeedPost } from '../models/post/post.interface';
 import { Observable } from 'rxjs';
 export declare class FeedService {
     private readonly feedPostRepository;

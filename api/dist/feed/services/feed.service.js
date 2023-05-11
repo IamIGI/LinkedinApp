@@ -16,7 +16,7 @@ exports.FeedService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const post_entity_1 = require("../models/post.entity");
+const post_entity_1 = require("../models/post/post.entity");
 const rxjs_1 = require("rxjs");
 let FeedService = class FeedService {
     constructor(feedPostRepository) {
