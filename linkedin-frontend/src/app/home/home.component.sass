@@ -8,7 +8,6 @@
   height: fit-content
 
 .profile-summary
-  @include i.flex-ColumnStartCenter
   width: 220px
   border-radius: i.$radius-container
   background-color: i.$color-white
@@ -24,10 +23,12 @@
 .advertising
   @include i.flex-ColumnStartStart
   display: block
-  padding: 15px 2% 10px 1%
-  width: 240px
+  padding: 15px 1% 10px 1%
+  min-width: 280px
+  max-width: 280px
   border-radius: i.$radius-container
   background-color: white
+
 
 .fullWidth
   width: 100%
@@ -48,7 +49,11 @@
   .content-container
     margin: 20px 3%
 
-@media screen and (max-width: 950px)
+  .advertising
+    min-width: 260px
+    max-width: 260px
+
+@media screen and (max-width: 1060px)
   .advertising
     display: none
 
@@ -58,7 +63,7 @@
     margin: 20px 5%
   
   .profile-summary
-    width: 90%
+    width: 100%
 
   .post-start
     padding: 0%

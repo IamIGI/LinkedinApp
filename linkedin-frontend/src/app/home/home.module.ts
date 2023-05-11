@@ -8,6 +8,7 @@ import { HomeComponent } from './home.component';
 import { MaterialModule } from '../material.module';
 import { AllPostsComponent } from './components/all-posts/all-posts.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { FiltersComponent } from './components/filters/filters.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, MaterialModule, InfiniteScrollModule],
@@ -17,6 +18,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     StartPostComponent,
     AdvertisingComponent,
     AllPostsComponent,
+    FiltersComponent,
   ],
 })
 export class HomePageModule {}

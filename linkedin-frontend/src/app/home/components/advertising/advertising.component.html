@@ -1,19 +1,21 @@
-<h1 class="title">Dodaj w kanale informacji</h1>
-<div class="section">
-  <div *ngFor="let data of advertData" class="advert">
-    <div class="image">
-      <img src="../../../../assets/images/{{ data.image }}" alt="company" />
-    </div>
-    <div class="information">
-      <h2>{{ data.name }}</h2>
-      <p>{{ data.position }}</p>
-      <button>
-        <span>+</span>
-        Obserwuj
-      </button>
+<div class="content-container">
+  <h1 class="title">Dodaj w kanale informacji</h1>
+  <div class="section">
+    <div *ngFor="let data of advertData" class="advert">
+      <div class="image">
+        <img src="../../../../assets/images/{{ data.image }}" alt="company" />
+      </div>
+      <div class="information">
+        <h2>{{ data.name }}</h2>
+        <p>{{ data.position }}</p>
+        <button>
+          <span>+</span>
+          Obserwuj
+        </button>
+      </div>
     </div>
   </div>
-</div>
-<div class="allAdverts">
-  <p class="click">Wyświetl wszystykie rekomendacje →</p>
+  <div class="allAdverts">
+    <p class="click">Wyświetl wszystykie rekomendacje →</p>
+  </div>
 </div>
