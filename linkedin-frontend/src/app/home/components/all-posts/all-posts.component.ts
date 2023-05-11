@@ -29,7 +29,6 @@ export class AllPostsComponent implements OnInit {
         next: (posts: Post[]) => {
           for (let i = 0; i < posts.length; i++) {
             this.allLoadedPosts.push(posts[i]);
-            console.log(posts[i].privateAccount);
           }
           this.skipPosts = this.skipPosts + this.numberOfPosts;
         },
