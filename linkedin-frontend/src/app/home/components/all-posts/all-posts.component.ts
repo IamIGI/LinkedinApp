@@ -15,6 +15,7 @@ export class AllPostsComponent implements OnInit {
   allLoadedPosts: Post[] = [];
   numberOfPosts = 5;
   skipPosts = 0; //initially
+  readMore: Boolean[] = [];
 
   constructor(private postService: PostService) {}
 
@@ -29,12 +30,26 @@ export class AllPostsComponent implements OnInit {
         next: (posts: Post[]) => {
           for (let i = 0; i < posts.length; i++) {
             this.allLoadedPosts.push(posts[i]);
+            this.readMore.push(false);
           }
           this.skipPosts = this.skipPosts + this.numberOfPosts;
         },
         error: (err) => console.log(err),
         complete: () => this.toggleLoading(),
       });
+  }
+
+  readMoreSplit(text: string) {
+    const splitAfterNumberOfChars = 200;
+    let opinionSplit = [];
+    opinionSplit.push(text.substr(0, splitAfterNumberOfChars));
+    text.substr(splitAfterNumberOfChars, 2000) !== '' &&
+      opinionSplit.push(text.substr(splitAfterNumberOfChars, 2000));
+    return opinionSplit;
+  }
+
+  toggleReadMore(index: number) {
+    this.readMore[index] = !this.readMore[index];
   }
 
   toggleLoading = () => (this.isLoading = !this.isLoading);
