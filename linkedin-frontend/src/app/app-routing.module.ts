@@ -6,6 +6,9 @@ import { WorkComponent } from './work/work.component';
 import { MessagesComponent } from './messages/messages.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { AccountComponent } from './account/account.component';
+import { GuestHomepageComponent } from './guests/guest-homepage/guest-homepage.component';
+import { LoginComponent } from './guests/login/login.component';
+import { SignupComponent } from './guests/signup/signup.component';
 
 const routes: Routes = [
   {
@@ -31,6 +34,18 @@ const routes: Routes = [
   {
     path: 'account',
     component: AccountComponent,
+  },
+  {
+    path: 'guest/guest_page',
+    component: GuestHomepageComponent,
+  },
+  {
+    path: 'guest/login',
+    component: LoginComponent,
+  },
+  {
+    path: 'guest/signup',
+    component: SignupComponent,
   },
 ];
 
