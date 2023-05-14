@@ -5,7 +5,6 @@ import { ModalComponent } from '../home/components/start-post/modal/modal.compon
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { HeaderComponent } from './header.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AppModule } from '../app.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +13,7 @@ import { AppModule } from '../app.module';
     SearchbarComponent,
     HeaderComponent,
   ],
-  imports: [AppModule, SharedModule, ReactiveFormsModule],
+  imports: [SharedModule, ReactiveFormsModule],
   exports: [HeaderComponent],
 })
 export class HeaderModule {}
