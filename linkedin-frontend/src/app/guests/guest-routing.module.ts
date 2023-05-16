@@ -1,7 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
 import { GuestHomepageComponent } from './guest-homepage/guest-homepage.component';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [
@@ -13,12 +11,11 @@ const routes: Routes = [
         component: GuestHomepageComponent,
       },
       {
-        path: 'login',
-        component: LoginComponent,
-      },
-      {
-        path: 'signup',
-        component: SignupComponent,
+        path: 'form',
+        loadChildren: () =>
+          import('./form-template/form-template.module').then(
+            (module) => module.FormTemplateModule
+          ),
       },
     ],
   },
