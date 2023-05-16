@@ -1,0 +1,55 @@
+@use 'src/styles/index' as i
+
+.content-container
+  width: 100%
+  height: 100vh
+  background-color: white
+  @include i.flex-ColumnStartCenter
+
+.header
+  width: 100%
+  @include i.flex-RowStartCenter
+  padding: 10px 40px
+  margin-bottom: 5%
+
+
+.linkedin-logo
+  @include i.inElement-linkedin-logo
+
+
+  
+.section
+  @include i.flex-ColumnStartCenter
+  padding: 30px
+  @include i.inElement-card-layout-box-shadow
+  gap: 15px
+  border-radius: i.$radius-container
+
+  .title
+    width: 100%
+    margin-bottom: 10px
+    
+    h2
+      font-size: i.$font-xxl
+      font-weight: 500
+      letter-spacin: 1px
+      margin: 0px
+      margin-bottom: 5px
+
+    p
+      font-size: i.$font-m
+      margin: 0px
+
+
+.join-now
+  padding: 20px
+  p
+    font-size: i.$font-m
+
+  span
+    weight: 700
+    color: i.$color-linkedin-text-primary
+
+    &:hover
+      text-decoration: underline
+      cursor: pointer

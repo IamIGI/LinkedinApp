@@ -1,0 +1,23 @@
+<div class="content-container">
+  <div class="header">
+    <div class="linkedin-logo">
+      <h1>Linked<span>in</span></h1>
+    </div>
+  </div>
+  <div class="section">
+    <div class="title">
+      <h2>{{ formWelcomeData.title }}</h2>
+      <p>{{ formWelcomeData.subtext }}</p>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+
+  <div class="join-now">
+    <p>
+      {{ formWelcomeData.footerText.text1 }}
+      <span (click)="switchForms()">{{
+        formWelcomeData.footerText.text2
+      }}</span>
+    </p>
+  </div>
+</div>
