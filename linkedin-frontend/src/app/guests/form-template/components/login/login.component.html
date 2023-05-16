@@ -1,17 +1,47 @@
-<form class="form">
+<form
+  class="form"
+  [formGroup]="loginForm"
+  #formDirective="ngForm"
+  (ngSubmit)="onSubmit(formDirective)"
+>
   <mat-form-field appearance="outline">
     <mat-label>Email</mat-label>
-    <input type="email" matInput placeholder="Email or Phone" />
-    <!-- <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-            Please enter a valid email address
-          </mat-error> -->
-    <!-- <mat-error *ngIf="emailFormControl.hasError('required')">
-            Email is <strong>required</strong>
-          </mat-error> -->
+    <input type="email" matInput formControlName="email" required />
+    <mat-error
+      *ngIf="
+        loginForm.get('email')?.hasError('email') &&
+        !loginForm.get('email')?.hasError('required')
+      "
+    >
+      Proszę, wprowadzić poprawny email
+    </mat-error>
+    <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+      Email jest <strong>wymagany</strong>
+    </mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline">
-    <input type="password" matInput placeholder="Password" />
+    <mat-label>Hasło</mat-label>
+    <input
+      [type]="hidePassword ? 'password' : 'text'"
+      matInput
+      formControlName="password"
+      placeholder="Password"
+      required
+    />
+    <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
+      hidePassword ? "visibility_off" : "visibility"
+    }}</mat-icon>
+    <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+      Hasło jest <strong>wymagane</strong>
+    </mat-error>
   </mat-form-field>
   <p class="forgot-password">Nie pamiętasz hasła?</p>
-  <button mat-flat-button color="primary">Zaloguj się</button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="submit"
+    [disabled]="loginForm.invalid"
+  >
+    Zaloguj się
+  </button>
 </form>
