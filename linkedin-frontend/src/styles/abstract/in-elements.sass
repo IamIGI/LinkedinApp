@@ -45,10 +45,79 @@
   h1
     letter-spacing: 1px
     font-weight: 700
-    font-size: font.$xl
+    font-size: font.$xxl
     span
       background-color: color.$linkedin-text-primary
       color: white
       padding: 1px 1px
       border-radius: 3px
       margin-left: 2px
+
+
+@mixin header-menu
+  ul
+    z-index: 1
+    height: 100%
+    display: flex
+    flex-direction: row
+    justify-content: flex-start
+    align-content: center
+    list-style-type: none
+    margin: 0px
+    padding: 0px
+
+    li
+      display: inline-block
+      margin: 0 2px
+      height: 100%
+      padding-bottom: 3px
+
+  .link
+    width: 65px
+    a
+      text-decoration: none
+      cursor: pointer
+      color: color.$nav-icon  
+      display: flex
+      flex-direction: column
+      align-items: center 
+      font-size: font.$micro
+      &:hover
+        color: color.$nav-icon-acitve
+      .icon
+        font-size: 25px
+        width: 25px
+        height: fit-content
+
+  .showActive
+    display: block
+    width: 0%
+    height: 2px
+    background-color: color.$nav-icon-acitve
+    transition: width 0.5s
+
+  .activeLink
+    a
+      color: color.$nav-icon-acitve
+    .showActive
+      width: 100%
+      background-color: color.$nav-icon-acitve
+
+  .hideDescription
+    display: block
+
+  @media screen and (max-width: 800px)
+    .hideDescription
+      display: none
+
+    .link
+      width: 50px
+
+    .showActive
+      display: none
+
+    ul
+      height: 31px
+      li
+        padding-top: 1px
+        padding-bottom: 0px
