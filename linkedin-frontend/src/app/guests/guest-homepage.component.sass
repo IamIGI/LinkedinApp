@@ -1,0 +1,44 @@
+@use 'src/styles/index' as i
+
+.content-container
+  width: 100%
+  height: 100vh
+  background-color: white
+  @include i.flex-ColumnStartCenter
+
+.header
+  width: 100%
+  @include i.flex-RowStartCenter
+  justify-content: space-between
+  padding: 20px 7% 10px 7%
+  margin-bottom: 3%
+
+
+.linkedin-logo
+  @include i.inElement-linkedin-logo
+  padding: 5px 10px
+  h1
+    margin: 0px
+
+  &:hover
+    cursor: pointer
+
+.options
+  @include i.flex-RowStartCenter
+
+.menu
+  @include i.inElement-header-menu
+  
+
+.account
+  @include i.flex-RowStartCenter
+  @include i.inElement-border(border-left)
+  padding-left: 20px
+  margin-left: 10px
+  gap: 20px
+
+  button
+    border-radius: 25px
+    height: 50px
+    padding: 0 20px
+    font-weight: 700

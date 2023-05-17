@@ -1,21 +1,23 @@
 import { RouterModule, Routes } from '@angular/router';
-import { GuestHomepageComponent } from './guest-homepage/guest-homepage.component';
 import { NgModule } from '@angular/core';
+import { GuestHomepageComponent } from './guest-homepage.component';
+import { StartPageComponent } from './components/start-page/start-page.component';
 
 const routes: Routes = [
   {
     path: '',
+    component: GuestHomepageComponent,
     children: [
-      {
-        path: '',
-        component: GuestHomepageComponent,
-      },
       {
         path: 'form',
         loadChildren: () =>
-          import('./form-template/form-template.module').then(
+          import('./components/form-template/form-template.module').then(
             (module) => module.FormTemplateModule
           ),
+      },
+      {
+        path: 'start',
+        component: StartPageComponent,
       },
     ],
   },

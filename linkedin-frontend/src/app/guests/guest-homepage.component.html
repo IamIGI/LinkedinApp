@@ -1,0 +1,55 @@
+<div class="content-container">
+  <div class="header">
+    <div class="linkedin-logo" (click)="navigate('home')">
+      <h1>Linked<span>in</span></h1>
+    </div>
+    <div class="options">
+      <div class="menu">
+        <ul>
+          <li
+            class="link"
+            routerLinkActive="activeLink"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a routerLink="#" class="link2">
+              <mat-icon class="icon">article</mat-icon>
+              <span class="hideDescription"> Artykuły</span>
+            </a>
+            <div class="showActive"></div>
+          </li>
+          <li
+            class="link"
+            routerLinkActive="activeLink"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a routerLink="#"
+              ><mat-icon class="icon">people</mat-icon
+              ><span class="hideDescription">Osoby</span>
+            </a>
+            <div class="showActive"></div>
+          </li>
+          <li
+            class="link"
+            routerLinkActive="activeLink"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a routerLink="#"
+              ><mat-icon class="icon">cases</mat-icon
+              ><span class="hideDescription">Praca</span>
+            </a>
+            <div class="showActive"></div>
+          </li>
+        </ul>
+      </div>
+      <div class="account">
+        <button mat-stroked-button (click)="navigate('register')">
+          Dołącz teraz
+        </button>
+        <button mat-stroked-button color="primary" (click)="navigate('login')">
+          Zaloguj się
+        </button>
+      </div>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

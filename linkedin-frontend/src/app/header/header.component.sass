@@ -16,25 +16,6 @@ nav
   border-bottom: 1px solid #D0D0D0
   @include i.inElement-box-shadow
 
-  ul
-    z-index: 1
-    height: 100%
-    display: flex
-    flex-direction: row
-    justify-content: flex-start
-    align-content: center
-    list-style-type: none
-    margin: 0px
-    padding: 0px
-
-    li
-      display: inline-block
-      margin: 0 2px
-      height: 100%
-      padding-bottom: 3px
-
-
-
 .nav-left 
   display: flex
   flex-direction: row
@@ -46,66 +27,32 @@ nav
   img 
     width: 35px
 
-.link
-  width: 65px
+.menu
+  @include i.inElement-header-menu
 
-  a
-    text-decoration: none
-    cursor: pointer
-    color: i.$color-nav-icon  
+  .avatar
+    height: 100%
     display: flex
     flex-direction: column
-    align-items: center 
+    justify-content: flex-start
+    align-items: center
     font-size: $nav-fontSize
+    @include i.inElement-profile-image(30px)
 
-    &:hover
-      color: i.$color-nav-icon-acitve
+  .avatarButton
+    height: 100%
+    margin-left: 30px
 
-    .icon
-      font-size: 25px
-      width: 25px
-      height: fit-content
+  .hideDescription-avatar
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    font-size: 10px
+    
+    mat-icon
+      font-size: 15px
+      height: 13px
 
-.showActive
-  display: block
-  width: 0%
-  height: 2px
-  background-color: i.$color-nav-icon-acitve
-  transition: width 0.5s
-
-.activeLink
-  a
-    color: i.$color-nav-icon-acitve
-
-  .showActive
-    width: 100%
-    background-color: i.$color-nav-icon-acitve
-
-.avatar
-  height: 100%
-  display: flex
-  flex-direction: column
-  justify-content: flex-start
-  align-items: center
-  font-size: $nav-fontSize
-  @include i.inElement-profile-image(30px)
-
-.avatarButton
-  height: 100%
-  margin-left: 30px
-
-.hideDescription-avatar
-  display: flex
-  justify-content: flex-start
-  align-items: center
-  font-size: 10px
-  
-  mat-icon
-    font-size: 15px
-    height: 13px
-
-.hideDescription
-  display: block
 
 @media screen and (max-width: 1400px)
   nav 
@@ -118,24 +65,10 @@ nav
 
 
 @media screen and (max-width: 800px)
-  .hideDescription
-    display: none
-    
-  .hideDescription-avatar
-    display: none
+  .menu
 
-  .avatar
-    @include i.inElement-profile-image(40px)
+    .hideDescription-avatar
+      display: none
 
-  .showActive
-    display: none
-
-  .link
-    width: 50px
-
-  nav
-    ul
-      height: 31px
-      li
-        padding-top: 1px
-        padding-bottom: 0px
+    .avatar
+      @include i.inElement-profile-image(40px)
