@@ -6,6 +6,7 @@ import { GuestRoutingModule } from './guest-routing.module';
 import { FormTemplateModule } from './components/form-template/form-template.module';
 import { GuestHomepageComponent } from './guest-homepage.component';
 import { StartPageComponent } from './components/start-page/start-page.component';
+import { LoginComponent } from './components/form-template/components/login/login.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { StartPageComponent } from './components/start-page/start-page.component
     GuestRoutingModule,
     FormTemplateModule,
   ],
-  declarations: [GuestHomepageComponent, StartPageComponent],
+  declarations: [GuestHomepageComponent, StartPageComponent, LoginComponent],
 })
 export class GuestModule {}
