@@ -1,0 +1,81 @@
+@use 'src/styles/index' as i
+
+h1
+  font-weight: 200
+  font-size: i.$font-omegaBig
+
+.content-container
+  @include i.flex-RowStartStart
+  height: 100%
+  width: 100%
+
+.login
+  @include i.flex-ColumnStartStart
+  width: 40%
+  padding: 0 5% 0 10%
+
+  h1
+    width: 100%
+    text-align: left
+    padding-right: 0%
+
+  app-login
+    width: 90%
+
+    button
+      width: 100px
+
+
+  .title
+    color: #8f5849
+
+.right-side
+  @include i.flex-ColumnStartCenter
+  width: 60%
+  height: 100%
+
+  .internship
+    @include i.flex-ColumnStartStart
+    padding-bottom: 10px
+    background-color: #f3f2f0
+    height: 50%
+    padding: 0 5%
+
+    .title
+      color: #181818
+
+    .suggested-search
+      @include-flex-columnStartStart
+      flex-wrap: wrap
+      width: 70%
+      padding: 0px
+
+      .option
+        margin: 6px
+        border: 1.5px solid gray
+        height: 46px
+        border-radius: 23px
+
+
+  .job-offer
+    @include i.flex-ColumnStartStart
+
+    background-color: #f1ece5
+    height: 50%
+    padding: 0 20% 0 5%
+
+    .title
+      color: #b24020
+
+    button
+      border: 1px solid i.$color-primary
+      height: 56px
+      border-radius: 28px
+      font-size: i.$font-xl
+
+  .title
+    width: 100%
+    
+    h1
+      margin: 0px
+      font-size: i.$font-xxl

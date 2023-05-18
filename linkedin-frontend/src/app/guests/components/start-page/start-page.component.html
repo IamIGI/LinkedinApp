@@ -1,1 +1,30 @@
-<p>start-page works!</p>
+<div class="content-container">
+  <div class="login">
+    <h1 class="title">
+      Witaj w swojej <br />
+      społeczności,<br />
+      specjalistów
+    </h1>
+    <app-login></app-login>
+  </div>
+  <div class="right-side">
+    <div class="internship">
+      <h1 class="title">Znajdź odpowiedni staż dla siebie</h1>
+      <div class="suggested-search">
+        <button
+          *ngFor="let internship of internshipOption"
+          class="option"
+          mat-stroked-button
+        >
+          {{ internship }}
+        </button>
+      </div>
+    </div>
+    <div class="job-offer">
+      <h1 class="title">
+        Opublikuj ofertę pracy, aby miliony osób mogły ją zobaczyć
+      </h1>
+      <button mat-stroked-button color="primary">Opublikuj ofertę pracy</button>
+    </div>
+  </div>
+</div>

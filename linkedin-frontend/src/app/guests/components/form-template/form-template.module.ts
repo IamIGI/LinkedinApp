@@ -16,6 +16,6 @@ import { FormTemplateService } from './form-template.service';
     RouterModule,
     FormTemplateRoutingModule,
   ],
-  declarations: [FormTemplateComponent, LoginComponent, SignupComponent],
+  declarations: [FormTemplateComponent, SignupComponent],
 })
 export class FormTemplateModule {}
