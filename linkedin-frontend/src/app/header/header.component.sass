@@ -37,22 +37,61 @@ nav
     justify-content: flex-start
     align-items: center
     font-size: $nav-fontSize
-    @include i.inElement-profile-image(30px)
+    @include i.inElement-profile-image(28px)
 
   .avatarButton
+
     height: 100%
-    margin-left: 30px
 
   .hideDescription-avatar
     display: flex
     justify-content: flex-start
     align-items: center
-    font-size: 10px
+    font-size: 9px
     
     mat-icon
       font-size: 15px
       height: 13px
 
+// MobileMenu
+.mobileHeaderMenu
+  display: none
+  padding: 3px !important
+  height: 30px
+  width: 30px
+
+.mobileMenu
+  margin: 10px 10px 0px 10px
+  ul
+    list-style-type: none
+    margin: 0px 
+    padding: 0px
+
+    li
+      margin: 0 2px
+      padding-bottom: 7px
+
+      a
+        display: flex
+        flex-direction: row
+        justify-content: flex-start
+        align-items: center
+        gap: 10px
+
+        text-decoration: none
+        cursor: pointer
+        color: i.$color-nav-icon 
+        
+        mat-icon
+          margin-right: 10px
+
+        &:hover
+          color: i.$color-nav-icon-acitve
+
+
+
+.hideMenu
+  display: flex
 
 @media screen and (max-width: 1400px)
   nav 
@@ -71,4 +110,14 @@ nav
       display: none
 
     .avatar
-      @include i.inElement-profile-image(40px)
+      @include i.inElement-profile-image(35px)
+
+
+@media screen and (max-width: 450px) 
+  .mobileHeaderMenu
+    display: flex
+
+  .menu 
+    ul
+      .hideMenu
+        display: none

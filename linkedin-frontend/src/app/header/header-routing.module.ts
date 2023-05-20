@@ -1,5 +1,4 @@
 import { RouterModule, Routes } from '@angular/router';
-import { MainTemplateComponent } from './main-template.component';
 import { HomeComponent } from '../home/home.component';
 import { NetworkComponent } from '../network/network.component';
 import { WorkComponent } from '../work/work.component';
@@ -11,9 +10,27 @@ import { NgModule } from '@angular/core';
 const routes: Routes = [
   {
     path: '',
-    component: MainTemplateComponent,
-    loadChildren: () =>
-      import('../header/header.module').then((module) => module.HeaderModule),
+    component: HomeComponent,
+  },
+  {
+    path: 'network',
+    component: NetworkComponent,
+  },
+  {
+    path: 'work',
+    component: WorkComponent,
+  },
+  {
+    path: 'messages',
+    component: MessagesComponent,
+  },
+  {
+    path: 'notifications',
+    component: NotificationsComponent,
+  },
+  {
+    path: 'account',
+    component: AccountComponent,
   },
 ];
 
@@ -21,4 +38,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MainTemplateRoutingModule {}
+export class HeaderRoutingModule {}
