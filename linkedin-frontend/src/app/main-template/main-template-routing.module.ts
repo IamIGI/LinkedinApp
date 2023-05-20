@@ -14,11 +14,6 @@ const routes: Routes = [
     component: MainTemplateComponent,
     loadChildren: () =>
       import('../header/header.module').then((module) => module.HeaderModule),
-    // children: [
-    //   {
-
-    //   }
-    // ],
   },
 ];
 
