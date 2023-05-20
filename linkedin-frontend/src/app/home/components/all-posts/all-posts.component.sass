@@ -86,6 +86,7 @@
 
 .subscribe-button
   min-width: 120px
+  @include i.flex-RowStartCenter
 
 
 .see-more
@@ -94,3 +95,16 @@
   &:hover
     cursor: pointer
     text-decoration: underline
+
+.hideOnMobileView
+  display: flex
+
+.hideOnNormalView
+  display: none
+
+@media screen and (max-width: 500px )
+  .hideOnMobileView
+    display: none
+
+  .hideOnNormalView
+    display: flex

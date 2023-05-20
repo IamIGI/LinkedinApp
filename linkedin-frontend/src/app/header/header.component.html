@@ -4,74 +4,152 @@
     class="nav-left"
   ></app-searchbar>
   <div class="menu">
+    <!--  -->
     <ul [style.display]="showMenu ? 'flex' : 'none'">
-      <li
-        class="link"
-        routerLinkActive="activeLink"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <a routerLink="/" class="link2">
-          <mat-icon class="icon">home</mat-icon>
-          <span class="hideDescription"> Strona główna</span>
-        </a>
-        <div class="showActive"></div>
+      <li>
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="mobileHeaderMenu"
+          class="mobileHeaderMenu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #mobileHeaderMenu="matMenu" xPosition="before">
+          <div class="mobileMenu">
+            <ul>
+              <li
+                routerLinkActive="activeLink"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <a routerLink="/">
+                  <mat-icon class="icon">home</mat-icon>
+                  <span class="hideDescription"> Strona główna</span>
+                </a>
+                <div class="showActive"></div>
+              </li>
+              <li
+                routerLinkActive="activeLink"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <a routerLink="network"
+                  ><mat-icon class="icon">group</mat-icon
+                  ><span class="hideDescription">Sieć</span>
+                </a>
+                <div class="showActive"></div>
+              </li>
+              <li
+                routerLinkActive="activeLink"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <a routerLink="/work"
+                  ><mat-icon class="icon">work</mat-icon
+                  ><span class="hideDescription">Praca</span>
+                </a>
+                <div class="showActive"></div>
+              </li>
+              <li
+                routerLinkActive="activeLink"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <a routerLink="/messages"
+                  ><mat-icon class="icon">sms</mat-icon>
+                  <span class="hideDescription">Wiadomość</span>
+                </a>
+                <div class="showActive"></div>
+              </li>
+              <li
+                routerLinkActive="activeLink"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <a routerLink="/notifications"
+                  ><mat-icon matBadge="15" matBadgeColor="warn"
+                    >notifications</mat-icon
+                  >
+                  <span class="hideDescription">Powiadomienia</span>
+                </a>
+                <div class="showActive"></div>
+              </li>
+            </ul>
+          </div>
+        </mat-menu>
       </li>
-      <li
-        class="link"
-        routerLinkActive="activeLink"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <a routerLink="network"
-          ><mat-icon class="icon">group</mat-icon
-          ><span class="hideDescription">Sieć</span>
-        </a>
-        <div class="showActive"></div>
+      <div class="hideMenu">
+        <li
+          class="link"
+          routerLinkActive="activeLink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a routerLink="/" class="link2">
+            <mat-icon class="icon">home</mat-icon>
+            <span class="hideDescription"> Strona główna</span>
+          </a>
+          <div class="showActive"></div>
+        </li>
+        <li
+          class="link"
+          routerLinkActive="activeLink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a routerLink="network"
+            ><mat-icon class="icon">group</mat-icon
+            ><span class="hideDescription">Sieć</span>
+          </a>
+          <div class="showActive"></div>
+        </li>
+        <li
+          class="link"
+          routerLinkActive="activeLink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a routerLink="/work"
+            ><mat-icon class="icon">work</mat-icon
+            ><span class="hideDescription">Praca</span>
+          </a>
+          <div class="showActive"></div>
+        </li>
+        <li
+          class="link"
+          routerLinkActive="activeLink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a routerLink="/messages"
+            ><mat-icon class="icon">sms</mat-icon>
+            <span class="hideDescription">Wiadomość</span>
+          </a>
+          <div class="showActive"></div>
+        </li>
+        <li
+          class="link"
+          routerLinkActive="activeLink"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a routerLink="/notifications"
+            ><mat-icon matBadge="15" matBadgeColor="warn"
+              >notifications</mat-icon
+            >
+            <span class="hideDescription">Powiadomienia</span>
+          </a>
+          <div class="showActive"></div>
+        </li>
+      </div>
+      <li>
+        <button
+          mat-button
+          [matMenuTriggerFor]="beforeMenu"
+          class="avatarButton"
+        >
+          <div class="avatar">
+            <img alt="navIcon" src="../../assets/images/nav-profile-icon.JPG" />
+            <span class="hideDescription-avatar">
+              Ja
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </span>
+          </div>
+        </button>
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
+          <app-popover></app-popover>
+        </mat-menu>
       </li>
-      <li
-        class="link"
-        routerLinkActive="activeLink"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <a routerLink="/work"
-          ><mat-icon class="icon">work</mat-icon
-          ><span class="hideDescription">Praca</span>
-        </a>
-        <div class="showActive"></div>
-      </li>
-      <li
-        class="link"
-        routerLinkActive="activeLink"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <a routerLink="/messages"
-          ><mat-icon class="icon">sms</mat-icon>
-          <span class="hideDescription">Wiadomość</span>
-        </a>
-        <div class="showActive"></div>
-      </li>
-      <li
-        class="link"
-        routerLinkActive="activeLink"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <a routerLink="/notifications"
-          ><mat-icon matBadge="15" matBadgeColor="warn">notifications</mat-icon>
-          <span class="hideDescription">Powiadomienia</span>
-        </a>
-        <div class="showActive"></div>
-      </li>
-      <button mat-button [matMenuTriggerFor]="beforeMenu" class="avatarButton">
-        <div class="avatar">
-          <img alt="navIcon" src="../../assets/images/nav-profile-icon.JPG" />
-          <span class="hideDescription-avatar">
-            Ja
-            <mat-icon>keyboard_arrow_down</mat-icon>
-          </span>
-        </div>
-      </button>
-      <mat-menu #beforeMenu="matMenu" xPosition="before">
-        <app-popover></app-popover>
-      </mat-menu>
     </ul>
   </div>
 </nav>

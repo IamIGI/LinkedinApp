@@ -4,10 +4,17 @@ import { PopoverComponent } from './popover/popover.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { HeaderComponent } from './header.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { HeaderRoutingModule } from './header-routing.module';
 
 @NgModule({
+  imports: [
+    SharedModule,
+    ReactiveFormsModule,
+    RouterModule,
+    HeaderRoutingModule,
+  ],
   declarations: [PopoverComponent, SearchbarComponent, HeaderComponent],
-  imports: [SharedModule, ReactiveFormsModule],
   exports: [HeaderComponent],
 })
 export class HeaderModule {}

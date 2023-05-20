@@ -30,9 +30,12 @@
         *ngIf="!post.privateAccount"
         mat-stroked-button
         color="primary"
-        class="subscribe-button"
+        class="subscribe-button hideOnMobileView"
       >
-        <span>+</span> Obserwuj
+        + Obserwuj
+      </button>
+      <button mat-mini-fab class="hideOnNormalView" color="primary">
+        <mat-icon>add</mat-icon>
       </button>
     </div>
     <div class="text">
@@ -71,7 +74,7 @@
     <div class="options">
       <div *ngFor="let option of options; index as i" class="option">
         <mat-icon>{{ option.icon }}</mat-icon>
-        <p>{{ option.text }}</p>
+        <p class="hideOnMobileView">{{ option.text }}</p>
       </div>
     </div>
   </div>
