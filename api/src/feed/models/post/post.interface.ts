@@ -1,6 +1,8 @@
+import { User } from 'src/auth/models/user.interface';
+
 export interface FeedPost {
   id?: number;
-  author?: string;
+  author?: User;
   company?: string;
   privateAccount?: boolean;
   subscribers?: number;

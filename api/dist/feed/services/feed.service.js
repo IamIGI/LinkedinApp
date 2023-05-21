@@ -25,7 +25,8 @@ let FeedService = class FeedService {
     postHasBeenUpdated(feedPost) {
         return (feedPost.updatedAt = new Date());
     }
-    createPost(feedPost) {
+    createPost(user, feedPost) {
+        feedPost.author = user;
         return (0, rxjs_1.from)(this.feedPostRepository.save(feedPost));
     }
     findPosts(take = 10, skip = 0) {

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormTemplateService } from '../../form-template.service';
 import {
   FormControl,
   FormGroup,
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { FormTemplateService } from '../../form-template.service';
 
 @Component({
   selector: 'app-login',

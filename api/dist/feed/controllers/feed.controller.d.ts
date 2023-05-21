@@ -5,7 +5,7 @@ import { UpdateResult, DeleteResult } from 'typeorm';
 export declare class FeedController {
     private feedService;
     constructor(feedService: FeedService);
-    create(post: FeedPost): Observable<FeedPost>;
+    create(post: FeedPost, req: any): Observable<FeedPost>;
     findSelected(take?: number, skip?: number): Observable<FeedPost[]>;
     updatePost(id: number, feedPost: FeedPost): Observable<UpdateResult>;
     deletePost(id: number): Observable<DeleteResult>;

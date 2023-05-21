@@ -1,0 +1,142 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.2
+-- Dumped by pg_dump version 15.2
+
+-- Started on 2023-05-20 22:30:23
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 215 (class 1259 OID 16415)
+-- Name: feed_post; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.feed_post (
+    id integer NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL,
+    "updatedAt" timestamp without time zone DEFAULT now() NOT NULL,
+    author character varying NOT NULL,
+    company character varying NOT NULL,
+    "privateAccount" boolean NOT NULL,
+    content character varying NOT NULL,
+    subscribers integer DEFAULT 0 NOT NULL,
+    likes integer DEFAULT 0 NOT NULL,
+    comments integer DEFAULT 0 NOT NULL,
+    shared integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.feed_post OWNER TO postgres;
+
+--
+-- TOC entry 214 (class 1259 OID 16414)
+-- Name: feed_post_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.feed_post_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.feed_post_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3330 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: feed_post_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.feed_post_id_seq OWNED BY public.feed_post.id;
+
+
+--
+-- TOC entry 3172 (class 2604 OID 16418)
+-- Name: feed_post id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.feed_post ALTER COLUMN id SET DEFAULT nextval('public.feed_post_id_seq'::regclass);
+
+
+--
+-- TOC entry 3324 (class 0 OID 16415)
+-- Dependencies: 215
+-- Data for Name: feed_post; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (47, '2023-05-11 10:23:41.346134', '2023-05-11 10:23:41.346134', 'AGH University of Science and Technology', 'AGH University of Science and Technology', false, ' Karolina Kwiatkowska, członkini Koła Naukowego Energon, uczestniczyła w ''4th International Conference on Materials Science and Enegineering 2023'' w Teksasie. Przedstawiała tam badania dotyczące węglowych laminatów biomimetycznych, inspirowanych pancerzami skorupiaków 💚 🖤 ❤️ Były to badania nad stworzonym przez Karolinę kompozytem z włókien węglowych, ułożonych tak, by przypominały strukturę obecną wewnątrz szczypiec małego morskiego skorupiaka nazywanego Rawką Błaznem 🦐 Ten skorupiak poluje pod wodą, a jego szczypce wytrzymują olbrzymie obciążenia, które powstają m.in. na skutek kawitacji. Ich wewnętrzna struktura układa się w specyficzną spiralę, którą Karolina odtworzyła tworząc materiał. Badania MES (metoda elementów skończonych) polegały na zasymulowaniu zachowania pod różnymi obciążeniami tego materiału w programie ANSYS, a badania przeprowadzone w rzeczywistości (badania zginania próbek) pozwoliły na zaobserwowanie ciekawej właściwości materiału do reagowania ruchem na skrajne obciążenia i nieregularnym, ale przewidywalnym rozprowadzaniem naprężeń wewnątrz materiału.', 101518, 432, 2, 1);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (71, '2023-05-11 10:24:10.018846', '2023-05-11 10:24:10.018846', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (72, '2023-05-11 10:24:10.656043', '2023-05-11 10:24:10.656043', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (48, '2023-05-11 10:23:42.636319', '2023-05-11 10:23:42.636319', 'AGH University of Science and Technology', 'AGH University of Science and Technology', false, ' Karolina Kwiatkowska, członkini Koła Naukowego Energon, uczestniczyła w ''4th International Conference on Materials Science and Enegineering 2023'' w Teksasie. Przedstawiała tam badania dotyczące węglowych laminatów biomimetycznych, inspirowanych pancerzami skorupiaków 💚 🖤 ❤️ Były to badania nad stworzonym przez Karolinę kompozytem z włókien węglowych, ułożonych tak, by przypominały strukturę obecną wewnątrz szczypiec małego morskiego skorupiaka nazywanego Rawką Błaznem 🦐 Ten skorupiak poluje pod wodą, a jego szczypce wytrzymują olbrzymie obciążenia, które powstają m.in. na skutek kawitacji. Ich wewnętrzna struktura układa się w specyficzną spiralę, którą Karolina odtworzyła tworząc materiał. Badania MES (metoda elementów skończonych) polegały na zasymulowaniu zachowania pod różnymi obciążeniami tego materiału w programie ANSYS, a badania przeprowadzone w rzeczywistości (badania zginania próbek) pozwoliły na zaobserwowanie ciekawej właściwości materiału do reagowania ruchem na skrajne obciążenia i nieregularnym, ale przewidywalnym rozprowadzaniem naprężeń wewnątrz materiału.', 101518, 432, 2, 1);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (49, '2023-05-11 10:23:43.460634', '2023-05-11 10:23:43.460634', 'AGH University of Science and Technology', 'AGH University of Science and Technology', false, ' Karolina Kwiatkowska, członkini Koła Naukowego Energon, uczestniczyła w ''4th International Conference on Materials Science and Enegineering 2023'' w Teksasie. Przedstawiała tam badania dotyczące węglowych laminatów biomimetycznych, inspirowanych pancerzami skorupiaków 💚 🖤 ❤️ Były to badania nad stworzonym przez Karolinę kompozytem z włókien węglowych, ułożonych tak, by przypominały strukturę obecną wewnątrz szczypiec małego morskiego skorupiaka nazywanego Rawką Błaznem 🦐 Ten skorupiak poluje pod wodą, a jego szczypce wytrzymują olbrzymie obciążenia, które powstają m.in. na skutek kawitacji. Ich wewnętrzna struktura układa się w specyficzną spiralę, którą Karolina odtworzyła tworząc materiał. Badania MES (metoda elementów skończonych) polegały na zasymulowaniu zachowania pod różnymi obciążeniami tego materiału w programie ANSYS, a badania przeprowadzone w rzeczywistości (badania zginania próbek) pozwoliły na zaobserwowanie ciekawej właściwości materiału do reagowania ruchem na skrajne obciążenia i nieregularnym, ale przewidywalnym rozprowadzaniem naprężeń wewnątrz materiału.', 101518, 432, 2, 1);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (50, '2023-05-11 10:23:44.180928', '2023-05-11 10:23:44.180928', 'AGH University of Science and Technology', 'AGH University of Science and Technology', false, ' Karolina Kwiatkowska, członkini Koła Naukowego Energon, uczestniczyła w ''4th International Conference on Materials Science and Enegineering 2023'' w Teksasie. Przedstawiała tam badania dotyczące węglowych laminatów biomimetycznych, inspirowanych pancerzami skorupiaków 💚 🖤 ❤️ Były to badania nad stworzonym przez Karolinę kompozytem z włókien węglowych, ułożonych tak, by przypominały strukturę obecną wewnątrz szczypiec małego morskiego skorupiaka nazywanego Rawką Błaznem 🦐 Ten skorupiak poluje pod wodą, a jego szczypce wytrzymują olbrzymie obciążenia, które powstają m.in. na skutek kawitacji. Ich wewnętrzna struktura układa się w specyficzną spiralę, którą Karolina odtworzyła tworząc materiał. Badania MES (metoda elementów skończonych) polegały na zasymulowaniu zachowania pod różnymi obciążeniami tego materiału w programie ANSYS, a badania przeprowadzone w rzeczywistości (badania zginania próbek) pozwoliły na zaobserwowanie ciekawej właściwości materiału do reagowania ruchem na skrajne obciążenia i nieregularnym, ale przewidywalnym rozprowadzaniem naprężeń wewnątrz materiału.', 101518, 432, 2, 1);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (51, '2023-05-11 10:23:44.861151', '2023-05-11 10:23:44.861151', 'AGH University of Science and Technology', 'AGH University of Science and Technology', false, ' Karolina Kwiatkowska, członkini Koła Naukowego Energon, uczestniczyła w ''4th International Conference on Materials Science and Enegineering 2023'' w Teksasie. Przedstawiała tam badania dotyczące węglowych laminatów biomimetycznych, inspirowanych pancerzami skorupiaków 💚 🖤 ❤️ Były to badania nad stworzonym przez Karolinę kompozytem z włókien węglowych, ułożonych tak, by przypominały strukturę obecną wewnątrz szczypiec małego morskiego skorupiaka nazywanego Rawką Błaznem 🦐 Ten skorupiak poluje pod wodą, a jego szczypce wytrzymują olbrzymie obciążenia, które powstają m.in. na skutek kawitacji. Ich wewnętrzna struktura układa się w specyficzną spiralę, którą Karolina odtworzyła tworząc materiał. Badania MES (metoda elementów skończonych) polegały na zasymulowaniu zachowania pod różnymi obciążeniami tego materiału w programie ANSYS, a badania przeprowadzone w rzeczywistości (badania zginania próbek) pozwoliły na zaobserwowanie ciekawej właściwości materiału do reagowania ruchem na skrajne obciążenia i nieregularnym, ale przewidywalnym rozprowadzaniem naprężeń wewnątrz materiału.', 101518, 432, 2, 1);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (52, '2023-05-11 10:23:45.549192', '2023-05-11 10:23:45.549192', 'AGH University of Science and Technology', 'AGH University of Science and Technology', false, ' Karolina Kwiatkowska, członkini Koła Naukowego Energon, uczestniczyła w ''4th International Conference on Materials Science and Enegineering 2023'' w Teksasie. Przedstawiała tam badania dotyczące węglowych laminatów biomimetycznych, inspirowanych pancerzami skorupiaków 💚 🖤 ❤️ Były to badania nad stworzonym przez Karolinę kompozytem z włókien węglowych, ułożonych tak, by przypominały strukturę obecną wewnątrz szczypiec małego morskiego skorupiaka nazywanego Rawką Błaznem 🦐 Ten skorupiak poluje pod wodą, a jego szczypce wytrzymują olbrzymie obciążenia, które powstają m.in. na skutek kawitacji. Ich wewnętrzna struktura układa się w specyficzną spiralę, którą Karolina odtworzyła tworząc materiał. Badania MES (metoda elementów skończonych) polegały na zasymulowaniu zachowania pod różnymi obciążeniami tego materiału w programie ANSYS, a badania przeprowadzone w rzeczywistości (badania zginania próbek) pozwoliły na zaobserwowanie ciekawej właściwości materiału do reagowania ruchem na skrajne obciążenia i nieregularnym, ale przewidywalnym rozprowadzaniem naprężeń wewnątrz materiału.', 101518, 432, 2, 1);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (53, '2023-05-11 10:23:48.457827', '2023-05-11 10:23:48.457827', 'AGH University of Science and Technology', 'AGH University of Science and Technology', false, ' Karolina Kwiatkowska, członkini Koła Naukowego Energon, uczestniczyła w ''4th International Conference on Materials Science and Enegineering 2023'' w Teksasie. Przedstawiała tam badania dotyczące węglowych laminatów biomimetycznych, inspirowanych pancerzami skorupiaków 💚 🖤 ❤️ Były to badania nad stworzonym przez Karolinę kompozytem z włókien węglowych, ułożonych tak, by przypominały strukturę obecną wewnątrz szczypiec małego morskiego skorupiaka nazywanego Rawką Błaznem 🦐 Ten skorupiak poluje pod wodą, a jego szczypce wytrzymują olbrzymie obciążenia, które powstają m.in. na skutek kawitacji. Ich wewnętrzna struktura układa się w specyficzną spiralę, którą Karolina odtworzyła tworząc materiał. Badania MES (metoda elementów skończonych) polegały na zasymulowaniu zachowania pod różnymi obciążeniami tego materiału w programie ANSYS, a badania przeprowadzone w rzeczywistości (badania zginania próbek) pozwoliły na zaobserwowanie ciekawej właściwości materiału do reagowania ruchem na skrajne obciążenia i nieregularnym, ale przewidywalnym rozprowadzaniem naprężeń wewnątrz materiału.', 101518, 432, 2, 1);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (54, '2023-05-11 10:23:49.004733', '2023-05-11 10:23:49.004733', 'AGH University of Science and Technology', 'AGH University of Science and Technology', false, ' Karolina Kwiatkowska, członkini Koła Naukowego Energon, uczestniczyła w ''4th International Conference on Materials Science and Enegineering 2023'' w Teksasie. Przedstawiała tam badania dotyczące węglowych laminatów biomimetycznych, inspirowanych pancerzami skorupiaków 💚 🖤 ❤️ Były to badania nad stworzonym przez Karolinę kompozytem z włókien węglowych, ułożonych tak, by przypominały strukturę obecną wewnątrz szczypiec małego morskiego skorupiaka nazywanego Rawką Błaznem 🦐 Ten skorupiak poluje pod wodą, a jego szczypce wytrzymują olbrzymie obciążenia, które powstają m.in. na skutek kawitacji. Ich wewnętrzna struktura układa się w specyficzną spiralę, którą Karolina odtworzyła tworząc materiał. Badania MES (metoda elementów skończonych) polegały na zasymulowaniu zachowania pod różnymi obciążeniami tego materiału w programie ANSYS, a badania przeprowadzone w rzeczywistości (badania zginania próbek) pozwoliły na zaobserwowanie ciekawej właściwości materiału do reagowania ruchem na skrajne obciążenia i nieregularnym, ale przewidywalnym rozprowadzaniem naprężeń wewnątrz materiału.', 101518, 432, 2, 1);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (55, '2023-05-11 10:23:49.494905', '2023-05-11 10:23:49.494905', 'AGH University of Science and Technology', 'AGH University of Science and Technology', false, ' Karolina Kwiatkowska, członkini Koła Naukowego Energon, uczestniczyła w ''4th International Conference on Materials Science and Enegineering 2023'' w Teksasie. Przedstawiała tam badania dotyczące węglowych laminatów biomimetycznych, inspirowanych pancerzami skorupiaków 💚 🖤 ❤️ Były to badania nad stworzonym przez Karolinę kompozytem z włókien węglowych, ułożonych tak, by przypominały strukturę obecną wewnątrz szczypiec małego morskiego skorupiaka nazywanego Rawką Błaznem 🦐 Ten skorupiak poluje pod wodą, a jego szczypce wytrzymują olbrzymie obciążenia, które powstają m.in. na skutek kawitacji. Ich wewnętrzna struktura układa się w specyficzną spiralę, którą Karolina odtworzyła tworząc materiał. Badania MES (metoda elementów skończonych) polegały na zasymulowaniu zachowania pod różnymi obciążeniami tego materiału w programie ANSYS, a badania przeprowadzone w rzeczywistości (badania zginania próbek) pozwoliły na zaobserwowanie ciekawej właściwości materiału do reagowania ruchem na skrajne obciążenia i nieregularnym, ale przewidywalnym rozprowadzaniem naprężeń wewnątrz materiału.', 101518, 432, 2, 1);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (56, '2023-05-11 10:24:01.225787', '2023-05-11 10:24:01.225787', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (57, '2023-05-11 10:24:02.181726', '2023-05-11 10:24:02.181726', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (58, '2023-05-11 10:24:02.90956', '2023-05-11 10:24:02.90956', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (59, '2023-05-11 10:24:03.46631', '2023-05-11 10:24:03.46631', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (60, '2023-05-11 10:24:04.127394', '2023-05-11 10:24:04.127394', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (61, '2023-05-11 10:24:04.692538', '2023-05-11 10:24:04.692538', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (62, '2023-05-11 10:24:05.286114', '2023-05-11 10:24:05.286114', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (63, '2023-05-11 10:24:05.817103', '2023-05-11 10:24:05.817103', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (64, '2023-05-11 10:24:06.368634', '2023-05-11 10:24:06.368634', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (65, '2023-05-11 10:24:06.924267', '2023-05-11 10:24:06.924267', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (66, '2023-05-11 10:24:07.405583', '2023-05-11 10:24:07.405583', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (67, '2023-05-11 10:24:07.873823', '2023-05-11 10:24:07.873823', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (68, '2023-05-11 10:24:08.342715', '2023-05-11 10:24:08.342715', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (69, '2023-05-11 10:24:08.855468', '2023-05-11 10:24:08.855468', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (70, '2023-05-11 10:24:09.504713', '2023-05-11 10:24:09.504713', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (73, '2023-05-11 10:24:11.157402', '2023-05-11 10:24:11.157402', 'Udemy', 'Udemy', false, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 1171505, 16, 3, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (46, '2023-05-11 10:24:53.974875', '2023-05-11 10:24:53.974875', 'Maciej Sraciej', 'It Recruiter', true, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 0, 16, 0, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (45, '2023-05-11 10:24:57.81917', '2023-05-11 10:24:57.81917', 'Kazimierz Duzy', 'Hr Manager', true, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 0, 16, 1, 0);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (44, '2023-05-11 10:25:01.670385', '2023-05-11 10:25:01.670385', 'Kacper Maly', 'React Developer', true, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 0, 16, 0, 1);
+INSERT INTO public.feed_post (id, "createdAt", "updatedAt", author, company, "privateAccount", content, subscribers, likes, comments, shared) VALUES (43, '2023-05-11 10:25:06.529633', '2023-05-11 10:25:06.529633', 'Marcin Sredni', 'Angular Developer', true, '👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.', 0, 0, 0, 1);
+
+
+--
+-- TOC entry 3331 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: feed_post_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.feed_post_id_seq', 77, true);
+
+
+--
+-- TOC entry 3180 (class 2606 OID 16425)
+-- Name: feed_post PK_1dd475e18c5436c2bd0e56db39a; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.feed_post
+    ADD CONSTRAINT "PK_1dd475e18c5436c2bd0e56db39a" PRIMARY KEY (id);
+
+
+-- Completed on 2023-05-20 22:30:23
+
+--
+-- PostgreSQL database dump complete
+--
+
