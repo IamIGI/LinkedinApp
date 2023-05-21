@@ -17,6 +17,9 @@ const common_1 = require("@nestjs/common");
 const feed_service_1 = require("../services/feed.service");
 const rxjs_1 = require("rxjs");
 const jwt_guard_1 = require("../../auth/guards/jwt.guard");
+const roles_decorator_1 = require("../../auth/decorators/roles.decorator");
+const role_enum_1 = require("../../auth/models/role.enum");
+const roles_guard_1 = require("../../auth/guards/roles.guard");
 let FeedController = class FeedController {
     constructor(feedService) {
         this.feedService = feedService;
@@ -36,7 +39,8 @@ let FeedController = class FeedController {
     }
 };
 __decorate([
-    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, roles_guard_1.RolesGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
