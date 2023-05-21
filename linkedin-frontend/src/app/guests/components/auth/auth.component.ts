@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormTemplateService } from './form-template.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { formTitleDataInterface } from './form-template.service';
+import {
+  FormTemplateService,
+  formTitleDataInterface,
+} from './form-template.service';
 
 @Component({
   selector: 'app-form-template',
-  templateUrl: './form-template.component.html',
-  styleUrls: ['./form-template.component.sass'],
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.sass'],
 })
-export class FormTemplateComponent implements OnInit {
+export class AuthComponent implements OnInit {
   formWelcomeData: formTitleDataInterface = {
     title: '',
     subtext: '',

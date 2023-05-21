@@ -11,8 +11,8 @@ const routes: Routes = [
       {
         path: 'form',
         loadChildren: () =>
-          import('./components/form-template/form-template.module').then(
-            (module) => module.FormTemplateModule
+          import('./components/auth/auth.module').then(
+            (module) => module.AuthModule
           ),
       },
       {

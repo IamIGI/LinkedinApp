@@ -50,11 +50,11 @@ export class SignupComponent implements OnInit {
 
     this.registerForm = new FormGroup(
       {
-        name: new FormControl(null, [
+        firstName: new FormControl(null, [
           Validators.required,
           Validators.minLength(3),
         ]),
-        surname: new FormControl(null, [
+        lastName: new FormControl(null, [
           Validators.required,
           Validators.minLength(3),
         ]),
