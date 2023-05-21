@@ -4,6 +4,7 @@ import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { FeedPostEntity } from '../models/post/post.entity';
 import { FeedPost } from '../models/post/post.interface';
 import { from, Observable } from 'rxjs';
+import { User } from 'src/auth/models/user.interface';
 
 @Injectable()
 export class FeedService {
@@ -16,7 +17,8 @@ export class FeedService {
     return (feedPost.updatedAt = new Date());
   }
 
-  createPost(feedPost: FeedPost): Observable<FeedPost> {
+  createPost(user: User, feedPost: FeedPost): Observable<FeedPost> {
+    feedPost.author = user;
     return from(this.feedPostRepository.save(feedPost));
   }
 

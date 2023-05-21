@@ -1,8 +1,10 @@
+import { UserEntity } from 'src/auth/models/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity('feed_post')
@@ -10,8 +12,8 @@ export class FeedPostEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  author: string;
+  @ManyToOne(() => UserEntity, (UserEntity) => UserEntity.feedPosts)
+  author: UserEntity;
   @Column()
   company: string;
   @Column()
