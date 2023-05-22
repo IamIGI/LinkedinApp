@@ -32,13 +32,13 @@ export class SearchbarComponent {
 
   onSubmit() {
     console.log(this.searchForm.value);
-    this.changeMobileSearchBarVisibility();
+    if (this.widthIsSmallerThan700px) {
+      this.changeMobileSearchBarVisibility();
+    }
   }
 
   changeMobileSearchBarVisibility() {
-    if (this.widthIsSmallerThan700px) {
-      this.showMobileSearchBarButton = !this.showMobileSearchBarButton;
-      this.showMenu.emit(this.showMobileSearchBarButton);
-    }
+    this.showMobileSearchBarButton = !this.showMobileSearchBarButton;
+    this.showMenu.emit(this.showMobileSearchBarButton);
   }
 }
