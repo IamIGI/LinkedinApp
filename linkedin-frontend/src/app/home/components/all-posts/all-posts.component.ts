@@ -33,6 +33,7 @@ export class AllPostsComponent implements OnInit {
             this.readMore.push(false);
           }
           this.skipPosts = this.skipPosts + this.numberOfPosts;
+          console.log(this.allLoadedPosts);
         },
         error: (err) => console.log(err),
         complete: () => this.toggleLoading(),
@@ -50,6 +51,12 @@ export class AllPostsComponent implements OnInit {
 
   toggleReadMore(index: number) {
     this.readMore[index] = !this.readMore[index];
+  }
+
+  getAuthorName(post: Post): string {
+    if (post.privateAccount) {
+      return `${post.author.firstName} ${post.author.lastName}`;
+    } else return `${post.author.firstName}`;
   }
 
   toggleLoading = () => (this.isLoading = !this.isLoading);

@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('feed_post')
@@ -12,7 +13,9 @@ export class FeedPostEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => UserEntity, (UserEntity) => UserEntity.feedPosts)
+  @ManyToOne(() => UserEntity, (UserEntity) => UserEntity.feedPosts, {
+    eager: true,
+  })
   author: UserEntity;
   @Column()
   company: string;

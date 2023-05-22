@@ -31,6 +31,7 @@ let FeedService = class FeedService {
     }
     findPosts(take = 10, skip = 0) {
         return (0, rxjs_1.from)(this.feedPostRepository.findAndCount({ take, skip }).then(([posts]) => {
+            console.log(posts);
             return posts;
         }));
     }

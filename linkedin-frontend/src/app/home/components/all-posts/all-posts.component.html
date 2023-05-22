@@ -13,7 +13,7 @@
           <img src="../../../../assets/images/profiles/agh.JPG" alt="profile" />
         </div>
         <div>
-          <h1>{{ post.author }}</h1>
+          <h1>{{ getAuthorName(post) }}</h1>
           <p class="information-account">
             <span *ngIf="post.privateAccount; else show_subscribers">
               {{ post.company }}</span
