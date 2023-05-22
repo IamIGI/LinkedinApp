@@ -33,7 +33,6 @@ export class AllPostsComponent implements OnInit {
             this.readMore.push(false);
           }
           this.skipPosts = this.skipPosts + this.numberOfPosts;
-          console.log(this.allLoadedPosts);
         },
         error: (err) => console.log(err),
         complete: () => this.toggleLoading(),
