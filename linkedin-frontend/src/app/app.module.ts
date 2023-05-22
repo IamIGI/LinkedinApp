@@ -7,8 +7,6 @@ import { NetworkComponent } from './network/network.component';
 import { WorkComponent } from './work/work.component';
 import { MessagesComponent } from './messages/messages.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-// import { HomePageModule } from './home/home.module';
-// import { HeaderComponent } from './header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';

@@ -22,7 +22,6 @@ $content-width: 700px
     @include i.inElement-button-gray
     margin-bottom: 7px
 
-
 .user
   @include i.flex-RowStartCenter
   gap: 10px
@@ -47,7 +46,6 @@ $content-width: 700px
   .image
     @include i.inElement-profile-image(50px)
 
-
 .close
   position: absolute
   right: 10px
@@ -61,8 +59,7 @@ $content-width: 700px
     min-height: 250px
     border: 0px
     font-size: i.$font-l
-
-
+    resize: none
 
 .assignment
   @include i.flex-RowStartCenter
@@ -70,4 +67,35 @@ $content-width: 700px
   width: 100%
 
 
+@media screen and (max-width: 1000px) 
+  $content-width: 500px
+  .content-container
+    width: $content-width
 
+  .content-finish
+    width: $content-width
+
+
+@media screen and (max-width: 650px) 
+  $content-width: 400px
+  .content-container
+    width: $content-width
+
+  .content-finish
+    width: $content-width
+
+@media screen and (max-width: 500px) 
+  $content-width: 350px
+  .content-container
+    width: $content-width
+
+  .content-finish
+    width: $content-width
+
+@media screen and (max-width: 450px) 
+  $content-width: 300px
+  .content-container
+    width: $content-width
+
+  .content-finish
+    width: $content-width
