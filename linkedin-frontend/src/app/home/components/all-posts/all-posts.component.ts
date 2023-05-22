@@ -53,9 +53,9 @@ export class AllPostsComponent implements OnInit {
   }
 
   getAuthorName(post: Post): string {
-    if (post.privateAccount) {
+    if (post.privateAccount)
       return `${post.author.firstName} ${post.author.lastName}`;
-    } else return `${post.author.firstName}`;
+    return `${post.author.firstName}`;
   }
 
   toggleLoading = () => (this.isLoading = !this.isLoading);
