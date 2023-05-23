@@ -53,7 +53,7 @@ export class AllPostsComponent implements OnInit {
   }
 
   getAuthorName(post: Post): string {
-    if (post.privateAccount)
+    if (post.author.isPrivateAccount)
       return `${post.author.firstName} ${post.author.lastName}`;
     return `${post.author.firstName}`;
   }
