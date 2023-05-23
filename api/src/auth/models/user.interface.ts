@@ -7,4 +7,8 @@ export interface User {
   email?: string;
   password?: string;
   role?: Role;
+  isPrivateAccount?: boolean;
+  company?: string;
+  education?: string;
+  subscribers?: number;
 }

@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   registerAccount(user: User): Observable<User> {
-    const { firstName, lastName, email, password } = user;
+    const { firstName, lastName, email, password, isPrivateAccount } = user;
 
     return this.hashPassword(password).pipe(
       switchMap((hashedPassword: string) => {
@@ -31,6 +31,8 @@ export class AuthService {
             lastName,
             email,
             password: hashedPassword,
+            isPrivateAccount,
+            subscribers: !isPrivateAccount ? 0 : null,
           }),
         ).pipe(
           map((user: User) => {
@@ -52,6 +54,7 @@ export class AuthService {
           email: true,
           password: true,
           role: true,
+          isPrivateAccount: true,
         },
         where: { email },
       }),

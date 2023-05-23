@@ -10,7 +10,7 @@ export class UserEntity {
   @Column()
   firstName: string;
 
-  @Column()
+  @Column({ default: null })
   lastName: string;
 
   @Column({ unique: true })
@@ -21,6 +21,21 @@ export class UserEntity {
 
   @Column({ type: 'enum', enum: Role, default: Role.USER })
   role: Role;
+
+  @Column({ default: null })
+  company: string;
+
+  @Column({ default: null })
+  position: string;
+
+  @Column({ default: null })
+  education: string;
+
+  @Column({ default: null })
+  subscribers: number;
+
+  @Column()
+  isPrivateAccount: boolean;
 
   @OneToMany(() => FeedPostEntity, (feedPostEntity) => feedPostEntity.author)
   feedPosts: FeedPostEntity[];

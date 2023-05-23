@@ -3,6 +3,7 @@ import { FormTemplateService } from '../../form-template.service';
 import {
   AbstractControl,
   FormControl,
+  FormControlName,
   FormGroup,
   FormGroupDirective,
   NgForm,
@@ -66,6 +67,7 @@ export class SignupComponent implements OnInit {
           ),
         ]),
         confirmPassword: new FormControl(null, [Validators.required]),
+        isPrivateAccount: new FormControl(null, [Validators.required]),
       },
       {
         validators: this.checkPasswords,
@@ -85,7 +87,10 @@ export class SignupComponent implements OnInit {
     if (!this.registerForm.valid) return;
 
     const registerFormValues = this.registerForm.value;
-    const body = { ...registerFormValues };
+    const body = {
+      ...registerFormValues,
+      isPrivateAccount: !registerFormValues.isPrivateAccount,
+    };
     console.log(body);
 
     this.resetForm(formDirective);

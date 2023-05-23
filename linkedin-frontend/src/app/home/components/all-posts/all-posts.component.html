@@ -15,11 +15,16 @@
         <div>
           <h1>{{ getAuthorName(post) }}</h1>
           <p class="information-account">
-            <span *ngIf="post.privateAccount; else show_subscribers">
-              {{ post.company }}</span
+            <span
+              *ngIf="
+                post.author.isPrivateAccount && post.author.company;
+                else show_subscribers
+              "
+            >
+              {{ post.author.company }}</span
             >
             <ng-template #show_subscribers>
-              {{ post.subscribers }} obserwujących
+              {{ post.author.subscribers }} obserwujących
             </ng-template>
             <br />
             {{ post.updatedAt | date }}
@@ -27,7 +32,7 @@
         </div>
       </div>
       <button
-        *ngIf="!post.privateAccount"
+        *ngIf="!post.author.isPrivateAccount"
         mat-stroked-button
         color="primary"
         class="subscribe-button hideOnMobileView"

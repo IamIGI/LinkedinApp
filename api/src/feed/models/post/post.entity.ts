@@ -18,13 +18,7 @@ export class FeedPostEntity {
   })
   author: UserEntity;
   @Column()
-  company: string;
-  @Column()
-  privateAccount: boolean;
-  @Column()
   content: string;
-  @Column({ default: 0 })
-  subscribers: number;
   @Column({ default: 0 })
   likes: number;
   @Column({ default: 0 })
