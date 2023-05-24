@@ -1,9 +1,11 @@
+export type Role = 'admin' | 'premium' | 'user';
+
 export interface User {
   id: number;
   email: string;
   firstName: string;
   lastName: string | null;
-  role: string;
+  role: Role;
   isPrivateAccount: boolean;
   company: string | null;
   education: string | null;

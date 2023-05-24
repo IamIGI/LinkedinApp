@@ -3,7 +3,6 @@ import { FormTemplateService } from '../../form-template.service';
 import {
   AbstractControl,
   FormControl,
-  FormControlName,
   FormGroup,
   FormGroupDirective,
   NgForm,
@@ -12,6 +11,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { AuthService } from '../../services/auth.service';
+import { NewUser } from '../../models/newUser.model';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -44,7 +45,10 @@ export class SignupComponent implements OnInit {
   registerForm!: FormGroup;
   matcher = new MyErrorStateMatcher();
 
-  constructor(private formTemplateService: FormTemplateService) {}
+  constructor(
+    private formTemplateService: FormTemplateService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.formTemplateService.setFormTitleData(this.formTitle);
@@ -67,12 +71,22 @@ export class SignupComponent implements OnInit {
           ),
         ]),
         confirmPassword: new FormControl(null, [Validators.required]),
-        isPrivateAccount: new FormControl(null, [Validators.required]),
+        isPrivateAccount: new FormControl(false, [Validators.required]),
       },
       {
         validators: this.checkPasswords,
       }
     );
+
+    this.registerForm
+      .get('isPrivateAccount')
+      ?.valueChanges.subscribe((privateAccount) => {
+        if (privateAccount) {
+          this.registerForm.get('lastName')?.disable();
+        } else {
+          this.registerForm.get('lastName')?.enable();
+        }
+      });
   }
 
   checkPasswords: ValidatorFn = (
@@ -87,13 +101,17 @@ export class SignupComponent implements OnInit {
     if (!this.registerForm.valid) return;
 
     const registerFormValues = this.registerForm.value;
-    const body = {
+    let newUser = Object.assign({
       ...registerFormValues,
       isPrivateAccount: !registerFormValues.isPrivateAccount,
-    };
-    console.log(body);
-
-    this.resetForm(formDirective);
+    });
+    delete newUser.confirmPassword;
+    console.log(newUser);
+    this.authService.register(newUser).subscribe({
+      complete: () => {
+        this.resetForm(formDirective);
+      },
+    });
   }
 
   resetForm(formDirective: FormGroupDirective) {
