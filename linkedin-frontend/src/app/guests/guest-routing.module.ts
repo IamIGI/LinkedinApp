@@ -16,7 +16,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'start',
+        path: '',
         component: StartPageComponent,
       },
     ],

@@ -6,6 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { FormTemplateService } from '../../form-template.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +27,11 @@ export class LoginComponent implements OnInit {
   };
   loginForm!: FormGroup;
 
-  constructor(private formTemplateService: FormTemplateService) {}
+  constructor(
+    private formTemplateService: FormTemplateService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.formTemplateService.setFormTitleData(this.formTitle);
@@ -40,10 +46,16 @@ export class LoginComponent implements OnInit {
     if (!this.loginForm.valid) return;
 
     const loginFormValues = this.loginForm.value;
-    const body = { ...loginFormValues };
-    console.log(body);
+    const response = this.authService.login(loginFormValues).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/home');
+      },
+      complete: () => {
+        this.resetForm(formDirective);
+      },
+    });
 
-    this.resetForm(formDirective);
+    console.log(response);
   }
 
   resetForm(formDirective: FormGroupDirective) {

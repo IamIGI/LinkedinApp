@@ -1,17 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/Post';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PostService {
-  URL = 'http://localhost:3000/api';
-
   constructor(private http: HttpClient) {}
 
   getSelectedPost(params: any) {
-    const modifiedURL = `${this.URL}/feed${params}`;
+    const modifiedURL = `${environment.baseApiUrl}/feed${params}`;
     return this.http.get<Post[]>(modifiedURL);
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 
 @Component({
   selector: 'app-popover',
@@ -6,7 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./popover.component.sass'],
 })
 export class PopoverComponent {
+  constructor(private authService: AuthService) {}
+
   onSignOut() {
     console.log('User SingOut');
+    this.authService.logout();
   }
 }

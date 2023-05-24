@@ -18,7 +18,7 @@ export class GuestHomepageComponent {
         this.router.navigate(['form/login'], { relativeTo: this.route });
         break;
       case 'home':
-        this.router.navigate(['guest/start']);
+        this.router.navigate(['guest']);
         break;
       default:
         throw new Error('Given case not exists');
