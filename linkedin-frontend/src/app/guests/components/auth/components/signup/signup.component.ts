@@ -13,6 +13,7 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from '../../services/auth.service';
 import { NewUser } from '../../models/newUser.model';
+import { Router } from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -47,7 +48,8 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private formTemplateService: FormTemplateService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -108,6 +110,9 @@ export class SignupComponent implements OnInit {
     delete newUser.confirmPassword;
     console.log(newUser);
     this.authService.register(newUser).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/home');
+      },
       complete: () => {
         this.resetForm(formDirective);
       },

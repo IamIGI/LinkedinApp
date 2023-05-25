@@ -40,14 +40,21 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  register(newUser: NewUser): Observable<User> {
+  register(newUser: NewUser): Observable<{ token: string }> {
     return this.http
-      .post<User>(
+      .post<{ token: string }>(
         `${environment.baseApiUrl}/auth/register`,
         newUser,
         this.httpOptions
       )
-      .pipe(take(1));
+      .pipe(
+        take(1),
+        tap((response: { token: string }) => {
+          localStorage.setItem(localStorageKeys.jwtToken, response.token);
+          const decodedToken: UserResponse = jwt_decode(response.token);
+          this.user$.next(decodedToken.user);
+        })
+      );
   }
 
   login(user: {

@@ -20,30 +20,6 @@ export class AuthService {
     return from(bcrypt.hash(password, 12)); //convert promise to observable
   }
 
-  registerAccount(user: User): Observable<User> {
-    const { firstName, lastName, email, password, isPrivateAccount } = user;
-
-    return this.hashPassword(password).pipe(
-      switchMap((hashedPassword: string) => {
-        return from(
-          this.userRepository.save({
-            firstName,
-            lastName,
-            email,
-            password: hashedPassword,
-            isPrivateAccount,
-            subscribers: !isPrivateAccount ? 0 : null,
-          }),
-        ).pipe(
-          map((user: User) => {
-            delete user.password;
-            return user;
-          }),
-        );
-      }),
-    );
-  }
-
   validateUser(email: string, password: string): Observable<User> {
     return from(
       this.userRepository.findOne({
@@ -69,6 +45,38 @@ export class AuthService {
           }),
         ),
       ),
+    );
+  }
+
+  registerAccount(user: User): Observable<string> {
+    const { firstName, lastName, email, password, isPrivateAccount } = user;
+
+    return this.hashPassword(password).pipe(
+      switchMap((hashedPassword: string) => {
+        return from(
+          this.userRepository.save({
+            firstName,
+            lastName,
+            email,
+            password: hashedPassword,
+            isPrivateAccount,
+            subscribers: !isPrivateAccount ? 0 : null,
+          }),
+        ).pipe(
+          switchMap(() => {
+            return from(
+              this.validateUser(email, password).pipe(
+                switchMap((user: User) => {
+                  if (user) {
+                    //create JWT - credentials
+                    return from(this.jwtService.signAsync({ user }));
+                  }
+                }),
+              ),
+            );
+          }),
+        );
+      }),
     );
   }
 
