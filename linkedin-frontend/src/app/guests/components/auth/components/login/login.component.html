@@ -35,6 +35,7 @@
       Hasło jest <strong>wymagane</strong>
     </mat-error>
   </mat-form-field>
+
   <p class="forgot-password">Nie pamiętasz hasła?</p>
   <button
     mat-flat-button
@@ -44,4 +45,5 @@
   >
     Zaloguj się
   </button>
+  <mat-error> {{ this.errorServerMessage }}</mat-error>
 </form>

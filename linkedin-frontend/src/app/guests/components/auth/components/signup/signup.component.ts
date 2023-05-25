@@ -45,6 +45,7 @@ export class SignupComponent implements OnInit {
   };
   registerForm!: FormGroup;
   matcher = new MyErrorStateMatcher();
+  errorServerMessage = '';
 
   constructor(
     private formTemplateService: FormTemplateService,
@@ -112,6 +113,12 @@ export class SignupComponent implements OnInit {
     this.authService.register(newUser).subscribe({
       next: () => {
         this.router.navigateByUrl('/home');
+      },
+      error: (err) => {
+        this.errorServerMessage = err.error.message;
+        setTimeout(() => {
+          this.errorServerMessage = '';
+        }, 5000);
       },
       complete: () => {
         this.resetForm(formDirective);
