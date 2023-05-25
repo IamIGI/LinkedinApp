@@ -92,6 +92,7 @@
       Hasła muszą być takie same
     </mat-error>
   </mat-form-field>
+
   <mat-checkbox formControlName="isPrivateAccount"
     >Company Account</mat-checkbox
   >
@@ -104,4 +105,5 @@
   >
     Zarejestruj się
   </button>
+  <mat-error> {{ this.errorServerMessage }}</mat-error>
 </form>

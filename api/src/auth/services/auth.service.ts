@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import * as bcrypt from 'bcrypt';
@@ -7,6 +7,7 @@ import { User } from '../models/user.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../models/user.entity';
 import { Repository } from 'typeorm';
+import { authCode } from '../dictionaries/auth-dictionaries';
 
 @Injectable()
 export class AuthService {
@@ -35,13 +36,20 @@ export class AuthService {
         where: { email },
       }),
     ).pipe(
+      map((user: User) => {
+        if (!user) {
+          throw new HttpException(authCode.emailNoExists, 401);
+        }
+        return user;
+      }),
       switchMap((user: User) =>
         from(bcrypt.compare(password, user.password)).pipe(
           map((isValidPassword: boolean) => {
-            if (isValidPassword) {
-              delete user.password;
-              return user;
+            if (!isValidPassword) {
+              throw new HttpException(authCode.badPassword, 401);
             }
+            delete user.password;
+            return user;
           }),
         ),
       ),
@@ -54,14 +62,20 @@ export class AuthService {
     return this.hashPassword(password).pipe(
       switchMap((hashedPassword: string) => {
         return from(
-          this.userRepository.save({
-            firstName,
-            lastName,
-            email,
-            password: hashedPassword,
-            isPrivateAccount,
-            subscribers: !isPrivateAccount ? 0 : null,
-          }),
+          this.userRepository
+            .save({
+              firstName,
+              lastName,
+              email,
+              password: hashedPassword,
+              isPrivateAccount,
+              subscribers: !isPrivateAccount ? 0 : null,
+            })
+            .catch((error) => {
+              if (/(email)[\s\S]+(already exists)/.test(error.detail)) {
+                throw new HttpException(authCode.emailAlreadyTaken, 401);
+              }
+            }),
         ).pipe(
           switchMap(() => {
             return from(

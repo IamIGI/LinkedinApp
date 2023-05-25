@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
     loginPage: true,
   };
   loginForm!: FormGroup;
+  errorServerMessage = '';
 
   constructor(
     private formTemplateService: FormTemplateService,
@@ -50,12 +51,16 @@ export class LoginComponent implements OnInit {
       next: () => {
         this.router.navigateByUrl('/home');
       },
+      error: (err) => {
+        this.errorServerMessage = err.error.message;
+        setTimeout(() => {
+          this.errorServerMessage = '';
+        }, 5000);
+      },
       complete: () => {
         this.resetForm(formDirective);
       },
     });
-
-    console.log(response);
   }
 
   resetForm(formDirective: FormGroupDirective) {
