@@ -8,8 +8,10 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('register')
-  register(@Body() user: User): Observable<User> {
-    return this.authService.registerAccount(user);
+  register(@Body() user: User): Observable<{ token: string }> {
+    return this.authService
+      .registerAccount(user)
+      .pipe(map((jwt: string) => ({ token: jwt })));
   }
 
   @Post('login')
