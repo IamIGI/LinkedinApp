@@ -10,7 +10,6 @@ export class PopoverComponent {
   constructor(private authService: AuthService) {}
 
   onSignOut() {
-    console.log('User SingOut');
     this.authService.logout();
   }
 }

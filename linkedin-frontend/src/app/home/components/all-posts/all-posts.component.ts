@@ -93,13 +93,11 @@ export class AllPostsComponent implements OnInit, OnChanges {
   }
 
   async presentUpdateModal(postId: number) {
-    console.log('EditPost', postId);
     const dialogRef = this.dialog.open(ModalComponent, {
       data: { options, postData: { id: postId } },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result.body.content);
       this.postService.updatePost(postId, result.body.content).subscribe(() => {
         const postIndex = this.allLoadedPosts.findIndex(
           (post: Post) => post.id === postId

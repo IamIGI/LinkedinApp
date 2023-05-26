@@ -109,7 +109,6 @@ export class SignupComponent implements OnInit {
       isPrivateAccount: !registerFormValues.isPrivateAccount,
     });
     delete newUser.confirmPassword;
-    console.log(newUser);
     this.authService.register(newUser).subscribe({
       next: () => {
         this.router.navigateByUrl('/home');

@@ -27,7 +27,6 @@ export class AuthGuard implements CanLoad {
       tap((isUserLoggedIn: boolean) => {
         if (!isUserLoggedIn) {
           this.router.navigateByUrl('/guest');
-          console.log(3, isUserLoggedIn);
         }
         return of(isUserLoggedIn);
       })

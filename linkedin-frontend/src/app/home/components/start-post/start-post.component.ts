@@ -15,15 +15,12 @@ export class StartPostComponent {
   constructor(private dialog: MatDialog) {}
 
   async openModal() {
-    console.log('CREATE POST');
     const dialogRef = this.dialog.open(ModalComponent, {
       panelClass: 'modalClass',
       data: { options },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog closed`);
-      console.log(result);
       this.create.emit(result);
     });
   }

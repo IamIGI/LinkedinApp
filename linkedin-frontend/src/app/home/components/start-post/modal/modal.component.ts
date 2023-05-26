@@ -21,7 +21,6 @@ export class ModalComponent {
   ) {}
 
   ngOnInit() {
-    console.log(this.passedData);
     this.addPostForm = new FormGroup({
       text: new FormControl(null, [Validators.required]),
       role: new FormControl('anyone', [Validators.required]),
@@ -35,7 +34,6 @@ export class ModalComponent {
       content: postValues.text,
       role: postValues.role,
     };
-    console.log(body);
     this.dialogRef.close({ body });
     this.addPostForm.reset();
   }

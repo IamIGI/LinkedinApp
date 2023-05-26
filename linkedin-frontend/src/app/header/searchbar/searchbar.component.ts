@@ -31,7 +31,6 @@ export class SearchbarComponent {
   }
 
   onSubmit() {
-    console.log(this.searchForm.value);
     if (this.widthIsSmallerThan700px) {
       this.changeMobileSearchBarVisibility();
     }
