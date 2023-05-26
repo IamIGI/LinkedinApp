@@ -20,6 +20,7 @@ const jwt_guard_1 = require("../../auth/guards/jwt.guard");
 const roles_decorator_1 = require("../../auth/decorators/roles.decorator");
 const role_enum_1 = require("../../auth/models/role.enum");
 const roles_guard_1 = require("../../auth/guards/roles.guard");
+const is_creator_guard_1 = require("../guards/is-creator.guard");
 let FeedController = class FeedController {
     constructor(feedService) {
         this.feedService = feedService;
@@ -57,6 +58,7 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], FeedController.prototype, "findSelected", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard),
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -65,6 +67,7 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], FeedController.prototype, "updatePost", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

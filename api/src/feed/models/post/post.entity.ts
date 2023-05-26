@@ -17,17 +17,22 @@ export class FeedPostEntity {
     eager: true,
   })
   author: UserEntity;
+
   @Column()
   content: string;
+
   @Column({ default: 0 })
   likes: number;
+
   @Column({ default: 0 })
   comments: number;
+
   @Column({ default: 0 })
   shared: number;
 
   @CreateDateColumn()
   createdAt: Date;
+
   @CreateDateColumn()
   updatedAt: Date;
 }
