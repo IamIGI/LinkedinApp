@@ -1,6 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+export interface CreatePost {
+  content: string;
+  role: string;
+}
 
 @Component({
   selector: 'app-modal',
@@ -10,7 +15,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ModalComponent {
   addPostForm!: FormGroup;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public passedData: any) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public passedData: any,
+    private dialogRef: MatDialogRef<ModalComponent>
+  ) {}
 
   ngOnInit() {
     this.addPostForm = new FormGroup({
@@ -20,11 +28,13 @@ export class ModalComponent {
   }
 
   onSubmit() {
-    console.log(this.addPostForm.value);
     if (!this.addPostForm.valid) return;
     const postValues = this.addPostForm.value;
-    const body = { ...postValues, createdAt: new Date() };
-    console.log(body);
+    const body: CreatePost = {
+      content: postValues.text,
+      role: postValues.role,
+    };
+    this.dialogRef.close({ body });
     this.addPostForm.reset();
   }
 }

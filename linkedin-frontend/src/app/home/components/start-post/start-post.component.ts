@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { options } from './data';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from './modal/modal.component';
@@ -9,6 +9,7 @@ import { ModalComponent } from './modal/modal.component';
   styleUrls: ['./start-post.component.sass'],
 })
 export class StartPostComponent {
+  @Output() create: EventEmitter<any> = new EventEmitter();
   options = options;
 
   constructor(private dialog: MatDialog) {}
@@ -16,11 +17,11 @@ export class StartPostComponent {
   async openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {
       panelClass: 'modalClass',
-      data: options,
+      data: { options },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog closed`);
+      this.create.emit(result);
     });
   }
 }

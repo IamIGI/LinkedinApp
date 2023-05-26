@@ -32,7 +32,25 @@
       margin: 0px
       font-size: i.$font-s
       color: gray
-      
+
+  .authorOptions
+    @include i.flex-RowStartCenter
+    gap: 15px
+    padding: 0 5px
+
+    button
+      padding: 5px !important
+      height: 30px
+      width: 30px
+
+    button:nth-child(1)
+      color: i.$color-primary
+
+    button:nth-child(2)
+      color: i.$color-danger
+
+
+
 .text
   position: relative
   p

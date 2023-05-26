@@ -32,13 +32,23 @@
         </div>
       </div>
       <button
-        *ngIf="!post.author.isPrivateAccount"
+        *ngIf="
+          !post.author.isPrivateAccount && (userId$ | async) !== post.author.id
+        "
         mat-stroked-button
         color="primary"
         class="subscribe-button hideOnMobileView"
       >
         + Obserwuj
       </button>
+      <div *ngIf="(userId$ | async) === post.author.id" class="authorOptions">
+        <button mat-icon-button (click)="presentUpdateModal(post.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deletePost(post.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
       <button mat-mini-fab class="hideOnNormalView" color="primary">
         <mat-icon>add</mat-icon>
       </button>
