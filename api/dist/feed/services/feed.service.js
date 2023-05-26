@@ -44,6 +44,9 @@ let FeedService = class FeedService {
     deletePost(id) {
         return (0, rxjs_1.from)(this.feedPostRepository.delete(id));
     }
+    findPostById(id) {
+        return (0, rxjs_1.from)(this.feedPostRepository.findOne({ where: { id }, relations: ['author'] }));
+    }
 };
 FeedService = __decorate([
     (0, common_1.Injectable)(),

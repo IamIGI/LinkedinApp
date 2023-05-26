@@ -12,4 +12,5 @@ export declare class FeedService {
     findAllPosts(): Observable<FeedPost[]>;
     updatePost(id: number, feedPost: FeedPost): Observable<UpdateResult>;
     deletePost(id: number): Observable<DeleteResult>;
+    findPostById(id: number): Observable<FeedPost>;
 }

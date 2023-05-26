@@ -12,12 +12,14 @@ const typeorm_1 = require("@nestjs/typeorm");
 const feed_service_1 = require("./services/feed.service");
 const feed_controller_1 = require("./controllers/feed.controller");
 const post_entity_1 = require("./models/post/post.entity");
+const auth_module_1 = require("../auth/auth.module");
+const is_creator_guard_1 = require("./guards/is-creator.guard");
 let FeedModule = class FeedModule {
 };
 FeedModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([post_entity_1.FeedPostEntity])],
-        providers: [feed_service_1.FeedService],
+        imports: [auth_module_1.AuthModule, typeorm_1.TypeOrmModule.forFeature([post_entity_1.FeedPostEntity])],
+        providers: [feed_service_1.FeedService, is_creator_guard_1.IsCreatorGuard],
         controllers: [feed_controller_1.FeedController],
     })
 ], FeedModule);
