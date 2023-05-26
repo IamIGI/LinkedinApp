@@ -38,6 +38,10 @@ export class AuthService {
     );
   }
 
+  get userId(): Observable<number> {
+    return this.user$.asObservable().pipe(map((user: User | null) => user!.id));
+  }
+
   constructor(private http: HttpClient, private router: Router) {}
 
   register(newUser: NewUser): Observable<{ token: string }> {

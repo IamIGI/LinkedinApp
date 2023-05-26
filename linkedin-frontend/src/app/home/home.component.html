@@ -2,9 +2,12 @@
   <div class="content-container">
     <app-profile-summary class="profile-summary"></app-profile-summary>
     <div class="main-section">
-      <app-start-post class="fullWidth"></app-start-post>
+      <app-start-post
+        (create)="onCreatePost($event)"
+        class="fullWidth"
+      ></app-start-post>
       <app-filters class="fullWidth"></app-filters>
-      <app-all-posts class="fullWidth"></app-all-posts>
+      <app-all-posts [postBody]="body" class="fullWidth"></app-all-posts>
     </div>
     <app-advertising class="advertising"></app-advertising>
   </div>

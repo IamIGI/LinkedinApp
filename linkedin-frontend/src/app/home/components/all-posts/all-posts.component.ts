@@ -1,14 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { data } from './data';
 import { PostService } from '../../services/post.service';
 import { Post } from '../../models/Post';
+import {
+  CreatePost,
+  ModalComponent,
+} from '../start-post/modal/modal.component';
+import { BehaviorSubject, take } from 'rxjs';
+import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { options } from '../start-post/data';
 
 @Component({
   selector: 'app-all-posts',
   templateUrl: './all-posts.component.html',
   styleUrls: ['./all-posts.component.sass'],
 })
-export class AllPostsComponent implements OnInit {
+export class AllPostsComponent implements OnInit, OnChanges {
+  @Input() postBody?: CreatePost;
+
   options = data;
   isLoading = false;
   queryParams!: string;
@@ -17,10 +33,28 @@ export class AllPostsComponent implements OnInit {
   skipPosts = 0; //initially
   readMore: Boolean[] = [];
 
-  constructor(private postService: PostService) {}
+  userId$ = new BehaviorSubject<number>(null!);
+
+  constructor(
+    private postService: PostService,
+    private authService: AuthService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getPosts();
+
+    this.authService.userId.pipe(take(1)).subscribe((userId: number) => {
+      this.userId$.next(userId);
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    const postBody = changes['postBody'].currentValue.body;
+    if (!postBody) return;
+    this.postService.createPost(postBody.content).subscribe((post: Post) => {
+      this.allLoadedPosts.unshift(post);
+    });
   }
 
   getPosts() {
@@ -56,6 +90,31 @@ export class AllPostsComponent implements OnInit {
     if (post.author.isPrivateAccount)
       return `${post.author.firstName} ${post.author.lastName}`;
     return `${post.author.firstName}`;
+  }
+
+  async presentUpdateModal(postId: number) {
+    console.log('EditPost', postId);
+    const dialogRef = this.dialog.open(ModalComponent, {
+      data: { options, postData: { id: postId } },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result.body.content);
+      this.postService.updatePost(postId, result.body.content).subscribe(() => {
+        const postIndex = this.allLoadedPosts.findIndex(
+          (post: Post) => post.id === postId
+        );
+        this.allLoadedPosts[postIndex].content = result.body.content;
+      });
+    });
+  }
+
+  deletePost(postId: number) {
+    this.postService.deletePost(postId).subscribe(() => {
+      this.allLoadedPosts = this.allLoadedPosts.filter(
+        (post: Post) => post.id !== postId
+      );
+    });
   }
 
   toggleLoading = () => (this.isLoading = !this.isLoading);

@@ -9,7 +9,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptorService } from './guests/components/auth/services/auth-interceptor.service';
 
 @NgModule({
   imports: [
@@ -28,7 +29,13 @@ import { HttpClientModule } from '@angular/common/http';
     MessagesComponent,
     NotificationsComponent,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
   exports: [AppRoutingModule],
 })

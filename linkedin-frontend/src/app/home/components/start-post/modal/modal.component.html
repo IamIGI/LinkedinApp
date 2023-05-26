@@ -33,7 +33,7 @@
     </div>
     <div class="assignment">
       <button
-        *ngFor="let button of passedData"
+        *ngFor="let button of passedData.options"
         mat-fab
         aria-label="Example icon button with a menu icon"
         [ngStyle]="{ 'background-color': button.color }"
