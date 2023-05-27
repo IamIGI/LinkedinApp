@@ -46,19 +46,6 @@ export class AuthService {
     return this.user$.asObservable().pipe(map((user: User | null) => user!));
   }
 
-  get userJobData(): Observable<string | null> {
-    return this.user$.asObservable().pipe(
-      map((user: User | null) => {
-        if (user && user.position && user.company) {
-          const position = user.position;
-          const company = user.company;
-          return `${position} w ${company}`;
-        }
-        return null;
-      })
-    );
-  }
-
   constructor(private http: HttpClient, private router: Router) {}
 
   register(newUser: NewUser): Observable<{ token: string }> {

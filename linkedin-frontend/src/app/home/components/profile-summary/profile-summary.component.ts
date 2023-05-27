@@ -36,7 +36,6 @@ export class ProfileSummaryComponent implements OnInit {
 
     this.authService.userData.pipe(take(1)).subscribe((user: User) => {
       this.userData = user;
-      console.log(user);
     });
   }
 
