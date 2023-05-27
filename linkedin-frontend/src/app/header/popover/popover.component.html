@@ -9,8 +9,8 @@
       </div>
 
       <div>
-        <h2>Igor Kłusek</h2>
-        <p>Angular Developer w McCompany S.A</p>
+        <h2>{{ userData.firstName }} {{ userData.lastName }}</h2>
+        <p *ngIf="getUserJobData() !== null">{{ getUserJobData() }}</p>
       </div>
     </div>
     <button class="showProfile">Wyświetl profil</button>

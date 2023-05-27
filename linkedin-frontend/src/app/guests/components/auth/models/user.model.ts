@@ -12,5 +12,6 @@ export interface User {
   company: string | null;
   education: string | null;
   subscribers: number | null;
+  position: string | null;
   posts: Post[];
 }

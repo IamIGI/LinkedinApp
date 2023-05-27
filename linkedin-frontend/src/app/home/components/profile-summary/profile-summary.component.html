@@ -12,8 +12,9 @@
     <img alt="profile" src="../../../../assets/images/profile-image.png" />
   </div>
   <div class="information">
-    <h1>Igor Kłusek</h1>
-    <p>Angular Developer w McCompany S.A</p>
+    <h1>{{ userData.firstName }} {{ userData.lastName }}</h1>
+    <p *ngIf="getUserJobData() !== null">{{ getUserJobData() }}</p>
+    <!-- <p *ngIf="getUserJobData() === null"></p> -->
   </div>
 </div>
 <div class="section">

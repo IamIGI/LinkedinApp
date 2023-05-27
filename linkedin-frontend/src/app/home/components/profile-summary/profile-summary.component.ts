@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs';
-import { Role } from 'src/app/guests/components/auth/models/user.model';
+import { BehaviorSubject, take } from 'rxjs';
+import { Role, User } from 'src/app/guests/components/auth/models/user.model';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 
 type BannerColors = {
@@ -20,6 +20,8 @@ export class ProfileSummaryComponent implements OnInit {
     admin: '#d64161',
   };
 
+  userData: User = null!;
+
   userRoleBackgroundColor = this.bannerColors.user;
 
   constructor(private authService: AuthService) {}
@@ -31,6 +33,11 @@ export class ProfileSummaryComponent implements OnInit {
           this.getBannerColors(role);
         }
       });
+
+    this.authService.userData.pipe(take(1)).subscribe((user: User) => {
+      this.userData = user;
+      console.log(user);
+    });
   }
 
   private getBannerColors(role: Role): void {
@@ -47,5 +54,12 @@ export class ProfileSummaryComponent implements OnInit {
         this.userRoleBackgroundColor = this.bannerColors.user;
         break;
     }
+  }
+
+  getUserJobData(): string | null {
+    const position = this.userData.position;
+    const company = this.userData.company;
+    if (position === null || company === null) return null;
+    return `${position} w ${company}`;
   }
 }
