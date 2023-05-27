@@ -16,7 +16,6 @@ export class PopoverComponent implements OnInit {
   ngOnInit(): void {
     this.authService.userData.pipe(take(1)).subscribe((user: User) => {
       this.userData = user;
-      console.log(user);
     });
   }
 
