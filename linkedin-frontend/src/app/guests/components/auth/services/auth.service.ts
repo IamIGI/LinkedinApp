@@ -42,6 +42,10 @@ export class AuthService {
     return this.user$.asObservable().pipe(map((user: User | null) => user!.id));
   }
 
+  get userData(): Observable<User> {
+    return this.user$.asObservable().pipe(map((user: User | null) => user!));
+  }
+
   constructor(private http: HttpClient, private router: Router) {}
 
   register(newUser: NewUser): Observable<{ token: string }> {
