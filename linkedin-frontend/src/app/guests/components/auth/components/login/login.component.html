@@ -28,9 +28,12 @@
       placeholder="Password"
       required
     />
-    <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
-      hidePassword ? "visibility_off" : "visibility"
-    }}</mat-icon>
+    <mat-icon
+      class="pointer"
+      matSuffix
+      (click)="hidePassword = !hidePassword"
+      >{{ hidePassword ? "visibility_off" : "visibility" }}</mat-icon
+    >
     <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
       Hasło jest <strong>wymagane</strong>
     </mat-error>

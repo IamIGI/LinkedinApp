@@ -24,7 +24,7 @@ import { IsCreatorGuard } from '../guards/is-creator.guard';
 export class FeedController {
   constructor(private feedService: FeedService) {}
 
-  @Roles(Role.ADMIN, Role.PREMIUM)
+  @Roles(Role.ADMIN, Role.PREMIUM, Role.USER)
   @UseGuards(JwtGuard, RolesGuard)
   @Post()
   create(@Body() post: FeedPost, @Request() req): Observable<FeedPost> {
@@ -36,6 +36,7 @@ export class FeedController {
   //   return this.feedService.findAllPosts();
   // }
 
+  @UseGuards(JwtGuard)
   @Get()
   findSelected(
     @Query('take') take: number = 1,
@@ -44,7 +45,7 @@ export class FeedController {
     take = take > 20 ? 20 : take;
     return this.feedService.findPosts(take, skip);
   }
-
+  @Roles(Role.ADMIN, Role.PREMIUM)
   @UseGuards(JwtGuard, IsCreatorGuard)
   @Put(':id')
   updatePost(
@@ -54,6 +55,7 @@ export class FeedController {
     return this.feedService.updatePost(id, feedPost);
   }
 
+  @Roles(Role.ADMIN, Role.PREMIUM, Role.USER)
   @UseGuards(JwtGuard, IsCreatorGuard)
   @Delete(':id')
   deletePost(@Param('id') id: number): Observable<DeleteResult> {

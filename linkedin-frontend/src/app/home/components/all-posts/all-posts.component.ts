@@ -16,6 +16,7 @@ import { BehaviorSubject, take } from 'rxjs';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { options } from '../start-post/data';
+import { Role } from 'src/app/guests/components/auth/models/user.model';
 
 @Component({
   selector: 'app-all-posts',
@@ -23,7 +24,7 @@ import { options } from '../start-post/data';
   styleUrls: ['./all-posts.component.sass'],
 })
 export class AllPostsComponent implements OnInit, OnChanges {
-  @Input() postBody?: CreatePost;
+  @Input() postBody: CreatePost = { content: '', role: '' };
 
   options = data;
   isLoading = false;
@@ -34,6 +35,7 @@ export class AllPostsComponent implements OnInit, OnChanges {
   readMore: Boolean[] = [];
 
   userId$ = new BehaviorSubject<number>(null!);
+  userRole: Role = 'user';
 
   constructor(
     private postService: PostService,
@@ -47,10 +49,16 @@ export class AllPostsComponent implements OnInit, OnChanges {
     this.authService.userId.pipe(take(1)).subscribe((userId: number) => {
       this.userId$.next(userId);
     });
+
+    this.authService.userRole
+      .pipe(take(1))
+      .subscribe((role: Role | undefined) => {
+        if (role) this.userRole = role;
+      });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const postBody = changes['postBody'].currentValue.body;
+    const postBody = changes['postBody'].currentValue?.body;
     if (!postBody) return;
     this.postService.createPost(postBody.content).subscribe((post: Post) => {
       this.allLoadedPosts.unshift(post);
@@ -75,10 +83,23 @@ export class AllPostsComponent implements OnInit, OnChanges {
 
   readMoreSplit(text: string) {
     const splitAfterNumberOfChars = 200;
+
     let opinionSplit = [];
-    opinionSplit.push(text.substr(0, splitAfterNumberOfChars));
-    text.substr(splitAfterNumberOfChars, 2000) !== '' &&
-      opinionSplit.push(text.substr(splitAfterNumberOfChars, 2000));
+    let trimmedString = text.substr(0, splitAfterNumberOfChars);
+
+    //if there is just one word, return it
+    if (trimmedString.lastIndexOf(' ') == -1) {
+      opinionSplit.push(trimmedString);
+      return opinionSplit;
+    }
+    //if the sentence have more than 200 chars trim after word
+    if (text.length >= splitAfterNumberOfChars) {
+      trimmedString = text.substr(0, trimmedString.lastIndexOf(' '));
+    }
+    opinionSplit.push(trimmedString);
+    const additionalText = text.substr(trimmedString.length, 2000);
+    if (additionalText !== '') opinionSplit.push(additionalText);
+
     return opinionSplit;
   }
 
@@ -95,6 +116,7 @@ export class AllPostsComponent implements OnInit, OnChanges {
   async presentUpdateModal(postId: number) {
     const dialogRef = this.dialog.open(ModalComponent, {
       data: { options, postData: { id: postId } },
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

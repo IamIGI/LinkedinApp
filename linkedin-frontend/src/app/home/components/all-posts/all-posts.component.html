@@ -42,7 +42,11 @@
         + Obserwuj
       </button>
       <div *ngIf="(userId$ | async) === post.author.id" class="authorOptions">
-        <button mat-icon-button (click)="presentUpdateModal(post.id)">
+        <button
+          *ngIf="userRole !== 'user'"
+          mat-icon-button
+          (click)="presentUpdateModal(post.id)"
+        >
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button (click)="deletePost(post.id)">
@@ -56,7 +60,10 @@
     <div class="text">
       <p>
         {{ readMoreSplit(post.content)[0]
-        }}<span *ngIf="!readMore[i]">...</span>
+        }}<span
+          *ngIf="!readMore[i] && readMoreSplit(post.content)[0].length >= 190"
+          >...</span
+        >
         <span
           class="see-more"
           *ngIf="readMoreSplit(post.content).length === 2 && !readMore[i]"

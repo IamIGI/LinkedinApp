@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -13,6 +13,13 @@ export interface CreatePost {
   styleUrls: ['./modal.component.sass'],
 })
 export class ModalComponent {
+  // Set the focus on the textarea as soon as it is available
+  @ViewChild('PostTextArea') set bannerNoteRef(ref: ElementRef) {
+    if (!!ref) {
+      ref.nativeElement.focus();
+    }
+  }
+
   addPostForm!: FormGroup;
 
   constructor(

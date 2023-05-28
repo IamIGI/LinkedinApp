@@ -2,6 +2,7 @@
 
 #own
 .env
+/src/environments
 
 
 # Compiled output

@@ -19,8 +19,10 @@ $content-width: 700px
   width: $content-width
 
   .custom-button
-    @include i.inElement-button-gray
     margin-bottom: 7px
+    border-radius: 15px
+
+
 
 .user
   @include i.flex-RowStartCenter
@@ -53,6 +55,14 @@ $content-width: 700px
 
 .text
   width: 100%
+
+  textarea
+    border: none
+    overflow: auto
+    outline: none
+    -webkit-box-shadow: none
+    -moz-box-shadow: none
+    box-shadow: none
 
   textarea
     width: 100%

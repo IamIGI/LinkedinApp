@@ -8,6 +8,7 @@ import { FiltersComponent } from './components/filters/filters.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ModalComponent } from './components/start-post/modal/modal.component';
 
 @NgModule({
   imports: [SharedModule, ReactiveFormsModule, InfiniteScrollModule],
@@ -17,6 +18,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     StartPostComponent,
     AdvertisingComponent,
     AllPostsComponent,
+    ModalComponent,
     FiltersComponent,
   ],
 })

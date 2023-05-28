@@ -10,5 +10,6 @@ export interface User {
   isPrivateAccount?: boolean;
   company?: string;
   education?: string;
+  position?: string;
   subscribers?: number;
 }
