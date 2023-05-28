@@ -1,11 +1,7 @@
 <form [formGroup]="addPostForm" (ngSubmit)="onSubmit()">
   <div class="content-container">
     <div class="close">
-      <button
-        mat-icon-button
-        mat-dialog-close
-        aria-label="Example icon button with a menu icon"
-      >
+      <button mat-icon-button mat-dialog-close>
         <mat-icon>close</mat-icon>
       </button>
     </div>
@@ -25,6 +21,7 @@
 
     <div class="text">
       <textarea
+        #PostTextArea
         name="text"
         id="text"
         formControlName="text"
@@ -46,10 +43,16 @@
     <button mat-icon-button aria-label="Example icon button with a menu icon">
       <mat-icon>access_time</mat-icon>
     </button>
-    <div class="custom-button">
-      <button mat-dialog-close type="submit" [disabled]="addPostForm.invalid">
-        Opublikuj
-      </button>
-    </div>
+
+    <button
+      class="custom-button"
+      mat-dialog-close
+      mat-stroked-button
+      type="submit"
+      [disabled]="addPostForm.invalid"
+      color="primary"
+    >
+      Opublikuj
+    </button>
   </div>
 </form>

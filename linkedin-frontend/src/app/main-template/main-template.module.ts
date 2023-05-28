@@ -17,6 +17,6 @@ import { HeaderModule } from '../header/header.module';
     MainTemplateRoutingModule,
     HeaderModule,
   ],
-  declarations: [MainTemplateComponent, ModalComponent],
+  declarations: [MainTemplateComponent],
 })
 export class MainTemplateModule {}

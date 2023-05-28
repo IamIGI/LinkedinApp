@@ -40,7 +40,7 @@ let FeedController = class FeedController {
     }
 };
 __decorate([
-    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM, role_enum_1.Role.USER),
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, roles_guard_1.RolesGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
@@ -50,6 +50,7 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], FeedController.prototype, "create", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)('take')),
     __param(1, (0, common_1.Query)('skip')),
@@ -58,6 +59,7 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], FeedController.prototype, "findSelected", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM),
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard),
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),
@@ -67,6 +69,7 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], FeedController.prototype, "updatePost", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM, role_enum_1.Role.USER),
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),

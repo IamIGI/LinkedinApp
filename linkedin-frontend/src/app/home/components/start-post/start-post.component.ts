@@ -18,6 +18,7 @@ export class StartPostComponent {
     const dialogRef = this.dialog.open(ModalComponent, {
       panelClass: 'modalClass',
       data: { options },
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

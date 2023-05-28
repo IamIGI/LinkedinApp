@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../models/user.entity';
 import { Repository } from 'typeorm';
 import { authCode } from '../dictionaries/auth-dictionaries';
+import { subscribe } from 'diagnostics_channel';
 
 @Injectable()
 export class AuthService {
@@ -32,6 +33,10 @@ export class AuthService {
           password: true,
           role: true,
           isPrivateAccount: true,
+          company: true,
+          position: true,
+          education: true,
+          subscribers: true,
         },
         where: { email },
       }),

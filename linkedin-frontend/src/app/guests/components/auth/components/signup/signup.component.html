@@ -57,9 +57,12 @@
       formControlName="password"
       required
     />
-    <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
-      hidePassword ? "visibility_off" : "visibility"
-    }}</mat-icon>
+    <mat-icon
+      class="pointer"
+      matSuffix
+      (click)="hidePassword = !hidePassword"
+      >{{ hidePassword ? "visibility_off" : "visibility" }}</mat-icon
+    >
     <mat-error
       *ngIf="
         registerForm.get('password')?.hasError('pattern') &&
@@ -80,9 +83,12 @@
       formControlName="confirmPassword"
       [errorStateMatcher]="matcher"
     />
-    <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">{{
-      hideConfirmPassword ? "visibility_off" : "visibility"
-    }}</mat-icon>
+    <mat-icon
+      class="pointer"
+      matSuffix
+      (click)="hideConfirmPassword = !hideConfirmPassword"
+      >{{ hideConfirmPassword ? "visibility_off" : "visibility" }}</mat-icon
+    >
     <mat-error
       *ngIf="
         registerForm.hasError('notSame') &&
