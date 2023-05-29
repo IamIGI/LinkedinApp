@@ -19,6 +19,9 @@ export class UserEntity {
   @Column({ select: false }) //do not return the password on sql select method
   password: string;
 
+  @Column({ nullable: true })
+  imagePath: string;
+
   @Column({ type: 'enum', enum: Role, default: Role.PREMIUM }) //change for user later
   role: Role;
 
