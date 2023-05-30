@@ -37,6 +37,7 @@ export class AuthService {
           position: true,
           education: true,
           subscribers: true,
+          imagePath: true,
         },
         where: { email },
       }),

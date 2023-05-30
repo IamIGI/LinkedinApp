@@ -3,6 +3,7 @@ import { User } from 'src/app/guests/components/auth/models/user.model';
 export interface Post {
   id: number;
   author: User;
+  fullImagePath?: string;
   content: string;
   likes?: number;
   comments?: number;

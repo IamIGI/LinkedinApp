@@ -4,6 +4,7 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  OnDestroy,
 } from '@angular/core';
 import { data } from './data';
 import { PostService } from '../../services/post.service';
@@ -12,19 +13,21 @@ import {
   CreatePost,
   ModalComponent,
 } from '../start-post/modal/modal.component';
-import { BehaviorSubject, take } from 'rxjs';
+import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { options } from '../start-post/data';
-import { Role } from 'src/app/guests/components/auth/models/user.model';
+import { Role, User } from 'src/app/guests/components/auth/models/user.model';
 
 @Component({
   selector: 'app-all-posts',
   templateUrl: './all-posts.component.html',
   styleUrls: ['./all-posts.component.sass'],
 })
-export class AllPostsComponent implements OnInit, OnChanges {
+export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() postBody: CreatePost = { content: '', role: '' };
+
+  private userSubscription!: Subscription;
 
   options = data;
   isLoading = false;
@@ -44,6 +47,17 @@ export class AllPostsComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
+    this.userSubscription = this.authService.userStream.subscribe(
+      (user: User) => {
+        this.allLoadedPosts.forEach((post: Post, index: number) => {
+          if (user?.imagePath && post.author.id === user.id) {
+            this.allLoadedPosts[index].fullImagePath =
+              this.authService.getFullImagePath(user.imagePath);
+          }
+        });
+      }
+    );
+
     this.getPosts();
 
     this.authService.userId.pipe(take(1)).subscribe((userId: number) => {
@@ -60,8 +74,14 @@ export class AllPostsComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     const postBody = changes['postBody'].currentValue?.body;
     if (!postBody) return;
+
     this.postService.createPost(postBody.content).subscribe((post: Post) => {
-      this.allLoadedPosts.unshift(post);
+      this.authService.userFullImagePath
+        .pipe(take(1))
+        .subscribe((fullImagePath: string) => {
+          post.fullImagePath = fullImagePath;
+          this.allLoadedPosts.unshift(post);
+        });
     });
   }
 
@@ -71,7 +91,8 @@ export class AllPostsComponent implements OnInit, OnChanges {
       this.postService.getSelectedPost(this.queryParams).subscribe({
         next: (posts: Post[]) => {
           for (let i = 0; i < posts.length; i++) {
-            this.allLoadedPosts.push(posts[i]);
+            const post = this.setAuthorImage(posts[i]);
+            this.allLoadedPosts.push(post);
             this.readMore.push(false);
           }
           this.skipPosts = this.skipPosts + this.numberOfPosts;
@@ -79,6 +100,17 @@ export class AllPostsComponent implements OnInit, OnChanges {
         error: (err) => console.log(err),
         complete: () => this.toggleLoading(),
       });
+  }
+
+  setAuthorImage(post: Post): Post {
+    const doesAuthorHaveImage = !!post.author.imagePath;
+    let fullImagePath = this.authService.getDefaultFullImagePath();
+    if (doesAuthorHaveImage) {
+      fullImagePath = this.authService.getFullImagePath(post.author.imagePath!);
+    }
+
+    post.fullImagePath = fullImagePath;
+    return post;
   }
 
   readMoreSplit(text: string) {
@@ -108,9 +140,9 @@ export class AllPostsComponent implements OnInit, OnChanges {
   }
 
   getAuthorName(post: Post): string {
-    if (post.author.isPrivateAccount)
-      return `${post.author.firstName} ${post.author.lastName}`;
-    return `${post.author.firstName}`;
+    const { isPrivateAccount, firstName, lastName } = post.author;
+    if (isPrivateAccount) return `${firstName} ${lastName}`;
+    return `${firstName}`;
   }
 
   async presentUpdateModal(postId: number) {
@@ -138,4 +170,8 @@ export class AllPostsComponent implements OnInit, OnChanges {
   }
 
   toggleLoading = () => (this.isLoading = !this.isLoading);
+
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
+  }
 }

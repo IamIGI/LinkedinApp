@@ -79,11 +79,6 @@ export class AuthService {
     return `${environment.baseApiUrl}/feed/image/${imageName}`;
   }
 
-  //delete if not used
-  getUserImage() {
-    return this.http.get(`${environment.baseApiUrl}/user/image`).pipe(take(1));
-  }
-
   getUserImageName(): Observable<{ imageName: string }> {
     return this.http
       .get<{ imageName: string }>(`${environment.baseApiUrl}/user/image-name`)
