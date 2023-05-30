@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NewUser } from '../models/newUser.model';
 import { Role, User } from '../models/user.model';
 import { BehaviorSubject, Observable, from, of, take, map } from 'rxjs';
-import { startWith, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.development';
@@ -79,6 +79,7 @@ export class AuthService {
     return `${environment.baseApiUrl}/feed/image/${imageName}`;
   }
 
+  //delete if not used
   getUserImage() {
     return this.http.get(`${environment.baseApiUrl}/user/image`).pipe(take(1));
   }
