@@ -28,6 +28,31 @@
     left: 30%
     border: 3px solid white
 
+      
+
+    .realative
+      position: relative
+
+      &:hover
+        .profile-image-image
+        filter: greyscale(100%)
+
+    .profile-image-change
+      display: none
+
+    &:hover
+
+      img
+        filter: grayscale(50%)
+      
+      .profile-image-change
+        display: flex
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        color: white
+
 
 .information
   @include i.flex-ColumnStartCenter

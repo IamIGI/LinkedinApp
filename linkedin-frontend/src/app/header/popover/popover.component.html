@@ -4,12 +4,13 @@
       <div class="image">
         <img
           alt="navIcon"
-          src="../../../assets/images/nav-profile-bigger-icon.JPG"
+          *ngIf="userFullImagePath"
+          [src]="userFullImagePath"
+          alt="profile"
         />
       </div>
-
       <div>
-        <h2>{{ userData.firstName }} {{ userData.lastName }}</h2>
+        <h2>{{ fullName }}</h2>
         <p *ngIf="getUserJobData() !== null">{{ getUserJobData() }}</p>
       </div>
     </div>

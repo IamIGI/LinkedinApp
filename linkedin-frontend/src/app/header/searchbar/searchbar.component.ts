@@ -27,7 +27,6 @@ export class SearchbarComponent {
     });
 
     this.widthListener();
-    this.searchForm.valueChanges.subscribe((value) => console.log(value));
   }
 
   onSubmit() {

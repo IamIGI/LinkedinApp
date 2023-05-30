@@ -2,7 +2,10 @@
 
 #own
 .env
-/src/environments
+/linkedin-frontend/src/environments
+linkedin-frontend/src/environments
+/api/images
+api/images
 
 
 # Compiled output
@@ -12,6 +15,7 @@
 /bazel-out
 
 # Node
+/api/dist
 api/dist
 api/node_modules
 linkedin-frontend/node_modules

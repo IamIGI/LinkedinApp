@@ -14,7 +14,7 @@ import localStorageKeys from 'src/dictionaries/localStorage-dict';
   providedIn: 'root',
 })
 export class AuthService {
-  private user$ = new BehaviorSubject<User | null>(null);
+  private user$ = new BehaviorSubject<User>(null!);
 
   private httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -22,7 +22,7 @@ export class AuthService {
 
   get isUserLoggedIn(): Observable<boolean> {
     return this.user$.asObservable().pipe(
-      switchMap((user: User | null) => {
+      switchMap((user: User) => {
         const isUserAuthenticated = user !== null;
         return of(isUserAuthenticated);
       })
@@ -31,7 +31,7 @@ export class AuthService {
 
   get userRole(): Observable<Role | undefined> {
     return this.user$.asObservable().pipe(
-      switchMap((user: User | null) => {
+      switchMap((user: User) => {
         if (user !== null) return of(user?.role);
         return of(undefined);
       })
@@ -39,14 +39,84 @@ export class AuthService {
   }
 
   get userId(): Observable<number> {
-    return this.user$.asObservable().pipe(map((user: User | null) => user!.id));
+    return this.user$.asObservable().pipe(map((user: User) => user!.id));
   }
 
-  get userData(): Observable<User> {
-    return this.user$.asObservable().pipe(map((user: User | null) => user!));
+  get userStream(): Observable<User> {
+    return this.user$.asObservable().pipe(map((user: User) => user!));
+  }
+
+  get userFullName(): Observable<string> {
+    return this.user$.asObservable().pipe(
+      switchMap((user: User) => {
+        let fullName: string = user?.firstName;
+        if (user?.isPrivateAccount) fullName = `${fullName} ${user?.lastName}`;
+        return of(fullName);
+      })
+    );
+  }
+
+  get userFullImagePath(): Observable<string> {
+    return this.user$.asObservable().pipe(
+      switchMap((user: User) => {
+        const doesAuthorHasImage = !!user?.imagePath;
+        let fullImagePath = this.getDefaultFullImagePath();
+        if (doesAuthorHasImage) {
+          fullImagePath = this.getFullImagePath(user.imagePath as string);
+        }
+        return of(fullImagePath);
+      })
+    );
   }
 
   constructor(private http: HttpClient, private router: Router) {}
+
+  getDefaultFullImagePath(): string {
+    return `${environment.baseApiUrl}/feed/image/blank-profile-picture.jpg`;
+  }
+
+  getFullImagePath(imageName: string): string {
+    return `${environment.baseApiUrl}/feed/image/${imageName}`;
+  }
+
+  //delete if not used
+  getUserImage() {
+    return this.http.get(`${environment.baseApiUrl}/user/image`).pipe(take(1));
+  }
+
+  getUserImageName(): Observable<{ imageName: string }> {
+    return this.http
+      .get<{ imageName: string }>(`${environment.baseApiUrl}/user/image-name`)
+      .pipe(take(1));
+  }
+
+  updateUserImagePath(imagePath: string): Observable<User> {
+    return this.user$.pipe(
+      take(1),
+      map((user: User) => {
+        user.imagePath = imagePath;
+        this.user$.next(user);
+        return user;
+      })
+    );
+  }
+
+  uploadUserImage(
+    formData: FormData
+  ): Observable<{ modifiedFileName: string }> {
+    return this.http
+      .post<{ modifiedFileName: string }>(
+        `${environment.baseApiUrl}/user/upload`,
+        formData
+      )
+      .pipe(
+        tap(({ modifiedFileName }) => {
+          let user = this.user$.value;
+          user.imagePath = modifiedFileName;
+          this.user$.next(user);
+        })
+      );
+  }
 
   register(newUser: NewUser): Observable<{ token: string }> {
     return this.http
@@ -99,7 +169,7 @@ export class AuthService {
   }
 
   logout(): void {
-    this.user$.next(null);
+    this.user$.next(null!);
     localStorage.removeItem(localStorageKeys.jwtToken);
     this.router.navigateByUrl('/guest');
   }
