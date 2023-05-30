@@ -91,17 +91,8 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
       this.postService.getSelectedPost(this.queryParams).subscribe({
         next: (posts: Post[]) => {
           for (let i = 0; i < posts.length; i++) {
-            const doesAuthorHaveImage = !!posts[i].author.imagePath;
-            let fullImagePath = this.authService.getDefaultFullImagePath();
-            if (doesAuthorHaveImage) {
-              fullImagePath = this.authService.getFullImagePath(
-                posts[i].author.imagePath!
-              );
-            }
-
-            posts[i].fullImagePath = fullImagePath;
-
-            this.allLoadedPosts.push(posts[i]);
+            const post = this.setAuthorImage(posts[i]);
+            this.allLoadedPosts.push(post);
             this.readMore.push(false);
           }
           this.skipPosts = this.skipPosts + this.numberOfPosts;
@@ -109,6 +100,17 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
         error: (err) => console.log(err),
         complete: () => this.toggleLoading(),
       });
+  }
+
+  setAuthorImage(post: Post): Post {
+    const doesAuthorHaveImage = !!post.author.imagePath;
+    let fullImagePath = this.authService.getDefaultFullImagePath();
+    if (doesAuthorHaveImage) {
+      fullImagePath = this.authService.getFullImagePath(post.author.imagePath!);
+    }
+
+    post.fullImagePath = fullImagePath;
+    return post;
   }
 
   readMoreSplit(text: string) {
