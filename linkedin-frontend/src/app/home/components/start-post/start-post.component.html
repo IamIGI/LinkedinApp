@@ -1,7 +1,7 @@
 <div class="start-post">
   <div class="form">
     <div class="image">
-      <img src="../../../../assets/images/profile-image.png" alt="profile" />
+      <img *ngIf="userFullImagePath" [src]="userFullImagePath" alt="profile" />
     </div>
     <button (click)="openModal()">Zacznij publikację</button>
   </div>

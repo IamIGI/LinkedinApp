@@ -138,7 +138,12 @@
           class="avatarButton"
         >
           <div class="avatar">
-            <img alt="navIcon" src="../../assets/images/nav-profile-icon.JPG" />
+            <img
+              alt="navIcon"
+              *ngIf="userFullImagePath"
+              [src]="userFullImagePath"
+              alt="profile"
+            />
             <span class="hideDescription-avatar">
               Ja
               <mat-icon>keyboard_arrow_down</mat-icon>

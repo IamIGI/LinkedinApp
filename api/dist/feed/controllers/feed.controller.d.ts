@@ -9,4 +9,5 @@ export declare class FeedController {
     findSelected(take?: number, skip?: number): Observable<FeedPost[]>;
     updatePost(id: number, feedPost: FeedPost): Observable<UpdateResult>;
     deletePost(id: number): Observable<DeleteResult>;
+    findImageByName(fileName: string, res: any): any;
 }

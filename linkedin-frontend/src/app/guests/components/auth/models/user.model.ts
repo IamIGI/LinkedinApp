@@ -7,11 +7,12 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string | null;
+  imagePath?: string | null;
   role: Role;
   isPrivateAccount: boolean;
-  company: string | null;
-  education: string | null;
-  subscribers: number | null;
-  position: string | null;
-  posts: Post[];
+  company?: string | null;
+  education?: string | null;
+  subscribers?: number | null;
+  position?: string | null;
+  posts?: Post[];
 }

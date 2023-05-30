@@ -8,11 +8,20 @@
       src="../../../../assets/images/linkedin-wallpaper.png"
     /> -->
   </div>
-  <div class="profile-image">
-    <img alt="profile" src="../../../../assets/images/profile-image.png" />
+  <input
+    #fileUpload
+    (change)="onFileSelect($event)"
+    style="display: none"
+    type="file"
+  />
+  <div class="profile-image pointer" (click)="fileUpload.click()">
+    <div class="relative">
+      <img alt="profile" *ngIf="userFullImagePath" [src]="userFullImagePath" />
+      <mat-icon class="profile-image-change">image_search</mat-icon>
+    </div>
   </div>
   <div class="information">
-    <h1>{{ userData.firstName }} {{ userData.lastName }}</h1>
+    <h1>{{ fullName }}</h1>
     <p *ngIf="getUserJobData() !== null">{{ getUserJobData() }}</p>
   </div>
 </div>

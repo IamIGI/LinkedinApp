@@ -9,11 +9,13 @@
       <div class="image">
         <img
           alt="profile"
-          src="../../../../../assets/images/profile-image.png"
+          *ngIf="userFullImagePath"
+          [src]="userFullImagePath"
+          alt="profile"
         />
       </div>
       <div>
-        <h1>Igor Kłusek</h1>
+        <h1>{{ fullName }}</h1>
         <p>Opublikuj: Każdy</p>
       </div>
       <mat-icon>arrow_drop_down</mat-icon>

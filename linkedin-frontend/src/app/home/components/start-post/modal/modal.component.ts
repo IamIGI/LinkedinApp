@@ -1,6 +1,15 @@
-import { Component, Inject, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  Inject,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { BehaviorSubject, Subscription, take } from 'rxjs';
+import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 
 export interface CreatePost {
   content: string;
@@ -12,7 +21,7 @@ export interface CreatePost {
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.sass'],
 })
-export class ModalComponent {
+export class ModalComponent implements OnInit, OnDestroy {
   // Set the focus on the textarea as soon as it is available
   @ViewChild('PostTextArea') set bannerNoteRef(ref: ElementRef) {
     if (!!ref) {
@@ -20,14 +29,33 @@ export class ModalComponent {
     }
   }
 
+  fullName$ = new BehaviorSubject<string>(null!);
+  fullName = '';
+
+  userFullImagePath!: string;
+  private userImagePathSubscription!: Subscription;
+
   addPostForm!: FormGroup;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public passedData: any,
-    private dialogRef: MatDialogRef<ModalComponent>
+    private dialogRef: MatDialogRef<ModalComponent>,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.userImagePathSubscription =
+      this.authService.userFullImagePath.subscribe((fullImagePath: string) => {
+        this.userFullImagePath = fullImagePath;
+      });
+
+    this.authService.userFullName
+      .pipe(take(1))
+      .subscribe((fullName: string) => {
+        this.fullName = fullName;
+        this.fullName$.next(fullName);
+      });
+
     this.addPostForm = new FormGroup({
       text: new FormControl(null, [Validators.required]),
       role: new FormControl('anyone', [Validators.required]),
@@ -43,5 +71,9 @@ export class ModalComponent {
     };
     this.dialogRef.close({ body });
     this.addPostForm.reset();
+  }
+
+  ngOnDestroy(): void {
+    this.userImagePathSubscription.unsubscribe();
   }
 }

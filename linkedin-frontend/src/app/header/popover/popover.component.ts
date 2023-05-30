@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { User } from 'src/app/guests/components/auth/models/user.model';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 
@@ -9,13 +9,31 @@ import { AuthService } from 'src/app/guests/components/auth/services/auth.servic
   styleUrls: ['./popover.component.sass'],
 })
 export class PopoverComponent implements OnInit {
-  userData: User = null!;
+  userStream: User = null!;
+
+  fullName$ = new BehaviorSubject<string>(null!);
+  fullName = '';
+
+  userFullImagePath!: string;
+  private userImagePathSubscription!: Subscription;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.userData.pipe(take(1)).subscribe((user: User) => {
-      this.userData = user;
+    this.userImagePathSubscription =
+      this.authService.userFullImagePath.subscribe((fullImagePath: string) => {
+        this.userFullImagePath = fullImagePath;
+      });
+
+    this.authService.userFullName
+      .pipe(take(1))
+      .subscribe((fullName: string) => {
+        this.fullName = fullName;
+        this.fullName$.next(fullName);
+      });
+
+    this.authService.userStream.pipe(take(1)).subscribe((user: User) => {
+      this.userStream = user;
     });
   }
 
@@ -24,9 +42,13 @@ export class PopoverComponent implements OnInit {
   }
 
   getUserJobData(): string | null {
-    const position = this.userData.position;
-    const company = this.userData.company;
+    const position = this.userStream.position;
+    const company = this.userStream.company;
     if (position === null || company === null) return null;
     return `${position} w ${company}`;
+  }
+
+  ngOnDestroy(): void {
+    this.userImagePathSubscription.unsubscribe();
   }
 }
