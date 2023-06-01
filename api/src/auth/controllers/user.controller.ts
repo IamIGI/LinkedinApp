@@ -18,7 +18,7 @@ import {
 } from '../helpers/image-storage';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { join } from 'path';
-import { UpdateResult } from 'typeorm';
+var fs = require('fs');
 
 @Controller('user')
 export class UserController {
@@ -35,8 +35,9 @@ export class UserController {
 
     if (!fileName) return of({ error: 'File must be an png or jpg.jpeg' });
 
-    const imagesFolderPath = join(process.cwd(), 'images');
-    const fullImagePath = join(imagesFolderPath + '/' + file.filename);
+    const { id: userId } = req.user;
+    const imageFolderPath = join(process.cwd(), `images/users/${userId}`);
+    const fullImagePath = join(imageFolderPath + '/' + file.filename);
 
     return isFileExtensionSafe(fullImagePath).pipe(
       switchMap((isFileLegit: boolean) => {
@@ -57,13 +58,26 @@ export class UserController {
   @UseGuards(JwtGuard)
   @Get('image')
   findImage(@Request() req, @Res() res): Observable<Object> {
-    const userId = req.user.id;
+    const { id: userId } = req.user;
+    console.log(req.user);
     return this.userService.findImageNameByUserId(userId).pipe(
       switchMap((imageName: string) => {
-        return of(res.sendFile(imageName, { root: './images' }));
+        if (!imageName) {
+          return of(
+            res.sendFile('blank-profile-picture.jpg', {
+              root: './images/default',
+            }),
+          );
+        }
+        return of(
+          res.sendFile(imageName, {
+            root: `./images/users/${userId}`,
+          }),
+        );
       }),
     );
   }
+
   @UseGuards(JwtGuard)
   @Get('image-name')
   findUserImageName(@Request() req): Observable<{ imageName: string }> {

@@ -62,7 +62,10 @@ export class AuthService {
         const doesAuthorHasImage = !!user?.imagePath;
         let fullImagePath = this.getDefaultFullImagePath();
         if (doesAuthorHasImage) {
-          fullImagePath = this.getFullImagePath(user.imagePath as string);
+          fullImagePath = this.getFullImagePath(
+            user.id,
+            user.imagePath as string
+          );
         }
         return of(fullImagePath);
       })
@@ -72,11 +75,11 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   getDefaultFullImagePath(): string {
-    return `${environment.baseApiUrl}/feed/image/blank-profile-picture.jpg`;
+    return `${environment.baseApiUrl}/feed/image/null`;
   }
 
-  getFullImagePath(imageName: string): string {
-    return `${environment.baseApiUrl}/feed/image/${imageName}`;
+  getFullImagePath(userId: number, imageName: string): string {
+    return `${environment.baseApiUrl}/feed/image/${imageName}?userId=${userId}`;
   }
 
   getUserImageName(): Observable<{ imageName: string }> {

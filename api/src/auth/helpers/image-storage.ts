@@ -6,6 +6,7 @@ const FileType = require('file-type');
 
 import path = require('path');
 import { Observable, from, switchMap, of } from 'rxjs';
+import { User } from '../models/user.interface';
 
 type validFileExtension = 'png' | 'jpg' | 'jpeg';
 type validMimeType = 'image/png' | 'image/jpg' | 'image/jpeg';
@@ -17,9 +18,31 @@ const validMimeTypes: validMimeType[] = [
   'image/jpeg',
 ];
 
+async function createFolder(userId: number) {
+  const imageFolderPath = path.join(process.cwd(), `images/users/${userId}`);
+
+  if (!fs.existsSync(imageFolderPath)) {
+    await fs.mkdirSync(imageFolderPath, { recursive: true });
+  } else {
+    //readdir read files before the new file was saved, so when the deleting operation begin, the new saved file is not the target
+    await fs.readdir(imageFolderPath, async (err, files) => {
+      if (err) throw err;
+      for (const file of files) {
+        await fs.unlink(path.join(imageFolderPath, file), (err) => {
+          if (err) throw err;
+        });
+      }
+    });
+  }
+}
+
 export const saveImageToStorage = {
   storage: diskStorage({
-    destination: './images',
+    destination: async (req, file, cb) => {
+      const { id: userId } = req.user as User;
+      await createFolder(userId);
+      cb(null, `./images/users/${userId}`);
+    },
     filename: (req, file, cb) => {
       const fileExtension: string = path.extname(file.originalname);
       const fileName: string = uuidv4() + fileExtension;

@@ -64,8 +64,16 @@ export class FeedController {
   }
 
   @Get('image/:fileName')
-  findImageByName(@Param('fileName') fileName: string, @Res() res) {
-    if (!fileName || ['null', '[null]'].includes(fileName)) return;
-    return res.sendFile(fileName, { root: './images' });
+  findImageByName(
+    @Param('fileName') fileName: string,
+    @Query('userId') userId: number = 0,
+    @Res() res,
+  ) {
+    if (!fileName || userId == 0 || ['null', '[null]'].includes(fileName)) {
+      return res.sendFile('blank-profile-picture.jpg', {
+        root: './images/default',
+      });
+    }
+    return res.sendFile(fileName, { root: `./images/users/${userId}` });
   }
 }
