@@ -57,7 +57,9 @@ export class ModalComponent implements OnInit, OnDestroy {
       });
 
     this.addPostForm = new FormGroup({
-      text: new FormControl(null, [Validators.required]),
+      text: new FormControl(this.passedData.postData?.content ?? null, [
+        Validators.required,
+      ]),
       role: new FormControl('anyone', [Validators.required]),
     });
   }
