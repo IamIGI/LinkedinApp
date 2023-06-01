@@ -1,5 +1,5 @@
 <form [formGroup]="addPostForm" (ngSubmit)="onSubmit()">
-  <div class="content-container">
+  <div class="content">
     <div class="close">
       <button mat-icon-button mat-dialog-close>
         <mat-icon>close</mat-icon>
@@ -11,7 +11,6 @@
           alt="profile"
           *ngIf="userFullImagePath"
           [src]="userFullImagePath"
-          alt="profile"
         />
       </div>
       <div>

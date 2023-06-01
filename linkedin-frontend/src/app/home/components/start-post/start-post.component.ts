@@ -34,7 +34,6 @@ export class StartPostComponent implements OnInit, OnDestroy {
 
   async openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {
-      panelClass: 'modalClass',
       data: { options },
       autoFocus: false,
     });
