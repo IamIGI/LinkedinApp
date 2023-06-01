@@ -38,10 +38,13 @@ let FeedController = class FeedController {
     deletePost(id) {
         return this.feedService.deletePost(id);
     }
-    findImageByName(fileName, res) {
-        if (!fileName || ['null', '[null]'].includes(fileName))
-            return;
-        return res.sendFile(fileName, { root: './images' });
+    findImageByName(fileName, userId = 0, res) {
+        if (!fileName || userId == 0 || ['null', '[null]'].includes(fileName)) {
+            return res.sendFile('blank-profile-picture.jpg', {
+                root: './images/default',
+            });
+        }
+        return res.sendFile(fileName, { root: `./images/users/${userId}` });
     }
 };
 __decorate([
@@ -85,9 +88,10 @@ __decorate([
 __decorate([
     (0, common_1.Get)('image/:fileName'),
     __param(0, (0, common_1.Param)('fileName')),
-    __param(1, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('userId')),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, Number, Object]),
     __metadata("design:returntype", void 0)
 ], FeedController.prototype, "findImageByName", null);
 FeedController = __decorate([

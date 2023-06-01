@@ -52,7 +52,7 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
         this.allLoadedPosts.forEach((post: Post, index: number) => {
           if (user?.imagePath && post.author.id === user.id) {
             this.allLoadedPosts[index].fullImagePath =
-              this.authService.getFullImagePath(user.imagePath);
+              this.authService.getFullImagePath(user.id, user.imagePath);
           }
         });
       }
@@ -106,7 +106,10 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
     const doesAuthorHaveImage = !!post.author.imagePath;
     let fullImagePath = this.authService.getDefaultFullImagePath();
     if (doesAuthorHaveImage) {
-      fullImagePath = this.authService.getFullImagePath(post.author.imagePath!);
+      fullImagePath = this.authService.getFullImagePath(
+        post.author.id,
+        post.author.imagePath!
+      );
     }
 
     post.fullImagePath = fullImagePath;

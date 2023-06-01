@@ -16,7 +16,7 @@ export class PostService {
       .pipe(
         take(1),
         tap(({ imageName }) => {
-          const defaultFullImagePath = 'blank-profile-picture.jpg';
+          const defaultFullImagePath = 'null';
           this.authService
             .updateUserImagePath(imageName || defaultFullImagePath)
             .subscribe();
