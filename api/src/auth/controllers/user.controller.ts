@@ -18,7 +18,6 @@ import {
 } from '../helpers/image-storage';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { join } from 'path';
-var fs = require('fs');
 
 @Controller('user')
 export class UserController {
@@ -59,7 +58,6 @@ export class UserController {
   @Get('image')
   findImage(@Request() req, @Res() res): Observable<Object> {
     const { id: userId } = req.user;
-    console.log(req.user);
     return this.userService.findImageNameByUserId(userId).pipe(
       switchMap((imageName: string) => {
         if (!imageName) {
