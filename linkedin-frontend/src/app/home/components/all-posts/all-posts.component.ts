@@ -77,7 +77,6 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
     const formData = new FormData();
     formData.append('content', postBody.content);
     formData.append('file', postBody.file);
-    //dodaj plik tutja
 
     this.postService.createPost(formData).subscribe((post: Post) => {
       this.authService.userFullImagePath
