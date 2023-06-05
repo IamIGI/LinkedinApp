@@ -75,7 +75,10 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
     const postBody = changes['postBody'].currentValue?.body;
     if (!postBody) return;
 
-    this.postService.createPost(postBody.content).subscribe((post: Post) => {
+    const formData = new FormData();
+    formData.append('content', postBody.content);
+
+    this.postService.createPost(formData).subscribe((post: Post) => {
       this.authService.userFullImagePath
         .pipe(take(1))
         .subscribe((fullImagePath: string) => {

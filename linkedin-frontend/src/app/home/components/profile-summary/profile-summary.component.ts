@@ -129,6 +129,7 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
                 });
                 return of();
               }
+              console.log(formData);
               return this.authService.uploadUserImage(formData);
             })
           );

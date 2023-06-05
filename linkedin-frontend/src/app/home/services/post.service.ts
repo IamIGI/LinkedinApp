@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/Post';
 import { environment } from 'src/environments/environment.development';
-import { take, tap } from 'rxjs';
+import { map, take, tap } from 'rxjs';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 
 @Injectable({
@@ -34,10 +34,14 @@ export class PostService {
     return this.http.get<Post[]>(modifiedURL);
   }
 
-  createPost(content: string) {
-    return this.http
-      .post<Post>(this.postURL, { content }, this.httpOptions)
-      .pipe(take(1));
+  createPost(formData: FormData) {
+    return this.http.post<Post>(this.postURL, formData).pipe(
+      take(1),
+      map((result: Post) => {
+        console.log(1, result);
+        return result;
+      })
+    );
   }
 
   updatePost(postId: number, content: string) {

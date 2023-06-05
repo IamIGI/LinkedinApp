@@ -21,12 +21,26 @@ const roles_decorator_1 = require("../../auth/decorators/roles.decorator");
 const role_enum_1 = require("../../auth/models/role.enum");
 const roles_guard_1 = require("../../auth/guards/roles.guard");
 const is_creator_guard_1 = require("../guards/is-creator.guard");
+const platform_express_1 = require("@nestjs/platform-express");
+const image_storage_1 = require("../../helpers/image-storage");
+const path_1 = require("path");
 let FeedController = class FeedController {
     constructor(feedService) {
         this.feedService = feedService;
     }
-    create(post, req) {
-        return this.feedService.createPost(req.user, post);
+    create(file, content, req) {
+        return this.feedService.createPost(req.user, content);
+    }
+    createPostWithImage(file, content, req) {
+        let fullImagePath = '';
+        const { id: userId } = req.user;
+        console.log(req.user);
+        const fileName = file === null || file === void 0 ? void 0 : file.filename;
+        if (fileName) {
+            const imageFolderPath = (0, path_1.join)(process.cwd(), `images/userPosts/${userId}`);
+            fullImagePath = (0, path_1.join)(imageFolderPath + '/' + file.filename);
+        }
+        return this.feedService.createPostWithImage(req.user, content, fileName, fullImagePath);
     }
     findSelected(take = 1, skip = 1) {
         take = take > 20 ? 20 : take;
@@ -50,13 +64,27 @@ let FeedController = class FeedController {
 __decorate([
     (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM, role_enum_1.Role.USER),
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, roles_guard_1.RolesGuard),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Request)()),
+    __param(0, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", rxjs_1.Observable)
 ], FeedController.prototype, "create", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, roles_guard_1.RolesGuard),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', image_storage_1.savePostImageToStorage)),
+    (0, common_1.Post)('image'),
+    __param(0, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", rxjs_1.Observable)
+], FeedController.prototype, "createPostWithImage", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard),
     (0, common_1.Get)(),

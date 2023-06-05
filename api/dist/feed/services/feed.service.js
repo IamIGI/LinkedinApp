@@ -18,6 +18,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const post_entity_1 = require("../models/post/post.entity");
 const rxjs_1 = require("rxjs");
+const image_storage_1 = require("../../helpers/image-storage");
 let FeedService = class FeedService {
     constructor(feedPostRepository) {
         this.feedPostRepository = feedPostRepository;
@@ -28,6 +29,21 @@ let FeedService = class FeedService {
     createPost(user, feedPost) {
         feedPost.author = user;
         return (0, rxjs_1.from)(this.feedPostRepository.save(feedPost));
+    }
+    createPostWithImage(user, feedPost, imageName, fullImagePath) {
+        feedPost.author = user;
+        feedPost.imageName = imageName;
+        return (0, image_storage_1.isFileExtensionSafe)(fullImagePath).pipe((0, rxjs_1.map)((isFileLegit) => {
+            if (!isFileLegit) {
+                (0, image_storage_1.removeFile)(fullImagePath);
+                throw new common_1.HttpException('File content does not match extension', 500);
+            }
+            else {
+                return feedPost;
+            }
+        }), (0, rxjs_1.switchMap)((feedPost) => {
+            return (0, rxjs_1.from)(this.feedPostRepository.save(feedPost));
+        }));
     }
     findPosts(take = 10, skip = 0) {
         return (0, rxjs_1.from)(this.feedPostRepository

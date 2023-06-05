@@ -14,8 +14,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import {
   isFileExtensionSafe,
   removeFile,
-  saveImageToStorage,
-} from '../helpers/image-storage';
+  saveUserProfileImageToStorage,
+} from '../../helpers/image-storage';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { join } from 'path';
 
@@ -25,7 +25,7 @@ export class UserController {
 
   @UseGuards(JwtGuard)
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file', saveImageToStorage))
+  @UseInterceptors(FileInterceptor('file', saveUserProfileImageToStorage))
   uploadImage(
     @UploadedFile() file: Express.Multer.File,
     @Request() req,

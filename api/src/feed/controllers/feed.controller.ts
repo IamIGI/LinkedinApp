@@ -10,16 +10,21 @@ import {
   UseGuards,
   Request,
   Res,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { FeedService } from '../services/feed.service';
 import { FeedPost } from '../models/post/post.interface';
-import { Observable } from 'rxjs';
+import { Observable, map, of, switchMap } from 'rxjs';
 import { UpdateResult, DeleteResult } from 'typeorm';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/role.enum';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { IsCreatorGuard } from '../guards/is-creator.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { savePostImageToStorage } from 'src/helpers/image-storage';
+import { join } from 'path';
 
 @Controller('feed')
 export class FeedController {
@@ -27,9 +32,41 @@ export class FeedController {
 
   @Roles(Role.ADMIN, Role.PREMIUM, Role.USER)
   @UseGuards(JwtGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('file')) // you need this to form-data works
   @Post()
-  create(@Body() post: FeedPost, @Request() req): Observable<FeedPost> {
-    return this.feedService.createPost(req.user, post);
+  create(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() content: FeedPost,
+    @Request() req,
+  ): Observable<FeedPost> {
+    return this.feedService.createPost(req.user, content);
+  }
+
+  @Roles(Role.ADMIN, Role.PREMIUM)
+  @UseGuards(JwtGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('file', savePostImageToStorage))
+  @Post('image')
+  createPostWithImage(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() content: FeedPost,
+    @Request() req,
+  ): Observable<FeedPost> {
+    let fullImagePath = '';
+    const { id: userId } = req.user;
+    console.log(req.user);
+
+    const fileName = file?.filename;
+    if (fileName) {
+      const imageFolderPath = join(process.cwd(), `images/userPosts/${userId}`);
+      fullImagePath = join(imageFolderPath + '/' + file.filename);
+    }
+
+    return this.feedService.createPostWithImage(
+      req.user,
+      content,
+      fileName,
+      fullImagePath,
+    );
   }
 
   // @Get()
