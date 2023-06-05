@@ -6,19 +6,19 @@ const FileType = require('file-type');
 
 import path = require('path');
 import { Observable, from, switchMap, of } from 'rxjs';
-import { User } from '../models/user.interface';
+import { User } from '../auth/models/user.interface';
 
-type validFileExtension = 'png' | 'jpg' | 'jpeg';
-type validMimeType = 'image/png' | 'image/jpg' | 'image/jpeg';
+export type validFileExtension = 'png' | 'jpg' | 'jpeg';
+export type validMimeType = 'image/png' | 'image/jpg' | 'image/jpeg';
 
-const validFileExtensions: validFileExtension[] = ['png', 'jpg', 'jpeg'];
-const validMimeTypes: validMimeType[] = [
+export const validFileExtensions: validFileExtension[] = ['png', 'jpg', 'jpeg'];
+export const validMimeTypes: validMimeType[] = [
   'image/png',
   'image/jpg',
   'image/jpeg',
 ];
 
-async function createFolder(userId: number) {
+async function createUserProfileImageFolder(userId: number) {
   const imageFolderPath = path.join(process.cwd(), `images/users/${userId}`);
 
   if (!fs.existsSync(imageFolderPath)) {
@@ -36,11 +36,41 @@ async function createFolder(userId: number) {
   }
 }
 
-export const saveImageToStorage = {
+/** Allow only for one image per post */
+export async function createPostImageFolder(userId: number) {
+  const postFolderPath = path.join(process.cwd(), `images/userPosts/${userId}`);
+
+  if (!fs.existsSync(postFolderPath)) {
+    await fs.mkdirSync(postFolderPath, { recursive: true });
+  }
+}
+
+export const savePostImageToStorage = {
   storage: diskStorage({
     destination: async (req, file, cb) => {
       const { id: userId } = req.user as User;
-      await createFolder(userId);
+      await createPostImageFolder(userId);
+      cb(null, `images/userPosts/${userId}`);
+    },
+    filename: (req, file, cb) => {
+      const fileExtension: string = path.extname(file.originalname);
+      const fileName: string = uuidv4() + fileExtension;
+      cb(null, fileName);
+    },
+  }),
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes: validMimeType[] = validMimeTypes;
+    allowedMimeTypes.includes(file.mimetype as validMimeType)
+      ? cb(null, true)
+      : cb(null, false);
+  },
+};
+
+export const saveUserProfileImageToStorage = {
+  storage: diskStorage({
+    destination: async (req, file, cb) => {
+      const { id: userId } = req.user as User;
+      await createUserProfileImageFolder(userId);
       cb(null, `./images/users/${userId}`);
     },
     filename: (req, file, cb) => {
@@ -58,6 +88,7 @@ export const saveImageToStorage = {
 export const isFileExtensionSafe = (
   fullFilePath: string,
 ): Observable<boolean> => {
+  if (!fullFilePath) return of(false);
   return from(FileType.fromFile(fullFilePath)).pipe(
     switchMap(
       (fileExtensionAndMimeType: {

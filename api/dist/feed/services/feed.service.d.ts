@@ -8,6 +8,7 @@ export declare class FeedService {
     constructor(feedPostRepository: Repository<FeedPostEntity>);
     postHasBeenUpdated(feedPost: FeedPost): Date;
     createPost(user: User, feedPost: FeedPost): Observable<FeedPost>;
+    createPostWithImage(user: User, feedPost: FeedPost, imageName?: string, fullImagePath?: string): Observable<FeedPost>;
     findPosts(take?: number, skip?: number): Observable<FeedPost[]>;
     findAllPosts(): Observable<FeedPost[]>;
     updatePost(id: number, feedPost: FeedPost): Observable<UpdateResult>;

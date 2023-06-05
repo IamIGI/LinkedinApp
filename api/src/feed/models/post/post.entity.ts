@@ -5,7 +5,6 @@ import {
   Column,
   CreateDateColumn,
   ManyToOne,
-  JoinColumn,
 } from 'typeorm';
 
 @Entity('feed_post')
@@ -17,6 +16,9 @@ export class FeedPostEntity {
     eager: true,
   })
   author: UserEntity;
+
+  @Column({ default: null })
+  imageName: string;
 
   @Column()
   content: string;

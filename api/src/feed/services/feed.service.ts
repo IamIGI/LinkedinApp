@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { FeedPostEntity } from '../models/post/post.entity';
 import { FeedPost } from '../models/post/post.interface';
-import { from, Observable } from 'rxjs';
+import { from, map, Observable, switchMap } from 'rxjs';
 import { User } from 'src/auth/models/user.interface';
+import { isFileExtensionSafe, removeFile } from 'src/helpers/image-storage';
 
 @Injectable()
 export class FeedService {
@@ -22,13 +23,29 @@ export class FeedService {
     return from(this.feedPostRepository.save(feedPost));
   }
 
-  // findPosts(take: number = 10, skip: number = 0): Observable<FeedPost[]> {
-  //   return from(
-  //     this.feedPostRepository.findAndCount({ take, skip }).then(([posts]) => {
-  //       return <FeedPost[]>posts;
-  //     }),
-  //   );
-  // }
+  createPostWithImage(
+    user: User,
+    feedPost: FeedPost,
+    imageName?: string,
+    fullImagePath?: string,
+  ): Observable<FeedPost> {
+    feedPost.author = user;
+    feedPost.imageName = imageName;
+
+    return isFileExtensionSafe(fullImagePath).pipe(
+      map((isFileLegit: boolean) => {
+        if (!isFileLegit) {
+          removeFile(fullImagePath);
+          throw new HttpException('File content does not match extension', 500);
+        } else {
+          return feedPost;
+        }
+      }),
+      switchMap((feedPost: FeedPost) => {
+        return from(this.feedPostRepository.save(feedPost));
+      }),
+    );
+  }
 
   findPosts(take: number = 10, skip: number = 0): Observable<FeedPost[]> {
     return from(
