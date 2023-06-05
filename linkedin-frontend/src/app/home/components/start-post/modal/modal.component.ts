@@ -9,11 +9,13 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, Subscription, take } from 'rxjs';
+import { Role } from 'src/app/guests/components/auth/models/user.model';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 
 export interface CreatePost {
   content: string;
   role: string;
+  file?: File;
 }
 
 @Component({
@@ -29,8 +31,11 @@ export class ModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  file: File = null!;
+
   fullName$ = new BehaviorSubject<string>(null!);
   fullName = '';
+  userRole = '';
 
   userFullImagePath!: string;
   private userImagePathSubscription!: Subscription;
@@ -44,6 +49,14 @@ export class ModalComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.authService.userRole
+      .pipe(take(1))
+      .subscribe((role: Role | undefined) => {
+        if (role) {
+          this.userRole = role;
+        }
+      });
+
     this.userImagePathSubscription =
       this.authService.userFullImagePath.subscribe((fullImagePath: string) => {
         this.userFullImagePath = fullImagePath;
@@ -70,9 +83,16 @@ export class ModalComponent implements OnInit, OnDestroy {
     const body: CreatePost = {
       content: postValues.text,
       role: postValues.role,
+      file: this.file,
     };
     this.dialogRef.close({ body });
     this.addPostForm.reset();
+  }
+
+  onFileSelect(event: Event): void {
+    const newFile = ((event.target as HTMLInputElement).files as FileList)[0];
+    if (!newFile) return;
+    this.file = newFile;
   }
 
   ngOnDestroy(): void {

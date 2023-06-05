@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/guests/components/auth/services/auth.servic
 })
 export class PostService {
   postURL = `${environment.baseApiUrl}/feed`;
+  postURLwithImage = `${environment.baseApiUrl}/feed/image`;
   constructor(private http: HttpClient, private authService: AuthService) {
     this.authService
       .getUserImageName()
@@ -35,10 +36,18 @@ export class PostService {
   }
 
   createPost(formData: FormData) {
+    const postWithImage = formData.get('file') instanceof File;
+    if (postWithImage) {
+      return this.http.post<Post>(this.postURLwithImage, formData).pipe(
+        take(1),
+        map((result: Post) => {
+          return result;
+        })
+      );
+    }
     return this.http.post<Post>(this.postURL, formData).pipe(
       take(1),
       map((result: Post) => {
-        console.log(1, result);
         return result;
       })
     );

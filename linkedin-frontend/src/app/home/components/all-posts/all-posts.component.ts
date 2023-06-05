@@ -16,7 +16,6 @@ import {
 import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { options } from '../start-post/data';
 import { Role, User } from 'src/app/guests/components/auth/models/user.model';
 
 @Component({
@@ -77,6 +76,8 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
 
     const formData = new FormData();
     formData.append('content', postBody.content);
+    formData.append('file', postBody.file);
+    //dodaj plik tutja
 
     this.postService.createPost(formData).subscribe((post: Post) => {
       this.authService.userFullImagePath
@@ -154,7 +155,7 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
   async presentUpdateModal(postId: number) {
     const postData = this.allLoadedPosts.find((post) => post.id === postId);
     const dialogRef = this.dialog.open(ModalComponent, {
-      data: { options, postData },
+      data: { postData },
       autoFocus: false,
     });
 
