@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { FeedService } from '../services/feed.service';
 import { FeedPost } from '../models/post/post.interface';
-import { Observable, map, of, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UpdateResult, DeleteResult } from 'typeorm';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
@@ -23,8 +23,8 @@ import { Role } from 'src/auth/models/role.enum';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { IsCreatorGuard } from '../guards/is-creator.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { savePostImageToStorage } from 'src/helpers/image-storage';
 import { join } from 'path';
+import { savePostImageToStorage } from 'src/helpers/image-storage';
 
 @Controller('feed')
 export class FeedController {
@@ -53,7 +53,6 @@ export class FeedController {
   ): Observable<FeedPost> {
     let fullImagePath = '';
     const { id: userId } = req.user;
-    console.log(req.user);
 
     const fileName = file?.filename;
     if (fileName) {

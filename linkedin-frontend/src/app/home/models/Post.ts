@@ -10,4 +10,5 @@ export interface Post {
   shared?: number;
   createdAt: Date;
   updatedAt: Date;
+  imageName?: string;
 }

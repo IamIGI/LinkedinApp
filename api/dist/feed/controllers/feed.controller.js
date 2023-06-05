@@ -22,8 +22,8 @@ const role_enum_1 = require("../../auth/models/role.enum");
 const roles_guard_1 = require("../../auth/guards/roles.guard");
 const is_creator_guard_1 = require("../guards/is-creator.guard");
 const platform_express_1 = require("@nestjs/platform-express");
-const image_storage_1 = require("../../helpers/image-storage");
 const path_1 = require("path");
+const image_storage_1 = require("../../helpers/image-storage");
 let FeedController = class FeedController {
     constructor(feedService) {
         this.feedService = feedService;
@@ -34,7 +34,6 @@ let FeedController = class FeedController {
     createPostWithImage(file, content, req) {
         let fullImagePath = '';
         const { id: userId } = req.user;
-        console.log(req.user);
         const fileName = file === null || file === void 0 ? void 0 : file.filename;
         if (fileName) {
             const imageFolderPath = (0, path_1.join)(process.cwd(), `images/userPosts/${userId}`);

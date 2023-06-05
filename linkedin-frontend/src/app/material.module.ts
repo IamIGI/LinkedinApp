@@ -20,9 +20,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   exports: [
+    MatTooltipModule,
     MatBadgeModule,
     MatDatepickerModule,
     MatButtonModule,
@@ -46,6 +48,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatMenuModule,
   ],
   imports: [
+    MatTooltipModule,
     MatBadgeModule,
     MatDatepickerModule,
     MatButtonModule,

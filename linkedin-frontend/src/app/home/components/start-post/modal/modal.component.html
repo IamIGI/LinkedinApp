@@ -31,17 +31,57 @@
     </div>
     <div class="assignment">
       <button
-        *ngFor="let button of passedData.options"
+        type="button"
         mat-fab
-        aria-label="Example icon button with a menu icon"
-        [ngStyle]="{ 'background-color': button.color }"
+        matTooltip="Zdjęcie"
+        (click)="fileUpload.click()"
+        [ngStyle]="
+          userRole === 'user'
+            ? { 'background-color': '#86888a' }
+            : { 'background-color': '#378fe9' }
+        "
+        [disabled]="userRole === 'user'"
       >
-        <mat-icon>{{ button.icon }}</mat-icon>
+        <mat-icon>photo_camera</mat-icon>
+      </button>
+      <button
+        type="button"
+        mat-fab
+        matTooltip="Wideo (w implementacji)"
+        [ngStyle]="{ 'background-color': '#5f9b41' }"
+      >
+        <mat-icon>smart_display</mat-icon>
+      </button>
+      <button
+        type="button"
+        mat-fab
+        matTooltip="Wydarzenie (w implementacji)"
+        [ngStyle]="{ 'background-color': '#c37d16' }"
+      >
+        <mat-icon>event_note</mat-icon>
+      </button>
+      <button
+        type="button"
+        mat-fab
+        matTooltip="Napisz artykuł (w implementacji)"
+        [ngStyle]="{ 'background-color': '#e16745' }"
+      >
+        <mat-icon>edit_note</mat-icon>
       </button>
     </div>
+    <input
+      #fileUpload
+      (change)="onFileSelect($event)"
+      style="display: none"
+      type="file"
+    />
   </div>
   <div class="content-finish">
-    <button mat-icon-button aria-label="Example icon button with a menu icon">
+    <button
+      type="button"
+      mat-icon-button
+      aria-label="Example icon button with a menu icon"
+    >
       <mat-icon>access_time</mat-icon>
     </button>
 
