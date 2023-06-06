@@ -50,7 +50,7 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
       (user: User) => {
         this.allLoadedPosts.forEach((post: Post, index: number) => {
           if (user?.imagePath && post.author.id === user.id) {
-            this.allLoadedPosts[index].fullImagePath =
+            this.allLoadedPosts[index].authorFullImagePath =
               this.authService.getFullImagePath(user.id, user.imagePath);
           }
         });
@@ -82,7 +82,7 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
       this.authService.userFullImagePath
         .pipe(take(1))
         .subscribe((fullImagePath: string) => {
-          post.fullImagePath = fullImagePath;
+          post.authorFullImagePath = fullImagePath;
           this.allLoadedPosts.unshift(post);
         });
     });
@@ -94,7 +94,8 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
       this.postService.getSelectedPost(this.queryParams).subscribe({
         next: (posts: Post[]) => {
           for (let i = 0; i < posts.length; i++) {
-            const post = this.setAuthorImage(posts[i]);
+            let post = this.setAuthorImage(posts[i]);
+            post = this.setPostImage(posts[i]);
             this.allLoadedPosts.push(post);
             this.readMore.push(false);
           }
@@ -111,11 +112,21 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
     if (doesAuthorHaveImage) {
       fullImagePath = this.authService.getFullImagePath(
         post.author.id,
-        post.author.imagePath!
+        post.author.imagePath as string
       );
     }
 
-    post.fullImagePath = fullImagePath;
+    post.authorFullImagePath = fullImagePath;
+    return post;
+  }
+
+  setPostImage(post: Post): Post {
+    const doesPostHaveImage = !!post.imageName;
+    if (!doesPostHaveImage) return post;
+    post.fullImagePath = this.postService.getPostImageName(
+      post.author.id,
+      post.imageName as string
+    );
     return post;
   }
 

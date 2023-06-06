@@ -51,13 +51,19 @@ let FeedController = class FeedController {
     deletePost(id) {
         return this.feedService.deletePost(id);
     }
-    findImageByName(fileName, userId = 0, res) {
+    findUserImageByName(fileName, userId = 0, res) {
         if (!fileName || userId == 0 || ['null', '[null]'].includes(fileName)) {
             return res.sendFile('blank-profile-picture.jpg', {
                 root: './images/default',
             });
         }
         return res.sendFile(fileName, { root: `./images/users/${userId}` });
+    }
+    findPostImageByName(fileName, userId = 0, res) {
+        if (!fileName || userId == 0 || ['null', '[null]'].includes(fileName)) {
+            throw new common_1.HttpException('Given Post do not have image', 500);
+        }
+        return res.sendFile(fileName, { root: `./images/userPosts/${userId}` });
     }
 };
 __decorate([
@@ -113,14 +119,23 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], FeedController.prototype, "deletePost", null);
 __decorate([
-    (0, common_1.Get)('image/:fileName'),
+    (0, common_1.Get)('user/image/:fileName'),
     __param(0, (0, common_1.Param)('fileName')),
     __param(1, (0, common_1.Query)('userId')),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Number, Object]),
     __metadata("design:returntype", void 0)
-], FeedController.prototype, "findImageByName", null);
+], FeedController.prototype, "findUserImageByName", null);
+__decorate([
+    (0, common_1.Get)('post/image/:fileName'),
+    __param(0, (0, common_1.Param)('fileName')),
+    __param(1, (0, common_1.Query)('userId')),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number, Object]),
+    __metadata("design:returntype", void 0)
+], FeedController.prototype, "findPostImageByName", null);
 FeedController = __decorate([
     (0, common_1.Controller)('feed'),
     __metadata("design:paramtypes", [feed_service_1.FeedService])

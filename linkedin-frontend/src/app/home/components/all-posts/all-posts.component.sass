@@ -17,6 +17,7 @@
   justify-content: space-between
   gap: 15px
   width: 100%
+  margin-bottom: 10px
 
   .image
     @include i.inElement-profile-image(60px)
@@ -49,7 +50,17 @@
     button:nth-child(2)
       color: i.$color-danger
 
+.post-image
+  height: 100%
+  width: 100%
 
+  img 
+    border-radius: 20px
+    display: block
+    margin-left: auto
+    margin-right: auto
+    max-height: 400px
+    max-width: 590px
 
 .text
   position: relative
@@ -120,9 +131,44 @@
 .hideOnNormalView
   display: none
 
+@media screen and (max-width: 1650px) 
+  .post-image
+    img 
+      max-width: 500px
+
+@media screen and (max-width: 1330px) 
+  .post-image
+    img 
+      max-width: 450px
+
+@media screen and (max-width: 1060px) 
+  .post-image
+    img 
+      max-width: 700px
+
+@media screen and (max-width: 950px) 
+  .post-image
+    img 
+      max-width: 550px
+
+
+@media screen and (max-width: 870px) 
+  .post-image
+    img 
+      max-width: 450px
+
+@media screen and (max-width: 550px) 
+  .post-image
+    img 
+      max-width: 380px
+
 @media screen and (max-width: 500px )
   .hideOnMobileView
     display: none
 
   .hideOnNormalView
     display: flex
+
+  .post-image
+    img 
+      max-width: 350px
