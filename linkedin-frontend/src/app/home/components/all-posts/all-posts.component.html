@@ -10,7 +10,7 @@
     <div class="author">
       <div class="information">
         <div class="image">
-          <img [src]="post.fullImagePath" alt="profile" />
+          <img [src]="post.authorFullImagePath" alt="profile" />
         </div>
         <div>
           <h1>{{ getAuthorName(post) }}</h1>
@@ -56,6 +56,9 @@
       <button mat-mini-fab class="hideOnNormalView" color="primary">
         <mat-icon>add</mat-icon>
       </button>
+    </div>
+    <div *ngIf="post.fullImagePath" class="post-image">
+      <img alt="post" [src]="post.fullImagePath" />
     </div>
     <div class="text">
       <p>

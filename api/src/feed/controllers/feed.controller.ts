@@ -12,6 +12,7 @@ import {
   Res,
   UseInterceptors,
   UploadedFile,
+  HttpException,
 } from '@nestjs/common';
 import { FeedService } from '../services/feed.service';
 import { FeedPost } from '../models/post/post.interface';
@@ -99,8 +100,8 @@ export class FeedController {
     return this.feedService.deletePost(id);
   }
 
-  @Get('image/:fileName')
-  findImageByName(
+  @Get('user/image/:fileName')
+  findUserImageByName(
     @Param('fileName') fileName: string,
     @Query('userId') userId: number = 0,
     @Res() res,
@@ -111,5 +112,17 @@ export class FeedController {
       });
     }
     return res.sendFile(fileName, { root: `./images/users/${userId}` });
+  }
+
+  @Get('post/image/:fileName')
+  findPostImageByName(
+    @Param('fileName') fileName: string,
+    @Query('userId') userId: number = 0,
+    @Res() res,
+  ) {
+    if (!fileName || userId == 0 || ['null', '[null]'].includes(fileName)) {
+      throw new HttpException('Given Post do not have image', 500);
+    }
+    return res.sendFile(fileName, { root: `./images/userPosts/${userId}` });
   }
 }

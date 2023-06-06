@@ -30,6 +30,10 @@ export class PostService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
+  getPostImageName(userId: number, imageName: string): string {
+    return `${environment.baseApiUrl}/feed/post/image/${imageName}?userId=${userId}`;
+  }
+
   getSelectedPost(params: any) {
     const modifiedURL = `${this.postURL}/${params}`;
     return this.http.get<Post[]>(modifiedURL);

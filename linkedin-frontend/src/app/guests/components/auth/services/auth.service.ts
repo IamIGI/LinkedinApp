@@ -75,11 +75,11 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   getDefaultFullImagePath(): string {
-    return `${environment.baseApiUrl}/feed/image/null`;
+    return `${environment.baseApiUrl}/feed/user/image/null`;
   }
 
   getFullImagePath(userId: number, imageName: string): string {
-    return `${environment.baseApiUrl}/feed/image/${imageName}?userId=${userId}`;
+    return `${environment.baseApiUrl}/feed/user/image/${imageName}?userId=${userId}`;
   }
 
   getUserImageName(): Observable<{ imageName: string }> {
