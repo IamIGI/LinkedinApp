@@ -69,7 +69,6 @@ export class PostService {
   setPostBody(body: CreatePost) {
     this.postBody.content = body?.content;
     this.postBody.role = body?.role;
-    console.log(this.postBody);
   }
 
   clearPostBody() {
