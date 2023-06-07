@@ -15,8 +15,10 @@ import {
 } from '../start-post/modal/modal.component';
 import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Role, User } from 'src/app/guests/components/auth/models/user.model';
+import { ProgressSpinnerDialogComponent } from 'src/app/progress-spinner-dialog/progress-spinner-dialog.component';
+import { NoopScrollStrategy } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-all-posts',
@@ -30,6 +32,7 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
 
   options = data;
   isLoading = false;
+  loadingNewPost = false;
   queryParams!: string;
   allLoadedPosts: Post[] = [];
   numberOfPosts = 5;
@@ -78,13 +81,43 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
     formData.append('content', postBody.content);
     formData.append('file', postBody.file);
 
-    this.postService.createPost(formData).subscribe((post: Post) => {
-      this.authService.userFullImagePath
-        .pipe(take(1))
-        .subscribe((fullImagePath: string) => {
-          post.authorFullImagePath = fullImagePath;
-          this.allLoadedPosts.unshift(post);
+    let loadingModalRef: MatDialogRef<ProgressSpinnerDialogComponent> =
+      this.dialog.open(ProgressSpinnerDialogComponent, {
+        panelClass: 'transparent',
+        // hasBackdrop: false,
+        disableClose: true,
+        scrollStrategy: new NoopScrollStrategy(),
+      });
+
+    this.postService.createPost(formData).subscribe({
+      next: (post: Post) => {
+        this.authService.userFullImagePath
+          .pipe(take(1))
+          .subscribe((fullImagePath: string) => {
+            post.authorFullImagePath = fullImagePath;
+            this.allLoadedPosts.unshift(post);
+          });
+
+        this.authService.userFullImagePath.pipe(take(1)).subscribe({
+          next: (fullImagePath: string) => {
+            post.authorFullImagePath = fullImagePath;
+            if (post.imageName) {
+              post = this.setPostImage(post);
+            }
+          },
+          complete: () => {},
+          error: (err) => {
+            console.log(err);
+          },
         });
+      },
+      complete: () => {
+        loadingModalRef.close();
+      },
+      error: (err) => {
+        console.log(err);
+        loadingModalRef.close();
+      },
     });
   }
 
@@ -164,12 +197,12 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
 
   async presentUpdateModal(postId: number) {
     const postData = this.allLoadedPosts.find((post) => post.id === postId);
-    const dialogRef = this.dialog.open(ModalComponent, {
+    const modalDialogRef = this.dialog.open(ModalComponent, {
       data: { postData },
       autoFocus: false,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    modalDialogRef.afterClosed().subscribe((result) => {
       this.postService.updatePost(postId, result.body.content).subscribe(() => {
         const postIndex = this.allLoadedPosts.findIndex(
           (post: Post) => post.id === postId

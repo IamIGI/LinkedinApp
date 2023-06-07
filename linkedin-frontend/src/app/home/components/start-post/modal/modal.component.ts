@@ -5,6 +5,7 @@ import {
   ElementRef,
   OnInit,
   OnDestroy,
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -22,6 +23,7 @@ export interface CreatePost {
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.sass'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ModalComponent implements OnInit, OnDestroy {
   // Set the focus on the textarea as soon as it is available

@@ -37,3 +37,16 @@ body
 
 .wholePage-container
 	width: 100%
+
+.transparent
+	mat-dialog-container 
+		background-color: transparent
+		box-shadow: none !important
+
+//fix for moving scroll when opening dialogs
+.cdk-global-scrollblock
+	position: static !important
+	width: initial !important
+	overflow-y: inherit !important
+
+
