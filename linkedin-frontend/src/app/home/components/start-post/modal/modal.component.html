@@ -33,7 +33,8 @@
       <button
         type="button"
         mat-fab
-        matTooltip="Zdjęcie"
+        #matTooltip="matTooltip"
+        [matTooltip]="postImageTooltipMessage"
         (click)="fileUpload.click()"
         [ngStyle]="
           userRole === 'user'
@@ -77,6 +78,13 @@
     />
   </div>
   <div class="content-finish">
+    <mat-icon
+      matTooltip="Zdjęcie dodano"
+      [ngStyle]="{ color: 'green' }"
+      *ngIf="postImageAdded"
+      >add_photo_alternate</mat-icon
+    >
+
     <button
       type="button"
       mat-icon-button

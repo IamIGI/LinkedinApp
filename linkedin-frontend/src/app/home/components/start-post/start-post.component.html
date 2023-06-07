@@ -6,9 +6,33 @@
     <button (click)="openModal()">Zacznij publikację</button>
   </div>
   <div class="options">
-    <div *ngFor="let option of options; index as i" class="option">
-      <mat-icon [ngStyle]="{ color: option.color }">{{ option.icon }}</mat-icon>
-      <p>{{ option.text }}</p>
+    <div
+      class="option"
+      #matTooltip="matTooltip"
+      (click)="fileUpload.click()"
+      [matTooltipDisabled]="!postImageAdded"
+      matTooltip="Zdjecie dodane"
+    >
+      <mat-icon [ngStyle]="{ color: '#378fe9' }">photo_camera</mat-icon>
+      <p>Zdjęcie</p>
     </div>
+    <div class="option">
+      <mat-icon [ngStyle]="{ color: '#5f9b41' }">smart_display</mat-icon>
+      <p>Wideo</p>
+    </div>
+    <div class="option">
+      <mat-icon [ngStyle]="{ color: '#c37d16' }">event_note</mat-icon>
+      <p>Wydarzenia</p>
+    </div>
+    <div class="option">
+      <mat-icon [ngStyle]="{ color: '#e16745' }">edit_note</mat-icon>
+      <p>Napisz artykuł</p>
+    </div>
+    <input
+      #fileUpload
+      (change)="onFileSelect($event)"
+      style="display: none"
+      type="file"
+    />
   </div>
 </div>

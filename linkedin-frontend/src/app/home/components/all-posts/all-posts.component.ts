@@ -74,12 +74,10 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    //do not get values from there, just check is everything okay
+    // and trigger the process of adding post
     const postBody = changes['postBody'].currentValue?.body;
     if (!postBody) return;
-
-    const formData = new FormData();
-    formData.append('content', postBody.content);
-    formData.append('file', postBody.file);
 
     let loadingModalRef: MatDialogRef<ProgressSpinnerDialogComponent> =
       this.dialog.open(ProgressSpinnerDialogComponent, {
@@ -89,21 +87,15 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
         scrollStrategy: new NoopScrollStrategy(),
       });
 
-    this.postService.createPost(formData).subscribe({
+    this.postService.createPost().subscribe({
       next: (post: Post) => {
-        this.authService.userFullImagePath
-          .pipe(take(1))
-          .subscribe((fullImagePath: string) => {
-            post.authorFullImagePath = fullImagePath;
-            this.allLoadedPosts.unshift(post);
-          });
-
         this.authService.userFullImagePath.pipe(take(1)).subscribe({
           next: (fullImagePath: string) => {
             post.authorFullImagePath = fullImagePath;
             if (post.imageName) {
               post = this.setPostImage(post);
             }
+            this.allLoadedPosts.unshift(post);
           },
           complete: () => {},
           error: (err) => {
@@ -112,7 +104,10 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
         });
       },
       complete: () => {
-        loadingModalRef.close();
+        //time needed for image to render on page
+        setTimeout(() => {
+          loadingModalRef.close();
+        }, 200);
       },
       error: (err) => {
         console.log(err);
