@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from './guests/components/auth/services/auth-interceptor.service';
+import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progress-spinner-dialog.component';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { AuthInterceptorService } from './guests/components/auth/services/auth-i
     WorkComponent,
     MessagesComponent,
     NotificationsComponent,
+    ProgressSpinnerDialogComponent,
   ],
   providers: [
     {
