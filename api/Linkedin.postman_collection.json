@@ -7,108 +7,436 @@
 	},
 	"item": [
 		{
-			"name": "Create post",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"body\": \"This is a body\" \r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Igor3Company\",\r\n    \"email\": \"igor3@gmail.com\",\r\n    \"password\": \"password\",\r\n    \"isPrivateAccount\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/auth/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"premium@gmail.com\",\r\n    \"password\": \"Premium123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Create post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/feed",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"feed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create post with Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "👉 However, #Python may not be the best choice for some web #development projects, particularly those that require the highest performance or low memory consumption. Follow the link to learn more about pros and cons of using python for web development in business.",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/i.kłusek/Desktop/agh/Psychologia/zdjecia/hp.jpg",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/feed/image",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"feed",
+								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Select Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/feed?take=20&skip=0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"feed"
+							],
+							"query": [
+								{
+									"key": "take",
+									"value": "20"
+								},
+								{
+									"key": "skip",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"content\": \"Updated by admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/feed/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"feed",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "109"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/feed/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"feed",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "93"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get  profile image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/feed/user/image/:fileName?&userId=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"feed",
+								"user",
+								"image",
+								":fileName"
+							],
+							"query": [
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "userId",
+									"value": ""
+								},
+								{
+									"key": "dwa",
+									"value": "",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "fileName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get  post image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/feed/post/image/:fileName?&userId=0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"feed",
+								"post",
+								"image",
+								":fileName"
+							],
+							"query": [
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "userId",
+									"value": "0"
+								},
+								{
+									"key": "dwa",
+									"value": "",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "fileName",
+									"value": "3c0a7dab-579b-4309-ab5f-6b3a20444090.jpg"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5LCJmaXJzdE5hbWUiOiJVc2VyIiwibGFzdE5hbWUiOiJQb3R0ZXIiLCJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwiaW1hZ2VQYXRoIjoiNzllY2ExZmYtZDAzNi00NTZmLTk5NjgtZmFjZGRhMDMyYzc5LmpwZyIsInJvbGUiOiJ1c2VyIiwiY29tcGFueSI6IkVkaWZpZXIiLCJwb3NpdGlvbiI6IkFuZ3VsYXIgRGV2ZWxvcGVyIiwiZWR1Y2F0aW9uIjpudWxsLCJzdWJzY3JpYmVycyI6bnVsbCwiaXNQcml2YXRlQWNjb3VudCI6dHJ1ZX0sImlhdCI6MTY4NjAwMDIyMiwiZXhwIjoxNjg2MDAzODIyfQ.fHn65G7Myu8eF9rH-2yVL7M-7pqU3GWS-hpwc2WvFjQ",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
 					}
 				},
-				"url": {
-					"raw": "{{url}}/api/feed",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"feed"
-					]
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Find All posts",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{url}}/api/feed",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"feed"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update Post",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n   \"body\": \"This is an updated body1235!\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "User",
+			"item": [
+				{
+					"name": "Upload profile image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/i.kłusek/Desktop/agh/Psychologia/zdjecia/hp.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/user/upload",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"upload"
+							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get profile image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/image",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get profile image-name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/image-name",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"image-name"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5LCJmaXJzdE5hbWUiOiJVc2VyIiwibGFzdE5hbWUiOiJQb3R0ZXIiLCJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwiaW1hZ2VQYXRoIjoiNzllY2ExZmYtZDAzNi00NTZmLTk5NjgtZmFjZGRhMDMyYzc5LmpwZyIsInJvbGUiOiJ1c2VyIiwiY29tcGFueSI6IkVkaWZpZXIiLCJwb3NpdGlvbiI6IkFuZ3VsYXIgRGV2ZWxvcGVyIiwiZWR1Y2F0aW9uIjpudWxsLCJzdWJzY3JpYmVycyI6bnVsbCwiaXNQcml2YXRlQWNjb3VudCI6dHJ1ZX0sImlhdCI6MTY4NjAwMDIyMiwiZXhwIjoxNjg2MDAzODIyfQ.fHn65G7Myu8eF9rH-2yVL7M-7pqU3GWS-hpwc2WvFjQ",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
 					}
 				},
-				"url": {
-					"raw": "{{url}}/api/feed/:id",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"feed",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "1"
-						}
-					]
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete post",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{url}}/api/feed/:id",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"api",
-						"feed",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "2"
-						}
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	],
 	"event": [
