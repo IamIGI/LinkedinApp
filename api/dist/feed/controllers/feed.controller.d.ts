@@ -10,6 +10,10 @@ export declare class FeedController {
     createPostWithImage(file: Express.Multer.File, content: FeedPost, req: any): Observable<FeedPost>;
     findSelected(take?: number, skip?: number): Observable<FeedPost[]>;
     updatePost(id: number, feedPost: FeedPost): Observable<UpdateResult>;
+    updateImagePost(file: Express.Multer.File, id: number): Observable<{
+        newFilename?: string;
+        error?: string;
+    }>;
     deletePost(id: number): Observable<DeleteResult>;
     findUserImageByName(fileName: string, userId: number, res: any): any;
     findPostImageByName(fileName: string, userId: number, res: any): any;

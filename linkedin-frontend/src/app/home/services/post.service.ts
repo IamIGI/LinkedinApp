@@ -2,15 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/Post';
 import { environment } from 'src/environments/environment.development';
-import {
-  BehaviorSubject,
-  map,
-  take,
-  tap,
-  Observable,
-  of,
-  switchMap,
-} from 'rxjs';
+import { BehaviorSubject, map, take, tap, Observable } from 'rxjs';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 import { CreatePost } from '../components/start-post/modal/modal.component';
 
@@ -81,14 +73,14 @@ export class PostService {
   }
 
   createPost() {
-    let formValues = new FormData();
-    formValues.append('content', this.postBody.content);
-    formValues.append('file', this.postBody.file as File);
+    let formData = new FormData();
+    formData.append('content', this.postBody.content);
+    formData.append('file', this.postBody.file as File);
     //In future add there roles
 
-    const postWithImage = formValues.get('file') instanceof File;
+    const postWithImage = formData.get('file') instanceof File;
     if (postWithImage) {
-      return this.http.post<Post>(this.postURLwithImage, formValues).pipe(
+      return this.http.post<Post>(this.postURLwithImage, formData).pipe(
         take(1),
         map((result: Post) => {
           this.clearPostBody();
@@ -96,13 +88,23 @@ export class PostService {
         })
       );
     }
-    return this.http.post<Post>(this.postURL, formValues).pipe(
+    return this.http.post<Post>(this.postURL, formData).pipe(
       take(1),
       map((result: Post) => {
         this.clearPostBody();
         return result;
       })
     );
+  }
+
+  updatePostImage(postId: number, file: File) {
+    let formData = new FormData();
+    formData.append('file', file);
+
+    const modifiedURL = `${this.postURL}/image/${postId}`;
+    console.log(file);
+    console.log(modifiedURL);
+    return this.http.put(modifiedURL, formData).pipe(take(1));
   }
 
   updatePost(postId: number, content: string) {

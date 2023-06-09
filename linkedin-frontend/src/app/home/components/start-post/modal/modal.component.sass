@@ -47,10 +47,31 @@ $content-width: 700px
   .image
     @include i.inElement-profile-image(50px)
 
+.editZone
+  width: 100%
+  @include i.flex-ColumnStartCenter
+  gap: 10px
+  max-height: 400px
+  overflow-y: auto
+
+
 .close
   position: absolute
   right: 10px
   top: 10px
+
+.post-image
+  height: 100%
+  width: 100%
+
+  img 
+    border-radius: 20px
+    display: block
+    margin-left: auto
+    margin-right: auto
+    max-height: 400px
+    max-width: 590px
+
 
 .text
   width: 100%
@@ -74,6 +95,88 @@ $content-width: 700px
   @include i.flex-RowStartCenter
   gap: 15px
   width: 100%
+
+@media screen and (max-width: 1650px) 
+  .post-image
+    img 
+      max-width: 550px
+
+@media screen and (max-width: 1590px) 
+  .post-image
+    img 
+      max-width: 500px
+
+@media screen and (max-width: 1500px) 
+  .post-image
+    img 
+      max-width: 600px
+
+@media screen and (max-width: 1450px) 
+  .post-image
+    img 
+      max-width: 550px
+
+@media screen and (max-width: 1400px) 
+  .post-image
+    img 
+      max-width: 500px
+
+@media screen and (max-width: 1330px) 
+  .post-image
+    img 
+      max-width: 470px
+
+@media screen and (max-width: 1300px) 
+  .post-image
+    img 
+      max-width: 450px
+
+@media screen and (max-width: 1250px) 
+  .post-image
+    img 
+      max-width: 500px
+
+@media screen and (max-width: 1180px) 
+  .post-image
+    img 
+      max-width: 470px
+
+@media screen and (max-width: 1150px) 
+  .post-image
+    img 
+      max-width: 500px
+
+@media screen and (max-width: 1100px) 
+  .post-image
+    img 
+      max-width: 460px
+
+
+@media screen and (max-width: 1060px) 
+  .post-image
+    img 
+      max-width: 700px
+
+@media screen and (max-width: 1000px) 
+  .post-image
+    img 
+      max-width: 630px
+
+@media screen and (max-width: 950px) 
+  .post-image
+    img 
+      max-width: 550px
+
+
+@media screen and (max-width: 870px) 
+  .post-image
+    img 
+      max-width: 450px
+
+@media screen and (max-width: 550px) 
+  .post-image
+    img 
+      max-width: 380px
 
 
 @media screen and (max-width: 1000px) 
@@ -100,6 +203,10 @@ $content-width: 700px
 
   .content-finish
     width: $content-width
+
+  .post-image
+    img 
+      max-width: 350px
 
 @media screen and (max-width: 450px) 
   $content-width: 300px

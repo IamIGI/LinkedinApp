@@ -67,6 +67,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 
     this.userImagePathSubscription =
       this.authService.userFullImagePath.subscribe((fullImagePath: string) => {
+        console.log(fullImagePath);
         this.userFullImagePath = fullImagePath;
       });
 
@@ -88,6 +89,8 @@ export class ModalComponent implements OnInit, OnDestroy {
       this.postImageAdded = result;
       if (result) this.addedImageTooltip();
     });
+
+    console.log(this.passedData);
   }
 
   onSubmit() {
@@ -98,6 +101,7 @@ export class ModalComponent implements OnInit, OnDestroy {
       role: postValues.role,
       file: this.file,
     };
+    console.log(body);
     this.postService.setPostBody(body);
     this.dialogRef.close({ body });
     this.addPostForm.reset();
@@ -107,6 +111,26 @@ export class ModalComponent implements OnInit, OnDestroy {
     const newFile = ((event.target as HTMLInputElement).files as FileList)[0];
     if (!newFile) return;
     this.file = newFile;
+    if (this.passedData.editMode) {
+      this.postService
+        .updatePostImage(this.passedData.postData.id, newFile)
+        .subscribe({
+          next: (result: { newFilename?: string; error?: string }) => {
+            this.passedData.postData.imageName = result.newFilename;
+            this.passedData.postData.fullImagePath = `http://localhost:3000/api/feed/post/image/${result.newFilename}/?userId=${this.passedData.postData.author.id}`;
+
+            console.log(result);
+            console.log(this.passedData.postData);
+          },
+          error: (err: { newFilename?: string; error?: string }) => {
+            console.log(console.log(err));
+          },
+          complete: () => {
+            console.log('complete');
+          },
+        });
+      // this.passedData.postData.imageName
+    }
     this.postService.setPostImage(newFile);
   }
 

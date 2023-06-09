@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { FeedService } from '../services/feed.service';
 import { FeedPost } from '../models/post/post.interface';
-import { Observable } from 'rxjs';
+import { Observable, map, of, take } from 'rxjs';
 import { UpdateResult, DeleteResult } from 'typeorm';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
@@ -25,7 +25,11 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { IsCreatorGuard } from '../guards/is-creator.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { join } from 'path';
-import { savePostImageToStorage } from 'src/helpers/image-storage';
+import {
+  deletePostImage,
+  savePostImageToStorage,
+} from 'src/helpers/image-storage';
+import { FeedPostEntity } from '../models/post/post.entity';
 
 @Controller('feed')
 export class FeedController {
@@ -36,7 +40,7 @@ export class FeedController {
   @UseInterceptors(FileInterceptor('file')) // you need this to form-data works
   @Post()
   create(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file: Express.Multer.File, // you need this to form-data works
     @Body() content: FeedPost,
     @Request() req,
   ): Observable<FeedPost> {
@@ -83,6 +87,7 @@ export class FeedController {
     take = take > 20 ? 20 : take;
     return this.feedService.findPosts(take, skip);
   }
+
   @Roles(Role.ADMIN, Role.PREMIUM)
   @UseGuards(JwtGuard, IsCreatorGuard)
   @Put(':id')
@@ -91,6 +96,30 @@ export class FeedController {
     @Body() feedPost: FeedPost,
   ): Observable<UpdateResult> {
     return this.feedService.updatePost(id, feedPost);
+  }
+
+  @Roles(Role.ADMIN, Role.PREMIUM)
+  @UseGuards(JwtGuard, IsCreatorGuard)
+  @UseInterceptors(FileInterceptor('file', savePostImageToStorage))
+  @Put('image/:id')
+  updateImagePost(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('id') id: number,
+  ): Observable<{ newFilename?: string; error?: string }> {
+    console.log('Update image begin');
+    this.feedService.findPostById(id).subscribe((result: FeedPost) => {
+      deletePostImage(result.author.id, result.imageName);
+    });
+    const updatedPost = { imageName: file.filename };
+    console.log(id, file);
+    return this.feedService.updatePost(id, updatedPost as FeedPost).pipe(
+      take(1),
+      map((result: UpdateResult) => {
+        console.log(result.affected > 0);
+        if (result.affected > 0) return { newFilename: file.filename };
+        return { error: 'Image update failure' };
+      }),
+    );
   }
 
   @Roles(Role.ADMIN, Role.PREMIUM, Role.USER)

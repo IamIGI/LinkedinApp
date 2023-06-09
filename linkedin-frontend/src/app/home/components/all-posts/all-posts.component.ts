@@ -193,7 +193,7 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
   async presentUpdateModal(postId: number) {
     const postData = this.allLoadedPosts.find((post) => post.id === postId);
     const modalDialogRef = this.dialog.open(ModalComponent, {
-      data: { postData },
+      data: { postData, editMode: true },
       autoFocus: false,
     });
 
