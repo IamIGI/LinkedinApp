@@ -18,6 +18,19 @@ export const validMimeTypes: validMimeType[] = [
   'image/jpeg',
 ];
 
+export async function deletePostImage(userId: number, imageName: string) {
+  const imagePath = path.join(
+    process.cwd(),
+    `images/userPosts/${userId}/${imageName}`,
+  );
+  if (fs.existsSync(imagePath)) {
+    fs.unlink(imagePath, (err: any) => {
+      if (err) throw err;
+    });
+    console.log('Image deleted');
+  }
+}
+
 async function createUserProfileImageFolder(userId: number) {
   const imageFolderPath = path.join(process.cwd(), `images/users/${userId}`);
 

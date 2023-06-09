@@ -19,15 +19,19 @@
       </div>
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
-
-    <div class="text">
-      <textarea
-        #PostTextArea
-        name="text"
-        id="text"
-        formControlName="text"
-        placeholder="O czym chcesz porozmawiać?"
-      ></textarea>
+    <div class="editZone">
+      <div *ngIf="passedData?.postData?.fullImagePath" class="post-image">
+        <img alt="post" [src]="passedData?.postData?.fullImagePath" />
+      </div>
+      <div class="text">
+        <textarea
+          #PostTextArea
+          name="text"
+          id="text"
+          formControlName="text"
+          placeholder="O czym chcesz porozmawiać?"
+        ></textarea>
+      </div>
     </div>
     <div class="assignment">
       <button

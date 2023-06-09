@@ -48,6 +48,20 @@ let FeedController = class FeedController {
     updatePost(id, feedPost) {
         return this.feedService.updatePost(id, feedPost);
     }
+    updateImagePost(file, id) {
+        console.log('Update image begin');
+        this.feedService.findPostById(id).subscribe((result) => {
+            (0, image_storage_1.deletePostImage)(result.author.id, result.imageName);
+        });
+        const updatedPost = { imageName: file.filename };
+        console.log(id, file);
+        return this.feedService.updatePost(id, updatedPost).pipe((0, rxjs_1.take)(1), (0, rxjs_1.map)((result) => {
+            console.log(result.affected > 0);
+            if (result.affected > 0)
+                return { newFilename: file.filename };
+            return { error: 'Image update failure' };
+        }));
+    }
     deletePost(id) {
         return this.feedService.deletePost(id);
     }
@@ -109,6 +123,17 @@ __decorate([
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", rxjs_1.Observable)
 ], FeedController.prototype, "updatePost", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', image_storage_1.savePostImageToStorage)),
+    (0, common_1.Put)('image/:id'),
+    __param(0, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Number]),
+    __metadata("design:returntype", rxjs_1.Observable)
+], FeedController.prototype, "updateImagePost", null);
 __decorate([
     (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM, role_enum_1.Role.USER),
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard),
