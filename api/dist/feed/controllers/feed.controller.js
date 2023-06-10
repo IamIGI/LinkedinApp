@@ -22,45 +22,50 @@ const role_enum_1 = require("../../auth/models/role.enum");
 const roles_guard_1 = require("../../auth/guards/roles.guard");
 const is_creator_guard_1 = require("../guards/is-creator.guard");
 const platform_express_1 = require("@nestjs/platform-express");
-const path_1 = require("path");
 const image_storage_1 = require("../../helpers/image-storage");
 let FeedController = class FeedController {
     constructor(feedService) {
         this.feedService = feedService;
     }
-    create(file, content, req) {
-        return this.feedService.createPost(req.user, content);
-    }
-    createPostWithImage(file, content, req) {
-        let fullImagePath = '';
-        const { id: userId } = req.user;
-        const fileName = file === null || file === void 0 ? void 0 : file.filename;
-        if (fileName) {
-            const imageFolderPath = (0, path_1.join)(process.cwd(), `images/userPosts/${userId}`);
-            fullImagePath = (0, path_1.join)(imageFolderPath + '/' + file.filename);
-        }
-        return this.feedService.createPostWithImage(req.user, content, fileName, fullImagePath);
+    create(post, req) {
+        console.log(5, 'Begin to saving Post');
+        console.log(post);
+        return this.feedService.createPost(req.user, post);
     }
     findSelected(take = 1, skip = 1) {
         take = take > 20 ? 20 : take;
         return this.feedService.findPosts(take, skip);
     }
     updatePost(id, feedPost) {
+        console.log(1, 'Update begin');
+        console.log(2, feedPost);
         return this.feedService.updatePost(id, feedPost);
     }
-    updateImagePost(file, id) {
-        console.log('Update image begin');
-        this.feedService.findPostById(id).subscribe((result) => {
-            (0, image_storage_1.deletePostImage)(result.author.id, result.imageName);
+    saveImagePostTemporary(file) {
+        console.log(file.filename);
+        return (0, rxjs_1.of)({ newFilename: file.filename });
+    }
+    removeTemporaryImagePost(userId = 0) {
+        (0, rxjs_1.of)((0, image_storage_1.removeUserImageTemporaryFolder)(userId))
+            .pipe((0, rxjs_1.take)(1))
+            .subscribe({
+            next: () => {
+                console.log('File Removed: Success');
+            },
+            error: (err) => {
+                console.log(err);
+            },
+            complete: () => {
+                console.log('File Removed: Completed');
+            },
         });
-        const updatedPost = { imageName: file.filename };
-        console.log(id, file);
-        return this.feedService.updatePost(id, updatedPost).pipe((0, rxjs_1.take)(1), (0, rxjs_1.map)((result) => {
-            console.log(result.affected > 0);
-            if (result.affected > 0)
-                return { newFilename: file.filename };
-            return { error: 'Image update failure' };
-        }));
+        return (0, rxjs_1.of)(true);
+    }
+    getImagePostTemporary(fileName, userId = 0, res) {
+        console.log(fileName, userId);
+        return res.sendFile(fileName, {
+            root: `./images/temporary/users/${userId}`,
+        });
     }
     deletePost(id) {
         return this.feedService.deletePost(id);
@@ -83,27 +88,13 @@ let FeedController = class FeedController {
 __decorate([
     (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM, role_enum_1.Role.USER),
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, roles_guard_1.RolesGuard),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     (0, common_1.Post)(),
-    __param(0, (0, common_1.UploadedFile)()),
-    __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Request)()),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", rxjs_1.Observable)
 ], FeedController.prototype, "create", null);
-__decorate([
-    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, roles_guard_1.RolesGuard),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', image_storage_1.savePostImageToStorage)),
-    (0, common_1.Post)('image'),
-    __param(0, (0, common_1.UploadedFile)()),
-    __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Request)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], FeedController.prototype, "createPostWithImage", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard),
     (0, common_1.Get)(),
@@ -115,7 +106,7 @@ __decorate([
 ], FeedController.prototype, "findSelected", null);
 __decorate([
     (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard, roles_guard_1.RolesGuard),
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -125,18 +116,33 @@ __decorate([
 ], FeedController.prototype, "updatePost", null);
 __decorate([
     (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', image_storage_1.savePostImageToStorage)),
-    (0, common_1.Put)('image/:id'),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, roles_guard_1.RolesGuard),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', image_storage_1.saveUserImageToTemporaryStorage)),
+    (0, common_1.Post)('temporary/image'),
     __param(0, (0, common_1.UploadedFile)()),
-    __param(1, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Number]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", rxjs_1.Observable)
-], FeedController.prototype, "updateImagePost", null);
+], FeedController.prototype, "saveImagePostTemporary", null);
+__decorate([
+    (0, common_1.Delete)('temporary/image'),
+    __param(0, (0, common_1.Query)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", rxjs_1.Observable)
+], FeedController.prototype, "removeTemporaryImagePost", null);
+__decorate([
+    (0, common_1.Get)('temporary/image/:fileName'),
+    __param(0, (0, common_1.Param)('fileName')),
+    __param(1, (0, common_1.Query)('userId')),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number, Object]),
+    __metadata("design:returntype", void 0)
+], FeedController.prototype, "getImagePostTemporary", null);
 __decorate([
     (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM, role_enum_1.Role.USER),
-    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard, roles_guard_1.RolesGuard),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

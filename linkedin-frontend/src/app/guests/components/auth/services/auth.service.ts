@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   get userStream(): Observable<User> {
-    return this.user$.asObservable().pipe(map((user: User) => user!));
+    return this.user$.asObservable().pipe(map((user: User) => user));
   }
 
   get userFullName(): Observable<string> {

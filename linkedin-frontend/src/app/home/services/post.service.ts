@@ -61,6 +61,7 @@ export class PostService {
   setPostBody(body: CreatePost) {
     this.postBody.content = body?.content;
     this.postBody.role = body?.role;
+    this.postBody.fileName = body?.fileName;
   }
 
   clearPostBody() {
@@ -73,22 +74,14 @@ export class PostService {
   }
 
   createPost() {
-    let formData = new FormData();
-    formData.append('content', this.postBody.content);
-    formData.append('file', this.postBody.file as File);
-    //In future add there roles
-
-    const postWithImage = formData.get('file') instanceof File;
-    if (postWithImage) {
-      return this.http.post<Post>(this.postURLwithImage, formData).pipe(
-        take(1),
-        map((result: Post) => {
-          this.clearPostBody();
-          return result;
-        })
-      );
+    const body: { content: string; imageName?: string } = {
+      content: this.postBody.content,
+    };
+    if (this.postBody?.fileName) {
+      body.imageName = this.postBody.fileName;
     }
-    return this.http.post<Post>(this.postURL, formData).pipe(
+
+    return this.http.post<Post>(this.postURL, body).pipe(
       take(1),
       map((result: Post) => {
         this.clearPostBody();
@@ -97,25 +90,40 @@ export class PostService {
     );
   }
 
-  updatePostImage(postId: number, file: File) {
-    let formData = new FormData();
-    formData.append('file', file);
-
-    const modifiedURL = `${this.postURL}/image/${postId}`;
-    console.log(file);
-    console.log(modifiedURL);
-    return this.http.put(modifiedURL, formData).pipe(take(1));
-  }
-
-  updatePost(postId: number, content: string) {
+  updatePost(
+    postId: number
+    // body: { content?: string; fileName?: string; role?: string }
+  ) {
+    const body: { content: string; imageName?: string } = {
+      content: this.postBody.content,
+    };
+    if (this.postBody?.fileName) {
+      body.imageName = this.postBody.fileName;
+    }
+    console.log(body);
     const modifiedURL = `${this.postURL}/${postId}`;
-    return this.http
-      .put(modifiedURL, { content }, this.httpOptions)
-      .pipe(take(1));
+    return this.http.put(modifiedURL, body, this.httpOptions).pipe(take(1));
   }
 
   deletePost(postId: number) {
     const modifiedURL = `${this.postURL}/${postId}`;
     return this.http.delete(modifiedURL).pipe(take(1));
+  }
+
+  savePostImageTemporary(
+    file: File
+  ): Observable<{ newFilename?: string; error?: string }> {
+    let formData = new FormData();
+    formData.append('file', file);
+
+    const modifiedURL = `${this.postURL}/temporary/image`;
+    console.log(file.name);
+    console.log(modifiedURL);
+    return this.http.post(modifiedURL, formData).pipe(take(1));
+  }
+
+  clearUserTemporaryStorage(userId: number) {
+    const modifiedURL = `${this.postURL}/temporary/image?userId=${userId}`;
+    this.http.delete(modifiedURL).pipe(take(1));
   }
 }

@@ -6,14 +6,15 @@ import { UpdateResult, DeleteResult } from 'typeorm';
 export declare class FeedController {
     private feedService;
     constructor(feedService: FeedService);
-    create(file: Express.Multer.File, content: FeedPost, req: any): Observable<FeedPost>;
-    createPostWithImage(file: Express.Multer.File, content: FeedPost, req: any): Observable<FeedPost>;
+    create(post: FeedPost, req: any): Observable<FeedPost>;
     findSelected(take?: number, skip?: number): Observable<FeedPost[]>;
     updatePost(id: number, feedPost: FeedPost): Observable<UpdateResult>;
-    updateImagePost(file: Express.Multer.File, id: number): Observable<{
+    saveImagePostTemporary(file: Express.Multer.File): Observable<{
         newFilename?: string;
         error?: string;
     }>;
+    removeTemporaryImagePost(userId?: number): Observable<boolean>;
+    getImagePostTemporary(fileName: string, userId: number, res: any): any;
     deletePost(id: number): Observable<DeleteResult>;
     findUserImageByName(fileName: string, userId: number, res: any): any;
     findPostImageByName(fileName: string, userId: number, res: any): any;
