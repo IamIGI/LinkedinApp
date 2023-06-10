@@ -10,14 +10,16 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTooltip } from '@angular/material/tooltip';
-import { BehaviorSubject, Subscription, take } from 'rxjs';
-import { Role } from 'src/app/guests/components/auth/models/user.model';
+import { BehaviorSubject, Subscription, map, take } from 'rxjs';
+import { Role, User } from 'src/app/guests/components/auth/models/user.model';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
+import { Post } from 'src/app/home/models/Post';
 import { PostService } from 'src/app/home/services/post.service';
 
 export interface CreatePost {
   content: string;
-  role: string;
+  role?: string;
+  fileName?: string;
   file?: File;
 }
 
@@ -38,11 +40,16 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   file: File = null!;
 
+  userData: User = null!;
+  originalPostData: Post = null!;
+
   fullName$ = new BehaviorSubject<string>(null!);
   fullName = '';
   userRole = '';
   postImageAdded = false;
   postImageTooltipMessage = 'Zdjęcie';
+
+  postImageTemporary: string | undefined = undefined;
 
   userFullImagePath!: string;
   private userImagePathSubscription!: Subscription;
@@ -50,13 +57,18 @@ export class ModalComponent implements OnInit, OnDestroy {
   addPostForm!: FormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public passedData: any,
+    @Inject(MAT_DIALOG_DATA)
+    public passedData: { postData: Post; editMode?: boolean },
     private postService: PostService,
     private dialogRef: MatDialogRef<ModalComponent>,
     private authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.authService.userStream.pipe(take(1)).subscribe((user: User) => {
+      this.userData = user;
+    });
+
     this.authService.userRole
       .pipe(take(1))
       .subscribe((role: Role | undefined) => {
@@ -91,6 +103,8 @@ export class ModalComponent implements OnInit, OnDestroy {
     });
 
     console.log(this.passedData);
+
+    this.originalPostData = this.passedData.postData;
   }
 
   onSubmit() {
@@ -98,8 +112,9 @@ export class ModalComponent implements OnInit, OnDestroy {
     const postValues = this.addPostForm.value;
     const body: CreatePost = {
       content: postValues.text,
-      role: postValues.role,
-      file: this.file,
+      fileName: this.passedData.postData.imageName,
+      // role: postValues.role,
+      // file: this.file,
     };
     console.log(body);
     this.postService.setPostBody(body);
@@ -111,26 +126,19 @@ export class ModalComponent implements OnInit, OnDestroy {
     const newFile = ((event.target as HTMLInputElement).files as FileList)[0];
     if (!newFile) return;
     this.file = newFile;
-    if (this.passedData.editMode) {
-      this.postService
-        .updatePostImage(this.passedData.postData.id, newFile)
-        .subscribe({
-          next: (result: { newFilename?: string; error?: string }) => {
-            this.passedData.postData.imageName = result.newFilename;
-            this.passedData.postData.fullImagePath = `http://localhost:3000/api/feed/post/image/${result.newFilename}/?userId=${this.passedData.postData.author.id}`;
-
-            console.log(result);
-            console.log(this.passedData.postData);
-          },
-          error: (err: { newFilename?: string; error?: string }) => {
-            console.log(console.log(err));
-          },
-          complete: () => {
-            console.log('complete');
-          },
-        });
-      // this.passedData.postData.imageName
-    }
+    this.postService
+      .savePostImageTemporary(newFile)
+      .pipe(take(1))
+      .subscribe({
+        next: (result: { newFilename?: string; error?: string }) => {
+          console.log(1, 'new Image saved to temporary storage');
+          this.passedData.postData.imageName = result.newFilename;
+          this.passedData.postData.fullImagePath = `http://localhost:3000/api/feed/temporary/image/${result.newFilename}/?userId=${this.userData.id}`;
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
     this.postService.setPostImage(newFile);
   }
 
@@ -146,6 +154,12 @@ export class ModalComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.postImageTooltipMessage = 'Zdjęcie';
     }, 3500);
+  }
+
+  cancelPost() {
+    this.dialogRef.close();
+    console.log('cancel Post');
+    this.postService.clearUserTemporaryStorage(this.userData.id);
   }
 
   ngOnDestroy(): void {

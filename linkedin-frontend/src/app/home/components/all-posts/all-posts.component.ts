@@ -77,6 +77,7 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
     //do not get values from there, just check is everything okay
     // and trigger the process of adding post
     const postBody = changes['postBody'].currentValue?.body;
+    console.log(postBody);
     if (!postBody) return;
 
     let loadingModalRef: MatDialogRef<ProgressSpinnerDialogComponent> =
@@ -197,14 +198,22 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
       autoFocus: false,
     });
 
-    modalDialogRef.afterClosed().subscribe((result) => {
-      this.postService.updatePost(postId, result.body.content).subscribe(() => {
-        const postIndex = this.allLoadedPosts.findIndex(
-          (post: Post) => post.id === postId
-        );
-        this.allLoadedPosts[postIndex].content = result.body.content;
+    modalDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => {
+        console.log(postId);
+        console.log(result.body);
+        //second argument result.body
+        this.postService.updatePost(postId).subscribe(() => {
+          console.log('edited post is here');
+
+          const postIndex = this.allLoadedPosts.findIndex(
+            (post: Post) => post.id === postId
+          );
+          this.allLoadedPosts[postIndex].content = result.body.content;
+        });
       });
-    });
   }
 
   deletePost(postId: number) {

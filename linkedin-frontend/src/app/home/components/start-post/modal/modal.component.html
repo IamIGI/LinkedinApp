@@ -1,7 +1,7 @@
 <form [formGroup]="addPostForm" (ngSubmit)="onSubmit()">
   <div class="content">
     <div class="close">
-      <button mat-icon-button mat-dialog-close>
+      <button type="button" mat-icon-button (click)="cancelPost()">
         <mat-icon>close</mat-icon>
       </button>
     </div>

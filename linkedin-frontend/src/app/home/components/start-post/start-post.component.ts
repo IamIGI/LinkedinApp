@@ -9,7 +9,7 @@ import {
 import { options } from './data';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from './modal/modal.component';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 import { PostService } from '../../services/post.service';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -45,11 +45,16 @@ export class StartPostComponent implements OnInit, OnDestroy {
       this.postImageAdded = result;
       if (result && this.addImageButtonActivated) this.addedImageTooltip();
     });
+
+    this.authService.userStream.pipe(take(1));
   }
 
   async openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {
-      data: { editMode: false },
+      data: {
+        postData: { imageName: undefined, fullImagePath: undefined },
+        editMode: false,
+      },
       autoFocus: false,
     });
 
