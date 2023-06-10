@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { FeedService } from '../services/feed.service';
 import { FeedPost } from '../models/post/post.interface';
-import { Observable, map, of, take } from 'rxjs';
+import { Observable, of, take } from 'rxjs';
 import { UpdateResult, DeleteResult } from 'typeorm';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
@@ -24,12 +24,10 @@ import { Role } from 'src/auth/models/role.enum';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { IsCreatorGuard } from '../guards/is-creator.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { join } from 'path';
 import {
-  deletePostImage,
-  savePostImageToStorage,
+  removeUserImageTemporaryFolder,
+  saveUserImageToTemporaryStorage,
 } from 'src/helpers/image-storage';
-import { FeedPostEntity } from '../models/post/post.entity';
 
 @Controller('feed')
 export class FeedController {
@@ -37,46 +35,12 @@ export class FeedController {
 
   @Roles(Role.ADMIN, Role.PREMIUM, Role.USER)
   @UseGuards(JwtGuard, RolesGuard)
-  @UseInterceptors(FileInterceptor('file')) // you need this to form-data works
   @Post()
-  create(
-    @UploadedFile() file: Express.Multer.File, // you need this to form-data works
-    @Body() content: FeedPost,
-    @Request() req,
-  ): Observable<FeedPost> {
-    return this.feedService.createPost(req.user, content);
+  create(@Body() post: FeedPost, @Request() req): Observable<FeedPost> {
+    console.log(5, 'Begin to saving Post');
+    console.log(post);
+    return this.feedService.createPost(req.user, post);
   }
-
-  @Roles(Role.ADMIN, Role.PREMIUM)
-  @UseGuards(JwtGuard, RolesGuard)
-  @UseInterceptors(FileInterceptor('file', savePostImageToStorage))
-  @Post('image')
-  createPostWithImage(
-    @UploadedFile() file: Express.Multer.File,
-    @Body() content: FeedPost,
-    @Request() req,
-  ): Observable<FeedPost> {
-    let fullImagePath = '';
-    const { id: userId } = req.user;
-
-    const fileName = file?.filename;
-    if (fileName) {
-      const imageFolderPath = join(process.cwd(), `images/userPosts/${userId}`);
-      fullImagePath = join(imageFolderPath + '/' + file.filename);
-    }
-
-    return this.feedService.createPostWithImage(
-      req.user,
-      content,
-      fileName,
-      fullImagePath,
-    );
-  }
-
-  // @Get()
-  // getAllPosts(): Observable<FeedPost[]> {
-  //   return this.feedService.findAllPosts();
-  // }
 
   @UseGuards(JwtGuard)
   @Get()
@@ -89,41 +53,62 @@ export class FeedController {
   }
 
   @Roles(Role.ADMIN, Role.PREMIUM)
-  @UseGuards(JwtGuard, IsCreatorGuard)
+  @UseGuards(JwtGuard, IsCreatorGuard, RolesGuard)
   @Put(':id')
   updatePost(
     @Param('id') id: number,
     @Body() feedPost: FeedPost,
   ): Observable<UpdateResult> {
+    console.log(1, 'Update begin');
+    console.log(2, feedPost);
     return this.feedService.updatePost(id, feedPost);
   }
 
   @Roles(Role.ADMIN, Role.PREMIUM)
-  @UseGuards(JwtGuard, IsCreatorGuard)
-  @UseInterceptors(FileInterceptor('file', savePostImageToStorage))
-  @Put('image/:id')
-  updateImagePost(
+  @UseGuards(JwtGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('file', saveUserImageToTemporaryStorage))
+  @Post('temporary/image')
+  saveImagePostTemporary(
     @UploadedFile() file: Express.Multer.File,
-    @Param('id') id: number,
   ): Observable<{ newFilename?: string; error?: string }> {
-    console.log('Update image begin');
-    this.feedService.findPostById(id).subscribe((result: FeedPost) => {
-      deletePostImage(result.author.id, result.imageName);
+    console.log(file.filename);
+    return of({ newFilename: file.filename });
+  }
+
+  @Delete('temporary/image')
+  removeTemporaryImagePost(
+    @Query('userId') userId: number = 0,
+  ): Observable<boolean> {
+    of(removeUserImageTemporaryFolder(userId))
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          console.log('File Removed: Success');
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log('File Removed: Completed');
+        },
+      });
+    return of(true);
+  }
+
+  @Get('temporary/image/:fileName')
+  getImagePostTemporary(
+    @Param('fileName') fileName: string,
+    @Query('userId') userId: number = 0,
+    @Res() res,
+  ) {
+    console.log(fileName, userId);
+    return res.sendFile(fileName, {
+      root: `./images/temporary/users/${userId}`,
     });
-    const updatedPost = { imageName: file.filename };
-    console.log(id, file);
-    return this.feedService.updatePost(id, updatedPost as FeedPost).pipe(
-      take(1),
-      map((result: UpdateResult) => {
-        console.log(result.affected > 0);
-        if (result.affected > 0) return { newFilename: file.filename };
-        return { error: 'Image update failure' };
-      }),
-    );
   }
 
   @Roles(Role.ADMIN, Role.PREMIUM, Role.USER)
-  @UseGuards(JwtGuard, IsCreatorGuard)
+  @UseGuards(JwtGuard, IsCreatorGuard, RolesGuard)
   @Delete(':id')
   deletePost(@Param('id') id: number): Observable<DeleteResult> {
     return this.feedService.deletePost(id);
