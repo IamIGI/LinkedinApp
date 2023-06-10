@@ -33,7 +33,6 @@ export async function deletePostImage(userId: number, imageName: string) {
     fs.unlink(imagePath, (err: any) => {
       if (err) throw err;
     });
-    console.log('Image deleted', imageName);
   }
 }
 
@@ -67,17 +66,13 @@ export async function createPostImageFolder(userId: number) {
 
   if (!fs.existsSync(postFolderPath)) {
     await fs.mkdirSync(postFolderPath, { recursive: true });
-    console.log(2.1, 'new postImage folder created');
   }
-  if (fs.existsSync(postFolderPath))
-    console.log(2.2, 'postImage folder exists');
 }
 
 export async function copyImageFromTemporaryToUserPost(
   fileName: string,
   userId: number,
 ) {
-  console.log(1, 'CopyImage process start');
   await createPostImageFolder(userId);
   const temporaryPath = path.join(
     process.cwd(),
@@ -87,12 +82,10 @@ export async function copyImageFromTemporaryToUserPost(
     process.cwd(),
     `${storagePath.posts}/${userId}/${fileName}`,
   );
-  console.log(3, 'begin to copy file');
   if (fs.existsSync(temporaryPath)) {
     await fs.copyFile(temporaryPath, userPostPath, async (err) => {
       if (err) throw err;
       await removeUserImageTemporaryFolder(userId);
-      console.log('File was copied to destination');
     });
   }
 }
@@ -143,8 +136,6 @@ export const savePostImageToStorage = {
 export const saveUserImageToTemporaryStorage = {
   storage: diskStorage({
     destination: async (req, file, cb) => {
-      console.log(1, 'Destination for temporary');
-      console.log(req.user);
       const { id: userId } = req.user as User;
       await removeUserImageTemporaryFolder(userId);
       await createUserImageTemporaryFolder(userId);
@@ -158,7 +149,6 @@ export const saveUserImageToTemporaryStorage = {
   }),
   fileFilter: (req, file, cb) => {
     const allowedMimeTypes: validMimeType[] = validMimeTypes;
-    console.log(allowedMimeTypes.includes(file.mimetype as validMimeType));
     allowedMimeTypes.includes(file.mimetype as validMimeType)
       ? cb(null, true)
       : cb(null, false);

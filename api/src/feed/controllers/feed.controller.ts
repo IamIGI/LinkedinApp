@@ -37,8 +37,6 @@ export class FeedController {
   @UseGuards(JwtGuard, RolesGuard)
   @Post()
   create(@Body() post: FeedPost, @Request() req): Observable<FeedPost> {
-    console.log(5, 'Begin to saving Post');
-    console.log(post);
     return this.feedService.createPost(req.user, post);
   }
 
@@ -59,8 +57,6 @@ export class FeedController {
     @Param('id') id: number,
     @Body() feedPost: FeedPost,
   ): Observable<UpdateResult> {
-    console.log(1, 'Update begin');
-    console.log(2, feedPost);
     return this.feedService.updatePost(id, feedPost);
   }
 
@@ -71,28 +67,12 @@ export class FeedController {
   saveImagePostTemporary(
     @UploadedFile() file: Express.Multer.File,
   ): Observable<{ newFilename?: string; error?: string }> {
-    console.log(file.filename);
     return of({ newFilename: file.filename });
   }
 
   @Delete('temporary/image')
-  removeTemporaryImagePost(
-    @Query('userId') userId: number = 0,
-  ): Observable<boolean> {
-    of(removeUserImageTemporaryFolder(userId))
-      .pipe(take(1))
-      .subscribe({
-        next: () => {
-          console.log('File Removed: Success');
-        },
-        error: (err: any) => {
-          console.log(err);
-        },
-        complete: () => {
-          console.log('File Removed: Completed');
-        },
-      });
-    return of(true);
+  removeTemporaryImagePost(@Query('userId') userId: number = 0) {
+    of(removeUserImageTemporaryFolder(userId)).pipe(take(1)).subscribe();
   }
 
   @Get('temporary/image/:fileName')
@@ -101,7 +81,6 @@ export class FeedController {
     @Query('userId') userId: number = 0,
     @Res() res,
   ) {
-    console.log(fileName, userId);
     return res.sendFile(fileName, {
       root: `./images/temporary/users/${userId}`,
     });

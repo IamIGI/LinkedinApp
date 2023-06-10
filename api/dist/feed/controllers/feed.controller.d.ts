@@ -13,7 +13,7 @@ export declare class FeedController {
         newFilename?: string;
         error?: string;
     }>;
-    removeTemporaryImagePost(userId?: number): Observable<boolean>;
+    removeTemporaryImagePost(userId?: number): void;
     getImagePostTemporary(fileName: string, userId: number, res: any): any;
     deletePost(id: number): Observable<DeleteResult>;
     findUserImageByName(fileName: string, userId: number, res: any): any;

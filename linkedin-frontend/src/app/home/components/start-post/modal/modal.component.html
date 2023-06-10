@@ -39,7 +39,7 @@
         mat-fab
         #matTooltip="matTooltip"
         [matTooltip]="postImageTooltipMessage"
-        (click)="fileUpload.click()"
+        (click)="imageUpload.click()"
         [ngStyle]="
           userRole === 'user'
             ? { 'background-color': '#86888a' }
@@ -75,7 +75,7 @@
       </button>
     </div>
     <input
-      #fileUpload
+      #imageUpload
       (change)="onFileSelect($event)"
       style="display: none"
       type="file"

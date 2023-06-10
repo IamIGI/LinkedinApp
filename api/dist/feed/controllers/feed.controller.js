@@ -28,8 +28,6 @@ let FeedController = class FeedController {
         this.feedService = feedService;
     }
     create(post, req) {
-        console.log(5, 'Begin to saving Post');
-        console.log(post);
         return this.feedService.createPost(req.user, post);
     }
     findSelected(take = 1, skip = 1) {
@@ -37,32 +35,15 @@ let FeedController = class FeedController {
         return this.feedService.findPosts(take, skip);
     }
     updatePost(id, feedPost) {
-        console.log(1, 'Update begin');
-        console.log(2, feedPost);
         return this.feedService.updatePost(id, feedPost);
     }
     saveImagePostTemporary(file) {
-        console.log(file.filename);
         return (0, rxjs_1.of)({ newFilename: file.filename });
     }
     removeTemporaryImagePost(userId = 0) {
-        (0, rxjs_1.of)((0, image_storage_1.removeUserImageTemporaryFolder)(userId))
-            .pipe((0, rxjs_1.take)(1))
-            .subscribe({
-            next: () => {
-                console.log('File Removed: Success');
-            },
-            error: (err) => {
-                console.log(err);
-            },
-            complete: () => {
-                console.log('File Removed: Completed');
-            },
-        });
-        return (0, rxjs_1.of)(true);
+        (0, rxjs_1.of)((0, image_storage_1.removeUserImageTemporaryFolder)(userId)).pipe((0, rxjs_1.take)(1)).subscribe();
     }
     getImagePostTemporary(fileName, userId = 0, res) {
-        console.log(fileName, userId);
         return res.sendFile(fileName, {
             root: `./images/temporary/users/${userId}`,
         });
@@ -129,7 +110,7 @@ __decorate([
     __param(0, (0, common_1.Query)('userId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", void 0)
 ], FeedController.prototype, "removeTemporaryImagePost", null);
 __decorate([
     (0, common_1.Get)('temporary/image/:fileName'),
