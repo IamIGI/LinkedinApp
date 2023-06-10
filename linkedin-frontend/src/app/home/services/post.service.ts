@@ -4,7 +4,12 @@ import { Post } from '../models/Post';
 import { environment } from 'src/environments/environment.development';
 import { BehaviorSubject, map, take, tap, Observable } from 'rxjs';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
-import { CreatePost } from '../components/start-post/modal/modal.component';
+
+export interface CreatePost {
+  content: string;
+  role?: string;
+  fileName?: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +19,7 @@ export class PostService {
   postBody: CreatePost = {
     content: '',
     role: '',
-    file: undefined,
+    fileName: '',
   };
 
   postURL = `${environment.baseApiUrl}/feed`;
@@ -53,8 +58,7 @@ export class PostService {
     // return of(Boolean(this.postBody.file));
   }
 
-  setPostImage(file: File) {
-    this.postBody.file = file;
+  onImageChange() {
     this.postImage$.next(true);
   }
 
@@ -68,7 +72,7 @@ export class PostService {
     this.postBody = {
       content: '',
       role: '',
-      file: undefined,
+      fileName: '',
     };
     this.postImage$.next(false);
   }
@@ -90,17 +94,13 @@ export class PostService {
     );
   }
 
-  updatePost(
-    postId: number
-    // body: { content?: string; fileName?: string; role?: string }
-  ) {
+  updatePost(postId: number) {
     const body: { content: string; imageName?: string } = {
       content: this.postBody.content,
     };
     if (this.postBody?.fileName) {
       body.imageName = this.postBody.fileName;
     }
-    console.log(body);
     const modifiedURL = `${this.postURL}/${postId}`;
     return this.http.put(modifiedURL, body, this.httpOptions).pipe(take(1));
   }
@@ -117,13 +117,11 @@ export class PostService {
     formData.append('file', file);
 
     const modifiedURL = `${this.postURL}/temporary/image`;
-    console.log(file.name);
-    console.log(modifiedURL);
     return this.http.post(modifiedURL, formData).pipe(take(1));
   }
 
   clearUserTemporaryStorage(userId: number) {
     const modifiedURL = `${this.postURL}/temporary/image?userId=${userId}`;
-    this.http.delete(modifiedURL).pipe(take(1));
+    return this.http.delete(modifiedURL).pipe(take(1)).subscribe();
   }
 }

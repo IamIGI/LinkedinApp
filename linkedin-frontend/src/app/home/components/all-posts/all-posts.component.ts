@@ -7,12 +7,9 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { data } from './data';
-import { PostService } from '../../services/post.service';
+import { CreatePost, PostService } from '../../services/post.service';
 import { Post } from '../../models/Post';
-import {
-  CreatePost,
-  ModalComponent,
-} from '../start-post/modal/modal.component';
+import { ModalComponent } from '../start-post/modal/modal.component';
 import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -74,11 +71,8 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    //do not get values from there, just check is everything okay
-    // and trigger the process of adding post
-    const postBody = changes['postBody'].currentValue?.body;
-    console.log(postBody);
-    if (!postBody) return;
+    const postHaveContent = Boolean(changes['postBody'].currentValue?.content);
+    if (!postHaveContent) return;
 
     let loadingModalRef: MatDialogRef<ProgressSpinnerDialogComponent> =
       this.dialog.open(ProgressSpinnerDialogComponent, {
@@ -192,26 +186,28 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async presentUpdateModal(postId: number) {
-    const postData = this.allLoadedPosts.find((post) => post.id === postId);
+    const postClone = structuredClone(
+      this.allLoadedPosts.find((post) => post.id === postId)
+    );
     const modalDialogRef = this.dialog.open(ModalComponent, {
-      data: { postData, editMode: true },
+      data: { postData: postClone, editMode: true },
       autoFocus: false,
     });
 
     modalDialogRef
       .afterClosed()
       .pipe(take(1))
-      .subscribe((result) => {
-        console.log(postId);
-        console.log(result.body);
-        //second argument result.body
+      .subscribe((result: CreatePost) => {
         this.postService.updatePost(postId).subscribe(() => {
-          console.log('edited post is here');
-
-          const postIndex = this.allLoadedPosts.findIndex(
-            (post: Post) => post.id === postId
-          );
-          this.allLoadedPosts[postIndex].content = result.body.content;
+          const postShallowCopy = this.allLoadedPosts.find(
+            (post) => post.id === postId
+          ) as Post;
+          const { content, fileName } = result;
+          postShallowCopy.content = content;
+          if (fileName) {
+            postShallowCopy.imageName = fileName;
+            postShallowCopy.fullImagePath = `http://localhost:3000/api/feed/post/image/${fileName}?userId=${postShallowCopy.author.id}`;
+          }
         });
       });
   }

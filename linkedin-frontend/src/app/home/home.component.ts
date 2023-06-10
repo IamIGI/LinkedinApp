@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CreatePost } from './components/start-post/modal/modal.component';
+import { CreatePost } from './services/post.service';
 
 @Component({
   selector: 'app-home',

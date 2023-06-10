@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     if (!this.loginForm.valid) return;
 
     const loginFormValues = this.loginForm.value;
-    const response = this.authService.login(loginFormValues).subscribe({
+    this.authService.login(loginFormValues).subscribe({
       next: () => {
         this.router.navigateByUrl('/home');
       },

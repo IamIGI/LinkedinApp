@@ -78,7 +78,7 @@ export class StartPostComponent implements OnInit, OnDestroy {
     this.addImageButtonActivated = true;
     const newFile = ((event.target as HTMLInputElement).files as FileList)[0];
     if (!newFile) return;
-    this.postService.setPostImage(newFile);
+    this.postService.onImageChange();
   }
 
   ngOnDestroy(): void {
