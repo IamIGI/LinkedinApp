@@ -203,7 +203,6 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
             (post) => post.id === postId
           ) as Post;
           const { content, fileName } = result;
-          console.log(result);
           postShallowCopy.content = content;
           if (fileName) {
             postShallowCopy.imageName = fileName;
