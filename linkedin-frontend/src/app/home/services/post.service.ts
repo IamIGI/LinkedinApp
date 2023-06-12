@@ -110,6 +110,16 @@ export class PostService {
     return this.http.delete(modifiedURL).pipe(take(1));
   }
 
+  deletePostImage(postId: number, imageName: string) {
+    const modifiedURL = `${this.postURL}/post/image/${postId ?? 0}`;
+
+    const options = {
+      body: { imageName },
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    return this.http.delete(modifiedURL, options).pipe(take(1));
+  }
+
   savePostImageTemporary(
     file: File
   ): Observable<{ newFilename?: string; error?: string }> {

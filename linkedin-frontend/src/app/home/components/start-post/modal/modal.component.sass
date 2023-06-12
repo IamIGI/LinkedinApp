@@ -55,6 +55,8 @@ $content-width: 700px
   overflow-y: auto
 
 
+
+
 .close
   position: absolute
   right: 10px
@@ -71,6 +73,30 @@ $content-width: 700px
     margin-right: auto
     max-height: 400px
     max-width: 590px
+
+  .realative
+      position: relative
+
+  .post-image-delete
+      display: none
+
+  &:hover
+
+    .relative
+      img
+        filter: grayscale(50%)
+
+    .post-image-delete
+      display: flex
+      position: absolute
+      top: 45%
+      left: 50%
+      transform: translate(-50%, -50%)
+      color: white
+      font-size: 85px
+      height: 85px
+      width: 85px
+
 
 
 .text
