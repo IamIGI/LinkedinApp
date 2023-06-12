@@ -207,6 +207,9 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
           if (fileName) {
             postShallowCopy.imageName = fileName;
             postShallowCopy.fullImagePath = `http://localhost:3000/api/feed/post/image/${fileName}?userId=${postShallowCopy.author.id}`;
+          } else {
+            postShallowCopy.imageName = undefined;
+            postShallowCopy.fullImagePath = undefined;
           }
         });
       });

@@ -50,7 +50,7 @@ let FeedController = class FeedController {
     }
     removeImageFromPost(id, body, req) {
         const userId = req.user.id;
-        return this.feedService.deleteImageFromPost(id, userId, body.imageName);
+        return this.feedService.deleteImageFromPost(userId, body.imageName, id);
     }
     deletePost(id) {
         return this.feedService.deletePost(id);

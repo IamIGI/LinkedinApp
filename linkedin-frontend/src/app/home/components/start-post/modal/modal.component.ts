@@ -126,6 +126,24 @@ export class ModalComponent implements OnInit, OnDestroy {
     this.postService.onImageChange();
   }
 
+  onDeletePostImage() {
+    this.postService
+      .deletePostImage(
+        this.passedData.postData.id,
+        this.passedData.postData.imageName as string
+      )
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.passedData.postData.imageName = undefined;
+          this.passedData.postData.fullImagePath = undefined;
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
+  }
+
   addedImageTooltip() {
     this.postImageTooltipMessage = 'Zdjęcie dodano';
     setTimeout(() => {

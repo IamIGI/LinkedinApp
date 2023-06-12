@@ -54,10 +54,13 @@ let FeedService = class FeedService {
         }));
         return (0, rxjs_1.from)(this.feedPostRepository.update(id, newPost)).pipe((0, rxjs_1.delayWhen)(() => copyNewImage), (0, rxjs_1.take)(1));
     }
-    deleteImageFromPost(postId, userId, imageName) {
+    deleteImageFromPost(userId, imageName, postId) {
         const updatedPost = { imageName: null };
-        (0, image_storage_1.deletePostImage)(userId, imageName);
-        return (0, rxjs_1.from)(this.feedPostRepository.update(postId, updatedPost));
+        (0, image_storage_1.removeUserImageTemporaryFolder)(userId);
+        if (postId != 0) {
+            (0, image_storage_1.deletePostImage)(userId, imageName);
+            return (0, rxjs_1.from)(this.feedPostRepository.update(postId, updatedPost));
+        }
     }
     findPosts(take = 10, skip = 0) {
         return (0, rxjs_1.from)(this.feedPostRepository

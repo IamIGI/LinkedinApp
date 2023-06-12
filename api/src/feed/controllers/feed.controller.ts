@@ -96,7 +96,7 @@ export class FeedController {
     @Request() req,
   ): Observable<UpdateResult> {
     const userId = (req.user as User).id;
-    return this.feedService.deleteImageFromPost(id, userId, body.imageName);
+    return this.feedService.deleteImageFromPost(userId, body.imageName, id);
   }
 
   @Roles(Role.ADMIN, Role.PREMIUM, Role.USER)
