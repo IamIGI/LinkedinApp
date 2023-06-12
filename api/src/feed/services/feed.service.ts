@@ -22,6 +22,7 @@ import {
   deletePostImage,
   isFileExtensionSafe,
   removeFile,
+  removeUserImageTemporaryFolder,
 } from 'src/helpers/image-storage';
 
 @Injectable()
@@ -81,14 +82,20 @@ export class FeedService {
     );
   }
 
+  //PostId: 0 => Post not exists
   deleteImageFromPost(
-    postId: number,
     userId: number,
     imageName: string,
+    postId: number,
   ): Observable<UpdateResult> {
     const updatedPost: FeedPost = { imageName: null };
-    deletePostImage(userId, imageName);
-    return from(this.feedPostRepository.update(postId, updatedPost));
+
+    removeUserImageTemporaryFolder(userId);
+
+    if (postId != 0) {
+      deletePostImage(userId, imageName);
+      return from(this.feedPostRepository.update(postId, updatedPost));
+    }
   }
 
   findPosts(take: number = 10, skip: number = 0): Observable<FeedPost[]> {
