@@ -48,6 +48,10 @@ let FeedController = class FeedController {
             root: `./images/temporary/users/${userId}`,
         });
     }
+    removeImageFromPost(id, body, req) {
+        const userId = req.user.id;
+        return this.feedService.deleteImageFromPost(id, userId, body.imageName);
+    }
     deletePost(id) {
         return this.feedService.deletePost(id);
     }
@@ -121,6 +125,17 @@ __decorate([
     __metadata("design:paramtypes", [String, Number, Object]),
     __metadata("design:returntype", void 0)
 ], FeedController.prototype, "getImagePostTemporary", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard),
+    (0, common_1.Delete)('post/image/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object, Object]),
+    __metadata("design:returntype", rxjs_1.Observable)
+], FeedController.prototype, "removeImageFromPost", null);
 __decorate([
     (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.PREMIUM, role_enum_1.Role.USER),
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, is_creator_guard_1.IsCreatorGuard, roles_guard_1.RolesGuard),

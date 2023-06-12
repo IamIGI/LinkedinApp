@@ -15,6 +15,9 @@ export declare class FeedController {
     }>;
     removeTemporaryImagePost(userId?: number): void;
     getImagePostTemporary(fileName: string, userId: number, res: any): any;
+    removeImageFromPost(id: number, body: {
+        imageName: string;
+    }, req: any): Observable<UpdateResult>;
     deletePost(id: number): Observable<DeleteResult>;
     findUserImageByName(fileName: string, userId: number, res: any): any;
     findPostImageByName(fileName: string, userId: number, res: any): any;

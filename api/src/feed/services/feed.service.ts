@@ -81,28 +81,14 @@ export class FeedService {
     );
   }
 
-  createPostWithImage(
-    user: User,
-    feedPost: FeedPost,
-    imageName?: string,
-    fullImagePath?: string,
-  ): Observable<FeedPost> {
-    feedPost.author = user;
-    feedPost.imageName = imageName;
-
-    return isFileExtensionSafe(fullImagePath).pipe(
-      map((isFileLegit: boolean) => {
-        if (!isFileLegit) {
-          removeFile(fullImagePath);
-          throw new HttpException('File content does not match extension', 500);
-        } else {
-          return feedPost;
-        }
-      }),
-      switchMap((feedPost: FeedPost) => {
-        return from(this.feedPostRepository.save(feedPost));
-      }),
-    );
+  deleteImageFromPost(
+    postId: number,
+    userId: number,
+    imageName: string,
+  ): Observable<UpdateResult> {
+    const updatedPost: FeedPost = { imageName: null };
+    deletePostImage(userId, imageName);
+    return from(this.feedPostRepository.update(postId, updatedPost));
   }
 
   findPosts(take: number = 10, skip: number = 0): Observable<FeedPost[]> {
