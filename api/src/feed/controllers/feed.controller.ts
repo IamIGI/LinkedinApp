@@ -28,6 +28,7 @@ import {
   removeUserImageTemporaryFolder,
   saveUserImageToTemporaryStorage,
 } from 'src/helpers/image-storage';
+import { User } from 'src/auth/models/user.interface';
 
 @Controller('feed')
 export class FeedController {
@@ -84,6 +85,18 @@ export class FeedController {
     return res.sendFile(fileName, {
       root: `./images/temporary/users/${userId}`,
     });
+  }
+
+  @Roles(Role.ADMIN, Role.PREMIUM)
+  @UseGuards(JwtGuard, IsCreatorGuard)
+  @Delete('post/image/:id')
+  removeImageFromPost(
+    @Param('id') id: number,
+    @Body() body: { imageName: string },
+    @Request() req,
+  ): Observable<UpdateResult> {
+    const userId = (req.user as User).id;
+    return this.feedService.deleteImageFromPost(id, userId, body.imageName);
   }
 
   @Roles(Role.ADMIN, Role.PREMIUM, Role.USER)

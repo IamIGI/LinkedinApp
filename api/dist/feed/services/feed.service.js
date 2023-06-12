@@ -54,20 +54,10 @@ let FeedService = class FeedService {
         }));
         return (0, rxjs_1.from)(this.feedPostRepository.update(id, newPost)).pipe((0, rxjs_1.delayWhen)(() => copyNewImage), (0, rxjs_1.take)(1));
     }
-    createPostWithImage(user, feedPost, imageName, fullImagePath) {
-        feedPost.author = user;
-        feedPost.imageName = imageName;
-        return (0, image_storage_1.isFileExtensionSafe)(fullImagePath).pipe((0, rxjs_1.map)((isFileLegit) => {
-            if (!isFileLegit) {
-                (0, image_storage_1.removeFile)(fullImagePath);
-                throw new common_1.HttpException('File content does not match extension', 500);
-            }
-            else {
-                return feedPost;
-            }
-        }), (0, rxjs_1.switchMap)((feedPost) => {
-            return (0, rxjs_1.from)(this.feedPostRepository.save(feedPost));
-        }));
+    deleteImageFromPost(postId, userId, imageName) {
+        const updatedPost = { imageName: null };
+        (0, image_storage_1.deletePostImage)(userId, imageName);
+        return (0, rxjs_1.from)(this.feedPostRepository.update(postId, updatedPost));
     }
     findPosts(take = 10, skip = 0) {
         return (0, rxjs_1.from)(this.feedPostRepository

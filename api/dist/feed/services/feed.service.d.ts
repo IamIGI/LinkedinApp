@@ -9,7 +9,7 @@ export declare class FeedService {
     postHasBeenUpdated(feedPost: FeedPost): Date;
     createPost(user: User, post: FeedPost): Observable<FeedPost>;
     updatePost(id: number, newPost: FeedPost): Observable<UpdateResult>;
-    createPostWithImage(user: User, feedPost: FeedPost, imageName?: string, fullImagePath?: string): Observable<FeedPost>;
+    deleteImageFromPost(postId: number, userId: number, imageName: string): Observable<UpdateResult>;
     findPosts(take?: number, skip?: number): Observable<FeedPost[]>;
     findAllPosts(): Observable<FeedPost[]>;
     deletePost(id: number): Observable<DeleteResult>;
