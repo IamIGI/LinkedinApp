@@ -49,13 +49,14 @@ export class FeedService {
   }
 
   updatePost(id: number, newPost: FeedPost): Observable<UpdateResult> {
+    if (!newPost.content || newPost.content === '') return;
     this.postHasBeenUpdated(newPost);
 
     //
     const copyNewImage = this.findPostById(id).pipe(
       take(1),
       map((oldPostData: FeedPost) => {
-        if (newPost.imageName !== oldPostData.imageName) {
+        if (newPost.imageName && newPost.imageName !== oldPostData.imageName) {
           of(
             copyImageFromTemporaryToUserPost(
               newPost.imageName,
@@ -75,7 +76,6 @@ export class FeedService {
         }
       }),
     );
-
     return from(this.feedPostRepository.update(id, newPost)).pipe(
       delayWhen(() => copyNewImage),
       take(1),

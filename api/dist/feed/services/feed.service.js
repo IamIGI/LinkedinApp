@@ -36,9 +36,11 @@ let FeedService = class FeedService {
         return (0, rxjs_1.from)(this.feedPostRepository.save(post));
     }
     updatePost(id, newPost) {
+        if (!newPost.content || newPost.content === '')
+            return;
         this.postHasBeenUpdated(newPost);
         const copyNewImage = this.findPostById(id).pipe((0, rxjs_1.take)(1), (0, rxjs_1.map)((oldPostData) => {
-            if (newPost.imageName !== oldPostData.imageName) {
+            if (newPost.imageName && newPost.imageName !== oldPostData.imageName) {
                 (0, rxjs_1.of)((0, image_storage_1.copyImageFromTemporaryToUserPost)(newPost.imageName, oldPostData.author.id))
                     .pipe((0, rxjs_1.take)(1))
                     .subscribe({
