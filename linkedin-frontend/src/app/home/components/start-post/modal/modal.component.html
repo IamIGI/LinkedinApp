@@ -1,10 +1,5 @@
-<form [formGroup]="addPostForm" (ngSubmit)="onSubmit()">
-  <div class="content">
-    <div class="close">
-      <button type="button" mat-icon-button (click)="cancelPost()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
+<form class="Zindex" [formGroup]="addPostForm" (ngSubmit)="onSubmit()">
+  <div class="contentModal">
     <div class="user">
       <div class="image">
         <img
@@ -18,6 +13,11 @@
         <p>Opublikuj: Każdy</p>
       </div>
       <mat-icon>arrow_drop_down</mat-icon>
+    </div>
+    <div class="close">
+      <button type="button" mat-icon-button (click)="cancelPost()">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
     <div class="editZone">
       <div
@@ -89,7 +89,7 @@
       type="file"
     />
   </div>
-  <div class="content-finish">
+  <div class="contentModal-finish">
     <mat-icon
       matTooltip="Zdjęcie dodano"
       [ngStyle]="{ color: 'green' }"
