@@ -1,7 +1,10 @@
 import {
+  Body,
   Controller,
   Get,
+  Param,
   Post,
+  Put,
   Request,
   Res,
   UploadedFile,
@@ -18,6 +21,11 @@ import {
 } from '../../helpers/image-storage';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { join } from 'path';
+import { User } from '../models/user.interface';
+import {
+  FriendRequest,
+  FriendRequestStatus,
+} from '../models/friend-request.interface';
 
 @Controller('user')
 export class UserController {
@@ -85,5 +93,58 @@ export class UserController {
         return of({ imageName });
       }),
     );
+  }
+
+  @UseGuards(JwtGuard)
+  @Get(':userId')
+  findUserById(@Param('userId') userStringId: string): Observable<User> {
+    const userId = parseInt(userStringId);
+    return this.userService.findUserById(userId);
+  }
+
+  @UseGuards(JwtGuard)
+  @Post('friend-request/send/:receiverId')
+  sendFriendRequest(
+    @Param('receiverId') receiverStringId: string,
+    @Request() req, //since we use JWT token, we can get the information from there
+  ): Observable<FriendRequest | { error: string }> {
+    const receiverId = parseInt(receiverStringId);
+    const creator = req.user;
+    return this.userService.sendFriendRequest(receiverId, creator);
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('friend-request/status/:receiverId')
+  getFriendRequestStatus(
+    @Param('receiverId') receiverStringId: string,
+    @Request() req,
+  ): Observable<FriendRequestStatus> {
+    const receiverId = parseInt(receiverStringId);
+    const currentUser = req.user;
+    return this.userService.getFriendRequestStatus(receiverId, currentUser);
+  }
+
+  @UseGuards(JwtGuard)
+  @Put('friend-request/response/:friendRequestId')
+  respondToFriendRequest(
+    @Param('friendRequestId') friendRequestStringId: string,
+    @Body() statusResponse: FriendRequestStatus,
+    @Request() req,
+  ): Observable<FriendRequestStatus | { error: string }> {
+    const friendRequestId = parseInt(friendRequestStringId);
+    const currentUser = req.user;
+
+    return this.userService.respondToFriendRequest(
+      friendRequestId,
+      statusResponse.status,
+      currentUser,
+    );
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('friend-request/me/received-request')
+  getFriendRequestsFromRecipients(@Request() req): Observable<FriendRequest[]> {
+    const currentUser = req.user;
+    return this.userService.getFriendRequestsFromRecipients(currentUser);
   }
 }
