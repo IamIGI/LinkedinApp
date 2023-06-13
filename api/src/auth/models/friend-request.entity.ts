@@ -7,9 +7,6 @@ export class FriendRequestEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // {
-  //   eager: true,
-  // }
   @ManyToOne(() => UserEntity, (UserEntity) => UserEntity.sentFriendRequests, {
     eager: true,
   })
