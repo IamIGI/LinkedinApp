@@ -1,21 +1,26 @@
 @use 'src/styles/index' as i
 
-$content-width: 700px
+$contentModal-width: 700px
 
-.content
+.cdk-global-scrollblock
+  position: static !important
+  width: initial !important
+  overflow-y: inherit !important
+
+.contentModal
   position: relative
   @include i.flex-ColumnStartStart
   gap: 15px
   padding: 15px
-  width: $content-width
+  width: $contentModal-width
   border-bottom: 1px solid i.$color-light
 
-.content-finish
+.contentModal-finish
   @include i.flex-RowStartCenter
-  justify-content: flex-end
+  justify-contentModal: flex-end
   padding: 15px
   gap: 5px
-  width: $content-width
+  width: $contentModal-width
 
   .custom-button
     margin-bottom: 7px
@@ -122,122 +127,64 @@ $content-width: 700px
   gap: 15px
   width: 100%
 
-@media screen and (max-width: 1650px) 
-  .post-image
-    img 
-      max-width: 550px
-
-@media screen and (max-width: 1590px) 
-  .post-image
-    img 
-      max-width: 500px
-
-@media screen and (max-width: 1500px) 
-  .post-image
-    img 
-      max-width: 600px
-
-@media screen and (max-width: 1450px) 
-  .post-image
-    img 
-      max-width: 550px
-
-@media screen and (max-width: 1400px) 
-  .post-image
-    img 
-      max-width: 500px
-
-@media screen and (max-width: 1330px) 
-  .post-image
-    img 
-      max-width: 470px
-
-@media screen and (max-width: 1300px) 
-  .post-image
-    img 
-      max-width: 450px
-
-@media screen and (max-width: 1250px) 
-  .post-image
-    img 
-      max-width: 500px
-
-@media screen and (max-width: 1180px) 
-  .post-image
-    img 
-      max-width: 470px
-
-@media screen and (max-width: 1150px) 
-  .post-image
-    img 
-      max-width: 500px
-
-@media screen and (max-width: 1100px) 
-  .post-image
-    img 
-      max-width: 460px
 
 
-@media screen and (max-width: 1060px) 
-  .post-image
-    img 
-      max-width: 700px
+
+
 
 @media screen and (max-width: 1000px) 
+
+  $contentModal-width: 500px
+  .contentModal
+    width: $contentModal-width
+
+  .contentModal-finish
+    width: $contentModal-width
+
   .post-image
     img 
-      max-width: 630px
+      max-width: 430px
 
-@media screen and (max-width: 950px) 
+
+@media screen and (max-width: 650px) 
+  $contentModal-width: 400px
+  .contentModal
+    width: $contentModal-width
+
+  .contentModal-finish
+    width: $contentModal-width
+
   .post-image
     img 
-      max-width: 550px
-
-
-@media screen and (max-width: 870px) 
-  .post-image
-    img 
-      max-width: 450px
+      max-width: 350px
 
 @media screen and (max-width: 550px) 
   .post-image
     img 
       max-width: 380px
 
-
-@media screen and (max-width: 1000px) 
-  $content-width: 500px
-  .content-container
-    width: $content-width
-
-  .content-finish
-    width: $content-width
-
-
-@media screen and (max-width: 650px) 
-  $content-width: 400px
-  .content-container
-    width: $content-width
-
-  .content-finish
-    width: $content-width
-
 @media screen and (max-width: 500px) 
-  $content-width: 350px
-  .content-container
-    width: $content-width
+  $contentModal-width: 350px
+  .contentModal
+    width: $contentModal-width
 
-  .content-finish
-    width: $content-width
+  .contentModal-finish
+    width: $contentModal-width
 
   .post-image
     img 
-      max-width: 350px
+      max-width: 300px
+
+  
 
 @media screen and (max-width: 450px) 
-  $content-width: 300px
-  .content-container
-    width: $content-width
+  $contentModal-width: 320px
+  .contentModal
+    width: $contentModal-width
+    
+  .contentModal-finish
+    width: $contentModal-width
 
-  .content-finish
-    width: $content-width
+  .post-image
+    img 
+      max-width: 270px
