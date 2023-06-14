@@ -6,7 +6,7 @@ import { User } from 'src/auth/models/user.interface';
 export declare class FeedService {
     private readonly feedPostRepository;
     constructor(feedPostRepository: Repository<FeedPostEntity>);
-    postHasBeenUpdated(feedPost: FeedPost): Date;
+    postHasBeenUpdated(feedPost: FeedPost): FeedPost;
     createPost(user: User, post: FeedPost): Observable<FeedPost>;
     updatePost(id: number, newPost: FeedPost): Observable<UpdateResult>;
     deleteImageFromPost(userId: number, imageName: string, postId: number): Observable<UpdateResult>;

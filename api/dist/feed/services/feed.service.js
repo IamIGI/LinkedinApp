@@ -24,7 +24,8 @@ let FeedService = class FeedService {
         this.feedPostRepository = feedPostRepository;
     }
     postHasBeenUpdated(feedPost) {
-        return (feedPost.updatedAt = new Date());
+        feedPost.updatedAt = new Date();
+        return feedPost;
     }
     createPost(user, post) {
         post.author = user;
@@ -38,7 +39,7 @@ let FeedService = class FeedService {
     updatePost(id, newPost) {
         if (!newPost.content || newPost.content === '')
             return;
-        this.postHasBeenUpdated(newPost);
+        newPost = this.postHasBeenUpdated(newPost);
         const copyNewImage = this.findPostById(id).pipe((0, rxjs_1.take)(1), (0, rxjs_1.map)((oldPostData) => {
             if (newPost.imageName && newPost.imageName !== oldPostData.imageName) {
                 (0, rxjs_1.of)((0, image_storage_1.copyImageFromTemporaryToUserPost)(newPost.imageName, oldPostData.author.id))
@@ -57,10 +58,11 @@ let FeedService = class FeedService {
         return (0, rxjs_1.from)(this.feedPostRepository.update(id, newPost)).pipe((0, rxjs_1.delayWhen)(() => copyNewImage), (0, rxjs_1.take)(1));
     }
     deleteImageFromPost(userId, imageName, postId) {
-        const updatedPost = { imageName: null };
+        let updatedPost = { imageName: null };
         (0, image_storage_1.removeUserImageTemporaryFolder)(userId);
         if (postId != 0) {
             (0, image_storage_1.deletePostImage)(userId, imageName);
+            updatedPost = this.postHasBeenUpdated(updatedPost);
             return (0, rxjs_1.from)(this.feedPostRepository.update(postId, updatedPost));
         }
     }

@@ -3,25 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { FeedPostEntity } from '../models/post/post.entity';
 import { FeedPost } from '../models/post/post.interface';
-import {
-  concatMap,
-  mergeMap,
-  from,
-  map,
-  Observable,
-  of,
-  switchMap,
-  take,
-  tap,
-  exhaustMap,
-  delayWhen,
-} from 'rxjs';
+import { from, map, Observable, of, take, delayWhen } from 'rxjs';
 import { User } from 'src/auth/models/user.interface';
 import {
   copyImageFromTemporaryToUserPost,
   deletePostImage,
-  isFileExtensionSafe,
-  removeFile,
   removeUserImageTemporaryFolder,
 } from 'src/helpers/image-storage';
 
@@ -32,8 +18,9 @@ export class FeedService {
     private readonly feedPostRepository: Repository<FeedPostEntity>,
   ) {}
 
-  postHasBeenUpdated(feedPost: FeedPost) {
-    return (feedPost.updatedAt = new Date());
+  postHasBeenUpdated(feedPost: FeedPost): FeedPost {
+    feedPost.updatedAt = new Date();
+    return feedPost;
   }
 
   createPost(user: User, post: FeedPost): Observable<FeedPost> {
@@ -50,9 +37,8 @@ export class FeedService {
 
   updatePost(id: number, newPost: FeedPost): Observable<UpdateResult> {
     if (!newPost.content || newPost.content === '') return;
-    this.postHasBeenUpdated(newPost);
+    newPost = this.postHasBeenUpdated(newPost);
 
-    //
     const copyNewImage = this.findPostById(id).pipe(
       take(1),
       map((oldPostData: FeedPost) => {
@@ -88,12 +74,13 @@ export class FeedService {
     imageName: string,
     postId: number,
   ): Observable<UpdateResult> {
-    const updatedPost: FeedPost = { imageName: null };
+    let updatedPost: FeedPost = { imageName: null };
 
     removeUserImageTemporaryFolder(userId);
 
     if (postId != 0) {
       deletePostImage(userId, imageName);
+      updatedPost = this.postHasBeenUpdated(updatedPost);
       return from(this.feedPostRepository.update(postId, updatedPost));
     }
   }
