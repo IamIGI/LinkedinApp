@@ -8,6 +8,7 @@ export interface User {
   firstName: string;
   lastName: string | null;
   imagePath?: string | null;
+  fullImagePath?: string;
   role: Role;
   isPrivateAccount: boolean;
   company?: string | null;

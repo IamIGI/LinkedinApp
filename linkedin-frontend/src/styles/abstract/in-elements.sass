@@ -7,12 +7,14 @@
 @mixin profile-image($size)
   $border-radius: 50%
   border-radius: $border-radius
-  width: $size
+  min-width: $size
+  max-width: $size
 
   img
     border-radius: $border-radius
     max-height: 100%
-    max-width: 100%
+    width: $size
+    
 
 @mixin button-gray
   button

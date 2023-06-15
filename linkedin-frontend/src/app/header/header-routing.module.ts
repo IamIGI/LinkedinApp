@@ -29,7 +29,7 @@ const routes: Routes = [
     component: NotificationsComponent,
   },
   {
-    path: 'account',
+    path: 'account/:userId',
     component: AccountComponent,
   },
 ];

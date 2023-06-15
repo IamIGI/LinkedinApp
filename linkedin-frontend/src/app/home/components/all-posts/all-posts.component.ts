@@ -228,9 +228,7 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   goToAccount(postUserId: number) {
-    if (postUserId === this.userId) {
-      this.router.navigate(['home/account']);
-    }
+    this.router.navigate([`home/account/${postUserId}`]);
   }
 
   toggleLoading = () => (this.isLoading = !this.isLoading);

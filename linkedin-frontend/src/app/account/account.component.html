@@ -7,12 +7,12 @@
       />
     </div>
     <div class="account-profileImage">
-      <img src="../../assets/images/profiles/profile-image.png" alt="profile" />
+      <img [src]="user.fullImagePath" alt="profile" />
     </div>
     <div class="account-information">
       <div class="account-information-user">
         <div class="account-information-personal">
-          <h1>Igor Kłusek</h1>
+          <h1>{{ getAuthorName() }}</h1>
           <h2>Angular Developer at Airbus Technology</h2>
           <h3>
             Kraków, Woj. Małopolskie, Polska -
@@ -32,15 +32,55 @@
         </div>
       </div>
 
-      <div class="account-options">
+      <div
+        class="account-options"
+        *ngIf="user.id === loggedUserId; else foreignAccount"
+      >
         <button mat-flat-button color="primary">Otwarty(-a) na</button>
         <button mat-stroked-button color="primary">
           Dodaj część w profilu
         </button>
         <button mat-stroked-button>Wiecej</button>
       </div>
+      <ng-template #foreignAccount>
+        <div class="account-options">
+          <!-- <ng-container
+            *ngIf="
+              [
+                'not-sent',
+                'pending',
+                'waiting-for-current-user-response'
+              ].includes(friendRequestStatus)
+            "
+          ></ng-container> -->
+          <button
+            [disabled]="
+              ['pending', 'waiting-for-current-user-response'].includes(
+                friendRequestStatus
+              )
+            "
+            mat-flat-button
+            color="primary"
+            (click)="addUser()"
+          >
+            <mat-icon>person_add_alt_1</mat-icon>
+            {{
+              friendRequestStatus === "waiting-for-current-user-response"
+                ? "Zaakceptuj"
+                : "Nawiąż kontakt"
+            }}
+          </button>
+          <button mat-stroked-button extended color="primary">
+            <mat-icon>send</mat-icon> Wiadomość
+          </button>
+          <button mat-stroked-button>Wiecej</button>
+        </div>
+      </ng-template>
 
-      <div class="account-information-openToWork">
+      <div
+        *ngIf="user.id === loggedUserId"
+        class="account-information-openToWork"
+      >
         <h4>Otwarty(-a) na oferty pracy</h4>
         <!-- , Frontend Web Developer, Full-stack Developer, Angular Developer -->
         <p>React Developer, JavaScript Engineer</p>
