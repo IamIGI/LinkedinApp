@@ -6,6 +6,7 @@ import { FileTypeResult } from 'file-type';
 import { fromBuffer } from 'file-type/core';
 import { BehaviorSubject, Subscription, from, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 type validFileExtension = 'png' | 'jpg' | 'jpeg';
 type validMimeType = 'image/png' | 'image/jpg' | 'image/jpeg';
@@ -42,7 +43,7 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
 
   userRoleBackgroundColor = this.bannerColors.user;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -137,6 +138,10 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
       .subscribe();
 
     this.form.reset();
+  }
+
+  goToAccount() {
+    this.router.navigate(['home/account']);
   }
 
   ngOnDestroy(): void {

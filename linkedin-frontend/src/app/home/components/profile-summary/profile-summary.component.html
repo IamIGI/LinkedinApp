@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class="information">
-    <h1>{{ fullName }}</h1>
+    <h1 (click)="goToAccount()">{{ fullName }}</h1>
     <p *ngIf="getUserJobData() !== null">{{ getUserJobData() }}</p>
   </div>
 </div>

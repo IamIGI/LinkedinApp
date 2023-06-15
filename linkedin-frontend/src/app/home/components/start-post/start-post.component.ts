@@ -13,6 +13,7 @@ import { Subscription, take } from 'rxjs';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 import { PostService } from '../../services/post.service';
 import { MatTooltip } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-start-post',
@@ -32,7 +33,8 @@ export class StartPostComponent implements OnInit, OnDestroy {
   constructor(
     private dialog: MatDialog,
     private authService: AuthService,
-    private postService: PostService
+    private postService: PostService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -79,6 +81,10 @@ export class StartPostComponent implements OnInit, OnDestroy {
     const newFile = ((event.target as HTMLInputElement).files as FileList)[0];
     if (!newFile) return;
     this.postService.onImageChange();
+  }
+
+  goToAccount() {
+    this.router.navigate(['home/account']);
   }
 
   ngOnDestroy(): void {

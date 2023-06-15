@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { User } from 'src/app/guests/components/auth/models/user.model';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
@@ -17,7 +18,7 @@ export class PopoverComponent implements OnInit {
   userFullImagePath!: string;
   private userImagePathSubscription!: Subscription;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.userImagePathSubscription =
@@ -46,6 +47,10 @@ export class PopoverComponent implements OnInit {
     const company = this.userStream.company;
     if (position === null || company === null) return null;
     return `${position} w ${company}`;
+  }
+
+  goToAccount() {
+    this.router.navigate(['home/account']);
   }
 
   ngOnDestroy(): void {

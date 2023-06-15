@@ -16,6 +16,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Role, User } from 'src/app/guests/components/auth/models/user.model';
 import { ProgressSpinnerDialogComponent } from 'src/app/progress-spinner-dialog/progress-spinner-dialog.component';
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-posts',
@@ -37,12 +38,14 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
   readMore: Boolean[] = [];
 
   userId$ = new BehaviorSubject<number>(null!);
+  userId: number = null!;
   userRole: Role = 'user';
 
   constructor(
     private postService: PostService,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +63,7 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
     this.getPosts();
 
     this.authService.userId.pipe(take(1)).subscribe((userId: number) => {
+      this.userId = userId;
       this.userId$.next(userId);
     });
 
@@ -221,6 +225,12 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
         (post: Post) => post.id !== postId
       );
     });
+  }
+
+  goToAccount(postUserId: number) {
+    if (postUserId === this.userId) {
+      this.router.navigate(['home/account']);
+    }
   }
 
   toggleLoading = () => (this.isLoading = !this.isLoading);
