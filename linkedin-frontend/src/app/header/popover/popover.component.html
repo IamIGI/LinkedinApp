@@ -14,7 +14,7 @@
         <p *ngIf="getUserJobData() !== null">{{ getUserJobData() }}</p>
       </div>
     </div>
-    <button class="showProfile">Wyświetl profil</button>
+    <button class="showProfile" (click)="goToAccount()">Wyświetl profil</button>
   </div>
   <div class="section">
     <ul>

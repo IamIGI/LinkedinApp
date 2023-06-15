@@ -1,0 +1,181 @@
+@use 'src/styles/index' as i
+
+.account-container
+  $horizontalMargin: 25%
+  margin-top: 30px
+  margin: 0 $horizontalMargin
+  width:  calc( 100% - 2*$horizontalMargin )
+  @include i.flex-ColumnStartCenter
+  
+  gap: 10px
+
+  .account-sectionOne
+    width: 100%
+    @include i.flex-ColumnStartStart
+    border-radius: i.$radius-container
+    position: relative
+    background-color: i.$color-white
+
+    .account-background-image
+      height: 250px
+      width: 100%
+      
+      img
+        width: 100%
+        height: 100%
+        border-top-left-radius: i.$radius-container
+        border-top-right-radius: i.$radius-container
+
+    .account-profileImage
+      width: 100%
+      position: absolute
+      left: 30px
+      top: 140px
+      @include i.inElement-profile-image(180px)
+      img
+        border: 5px solid white
+
+    .account-information
+      width: 100%
+      padding: 80px 20px 10px 20px
+      @include i.flex-ColumnStartCenter
+      gap: 20px
+      
+
+      .account-information-user
+        width: 100%
+
+        @include i.flex-RowStartCenter
+        justify-content: space-between
+        gap: 10px
+        
+        .account-information-personal
+          width: fit-content
+          h1
+            margin: 0px
+            margin-bottom: 3px
+            font-size: i.$font-xl
+          h2
+            margin: 0px
+            margin-bottom: 5px
+            font-weight: 400
+            font-size: i.$font-m_plus
+          h3
+            margin: 0px
+            margin-bottom: 10px
+            font-weight: 400
+            color: i.$color-medium-shade
+            font-size: i.$font-m
+            span
+              font-weight: 700
+              color: i.$color-primary
+          p
+            margin: 0px
+            font-weight: 700
+            color: i.$color-primary
+
+        .account-information-workAndEducation
+          width: 250px
+          @include i.flex-ColumnStartStart
+          gap: 10px
+
+          .account-information-WorkAndEducation-element
+            @include i.flex-RowStartCenter
+            gap: 10px
+            
+            img
+              @include i.inElement-profile-image(30px)
+
+            p
+              padding: 0px
+              margin: 0px
+              font-size: i.$font-s
+              font-weight: 500
+
+      .account-options
+        width: 100%
+        @include i.flex-RowStartCenter
+        flex-wrap: wrap
+        gap: 10px
+
+        button
+          border-radius: 18px 
+          height: 36px
+          font-weight: 700
+          padding: 0 20px
+          border: 2px solid 
+
+          &:nth-child(2)
+            border-color: i.$color-primary
+
+          &:last-child
+            color: gray
+
+        
+
+      .account-information-openToWork
+        width: 100%
+        padding: 10px
+        background-color: #dce6f1
+        border-radius: i.$radius-container
+
+        h4
+          margin: 0px
+          margin-bottom: 5px
+          font-size: i.$font-l
+          font-weight: 500
+        p
+          margin: 0px
+          margin-bottom: 3px
+          font-size: i.$font-m
+
+        p:last-child
+          font-weight: 500
+          color: i.$color-primary
+
+          &:hover
+            text-decoration: underline
+            cursor: pointer
+
+@media screen and (max-width: 1500px)
+  .account-container
+    $horizontalMargin: 20%
+    margin: 0 $horizontalMargin
+    width:  calc( 100% - 2*$horizontalMargin )
+
+
+@media screen and (max-width: 1250px)
+  .account-container
+    $horizontalMargin: 15%
+    margin: 0 $horizontalMargin
+    width:  calc( 100% - 2*$horizontalMargin )
+
+@media screen and (max-width: 1050px)
+  .account-container
+    $horizontalMargin: 7%
+    margin: 0 $horizontalMargin
+    width:  calc( 100% - 2*$horizontalMargin )
+
+
+@media screen and (max-width: 805px)
+  .account-container
+    $horizontalMargin: 3%
+    margin: 0 $horizontalMargin
+    width:  calc( 100% - 2*$horizontalMargin )
+
+@media screen and (max-width: 600px)
+  .account-container
+    .account-sectionOne
+      .account-background-image
+        height: 200px
+        width: 100%
+        
+      .account-profileImage
+        width: 100%
+        position: absolute
+        left: 30px
+        top: 120px
+        @include i.inElement-profile-image(130px)
+
+      .account-information
+        padding: 60px 10px 10px 10px

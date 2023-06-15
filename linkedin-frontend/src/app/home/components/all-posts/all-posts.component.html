@@ -9,8 +9,12 @@
   <div class="post" *ngFor="let post of allLoadedPosts; index as i">
     <div class="author">
       <div class="information">
-        <div class="image">
-          <img [src]="post.authorFullImagePath" alt="profile" />
+        <div class="image pointer">
+          <img
+            [src]="post.authorFullImagePath"
+            (click)="goToAccount(post.author.id)"
+            alt="profile"
+          />
         </div>
         <div>
           <h1>{{ getAuthorName(post) }}</h1>

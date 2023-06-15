@@ -3,16 +3,17 @@ import { RouterModule } from '@angular/router';
 import { MainTemplateComponent } from './main-template.component';
 import { HomePageModule } from '../home/home.module';
 import { MainTemplateRoutingModule } from './main-template-routing.module';
-import { ModalComponent } from '../home/components/start-post/modal/modal.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderModule } from '../header/header.module';
+import { AccountModule } from '../account/account.module';
 
 @NgModule({
   imports: [
     SharedModule,
     ReactiveFormsModule,
     HomePageModule,
+    AccountModule,
     RouterModule,
     MainTemplateRoutingModule,
     HeaderModule,
