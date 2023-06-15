@@ -7,17 +7,12 @@ export class FriendRequestEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => UserEntity, (UserEntity) => UserEntity.sentFriendRequests, {
-    eager: true,
-  })
+  @ManyToOne(() => UserEntity, (UserEntity) => UserEntity.sentFriendRequests)
   creator: UserEntity;
 
   @ManyToOne(
     () => UserEntity,
     (UserEntity) => UserEntity.receivedFriendRequests,
-    {
-      eager: true,
-    },
   )
   receiver: UserEntity;
 
