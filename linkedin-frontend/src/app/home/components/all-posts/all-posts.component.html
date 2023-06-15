@@ -17,7 +17,9 @@
           />
         </div>
         <div>
-          <h1>{{ getAuthorName(post) }}</h1>
+          <h1 class="clickText" (click)="goToAccount(post.author.id)">
+            {{ getAuthorName(post) }}
+          </h1>
           <p class="information-account">
             <span
               *ngIf="

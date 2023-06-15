@@ -141,7 +141,7 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
   }
 
   goToAccount() {
-    this.router.navigate(['home/account']);
+    this.router.navigate([`home/account/${this.userStream.id}`]);
   }
 
   ngOnDestroy(): void {

@@ -49,10 +49,6 @@ export class PopoverComponent implements OnInit {
     return `${position} w ${company}`;
   }
 
-  goToAccount() {
-    this.router.navigate(['home/account']);
-  }
-
   ngOnDestroy(): void {
     this.userImagePathSubscription.unsubscribe();
   }

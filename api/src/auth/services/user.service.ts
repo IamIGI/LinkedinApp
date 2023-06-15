@@ -10,6 +10,7 @@ import {
   FriendRequest_Status,
 } from '../models/friend-request.interface';
 import { FriendRequestEntity } from '../models/friend-request.entity';
+import { relative } from 'path';
 
 @Injectable()
 export class UserService {
@@ -24,6 +25,15 @@ export class UserService {
     return from(
       this.userRepository.findOne({ where: { id }, relations: ['feedPosts'] }),
     ).pipe(
+      map((user: User) => {
+        delete user.password;
+        return user;
+      }),
+    );
+  }
+
+  findUserByIdWithoutPosts(id: number): Observable<User> {
+    return from(this.userRepository.findOne({ where: { id } })).pipe(
       map((user: User) => {
         delete user.password;
         return user;
@@ -101,19 +111,25 @@ export class UserService {
     receiverId: number,
     currentUser: User,
   ): Observable<FriendRequestStatus> {
-    return this.findUserById(receiverId).pipe(
+    return this.findUserByIdWithoutPosts(receiverId).pipe(
       switchMap((receiver: User) => {
         return from(
           this.friendRequestRepository.findOne({
-            where: {
-              creator: currentUser,
-              receiver,
-            },
+            where: [
+              { creator: currentUser, receiver: receiver },
+              { creator: receiver, receiver: currentUser },
+            ],
+            relations: ['creator', 'receiver'],
           }),
         );
       }),
       switchMap((friendRequest: FriendRequest) => {
-        return of({ status: friendRequest.status });
+        if (friendRequest?.receiver.id === currentUser.id) {
+          return of({
+            status: 'waiting-for-current-user-response' as FriendRequest_Status,
+          });
+        }
+        return of({ status: friendRequest?.status || 'not-sent' });
       }),
     );
   }
