@@ -22,14 +22,12 @@
     <div class="editZone">
       <div
         *ngIf="passedData?.postData?.fullImagePath"
-        class="post-image pointer"
+        class="modal-post-image pointer relative"
         matTooltip="Usuń zdjęcie"
         (click)="onDeletePostImage()"
       >
-        <div class="relative">
-          <img alt="post" [src]="passedData.postData.fullImagePath" />
-          <mat-icon class="post-image-delete">hide_image</mat-icon>
-        </div>
+        <img alt="post" [src]="passedData.postData.fullImagePath" />
+        <mat-icon class="modal-post-image-delete">hide_image</mat-icon>
       </div>
       <div class="text">
         <textarea

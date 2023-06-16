@@ -67,31 +67,30 @@ $contentModal-width: 700px
   right: 10px
   top: 10px
 
-.post-image
+.realative
+  position: relative
+
+.modal-post-image
   height: 100%
+  max-height: 300px
   width: 100%
 
   img 
-    border-radius: 20px
     display: block
     margin-left: auto
     margin-right: auto
-    max-height: 400px
-    max-width: 590px
+    height: 100%
+    width: 100%
+    max-height: 300px
 
-  .realative
-      position: relative
-
-  .post-image-delete
+  .modal-post-image-delete
       display: none
 
   &:hover
+    img
+      filter: grayscale(50%)
 
-    .relative
-      img
-        filter: grayscale(50%)
-
-    .post-image-delete
+    .modal-post-image-delete
       display: flex
       position: absolute
       top: 45%
@@ -141,9 +140,6 @@ $contentModal-width: 700px
   .contentModal-finish
     width: $contentModal-width
 
-  .post-image
-    img 
-      max-width: 430px
 
 
 @media screen and (max-width: 650px) 
@@ -154,14 +150,6 @@ $contentModal-width: 700px
   .contentModal-finish
     width: $contentModal-width
 
-  .post-image
-    img 
-      max-width: 350px
-
-@media screen and (max-width: 550px) 
-  .post-image
-    img 
-      max-width: 380px
 
 @media screen and (max-width: 500px) 
   $contentModal-width: 350px
@@ -171,11 +159,6 @@ $contentModal-width: 700px
   .contentModal-finish
     width: $contentModal-width
 
-  .post-image
-    img 
-      max-width: 300px
-
-  
 
 @media screen and (max-width: 450px) 
   $contentModal-width: 320px
@@ -184,7 +167,3 @@ $contentModal-width: 700px
     
   .contentModal-finish
     width: $contentModal-width
-
-  .post-image
-    img 
-      max-width: 270px
