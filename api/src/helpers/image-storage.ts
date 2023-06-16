@@ -59,15 +59,11 @@ export async function createSmallImage(
   }
 
   const resizedImageName = smallImgName(imageName);
-  console.log(resizedImageName);
-  console.log(path.join(imagePath, imageName));
-  console.log(path.join(imagePath, resizedImageName));
 
   gm(path.join(imagePath, imageName))
     .resize(20, 20, '!')
     .write(path.join(imagePath, resizedImageName), (err: any) => {
       if (err) throw new Error('Could not resize the image:' + err);
-      console.log('Image resized successfully!');
     });
 }
 
@@ -156,7 +152,6 @@ export async function removeUserImageTemporaryFolder(userId: number) {
     `${storagePath.temporary}/users/${userId}`,
   );
   if (fs.existsSync(imagesFolderPath)) {
-    console.log('remove user temporary folder');
     await fs.rmSync(imagesFolderPath, { recursive: true, force: true });
   }
 }
@@ -210,7 +205,7 @@ export const saveUserImageToTemporaryStorage = {
       cb(null, fileName);
     },
   }),
-  fileFilter: async (req, file, cb) => {
+  fileFilter: (req, file, cb) => {
     const allowedMimeTypes: validMimeType[] = validMimeTypes;
     allowedMimeTypes.includes(file.mimetype as validMimeType)
       ? cb(null, true)

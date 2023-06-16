@@ -67,7 +67,6 @@ export class FeedController {
   @Post('temporary/image')
   saveImagePostTemporary(
     @UploadedFile() file: Express.Multer.File,
-    @Request() req,
   ): Observable<{ newFilename?: string; error?: string }> {
     return of({ newFilename: file.filename });
   }
