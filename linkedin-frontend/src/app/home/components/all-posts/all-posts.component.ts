@@ -5,6 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
   OnDestroy,
+  AfterViewChecked,
 } from '@angular/core';
 import { data } from './data';
 import { CreatePost, PostService } from '../../services/post.service';
@@ -23,7 +24,9 @@ import { Router } from '@angular/router';
   templateUrl: './all-posts.component.html',
   styleUrls: ['./all-posts.component.sass'],
 })
-export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
+export class AllPostsComponent
+  implements OnInit, OnChanges, AfterViewChecked, OnDestroy
+{
   @Input() postBody: CreatePost = { content: '', role: '' };
 
   private userSubscription!: Subscription;
@@ -72,6 +75,23 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe((role: Role | undefined) => {
         if (role) this.userRole = role;
       });
+  }
+
+  ngAfterViewChecked(): void {
+    const blurDivs = document.querySelectorAll('.blur-load');
+    blurDivs.forEach((div) => {
+      const img = div.querySelector('img');
+
+      function loaded() {
+        div.classList.add('loaded');
+      }
+
+      if (img?.complete) {
+        loaded();
+      } else {
+        img?.addEventListener('load', loaded);
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -154,6 +174,11 @@ export class AllPostsComponent implements OnInit, OnChanges, OnDestroy {
       post.author.id,
       post.imageName as string
     );
+    post.fullSmallImagePath = this.postService.getPostImageName(
+      post.author.id,
+      this.postService.smallImageName(post.imageName as string)
+    );
+
     return post;
   }
 

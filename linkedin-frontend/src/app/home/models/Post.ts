@@ -12,4 +12,5 @@ export interface Post {
   updatedAt: Date;
   imageName?: string;
   fullImagePath?: string;
+  fullSmallImagePath?: string;
 }
