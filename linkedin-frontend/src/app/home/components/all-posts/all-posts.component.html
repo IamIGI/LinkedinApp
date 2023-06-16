@@ -14,6 +14,7 @@
             [src]="post.authorFullImagePath"
             (click)="goToAccount(post.author.id)"
             alt="profile"
+            loading="lazy"
           />
         </div>
         <div>
@@ -70,8 +71,12 @@
         <mat-icon>add</mat-icon>
       </button>
     </div>
-    <div *ngIf="post.fullImagePath" class="post-image">
-      <img alt="post" [src]="post.fullImagePath" />
+    <div
+      *ngIf="post.fullImagePath"
+      class="post-image blur-load"
+      [ngStyle]="{ 'background-image': 'url(' + post.fullSmallImagePath + ')' }"
+    >
+      <img alt="post" [src]="post.fullImagePath" loading="lazy" />
     </div>
     <div class="text">
       <p>

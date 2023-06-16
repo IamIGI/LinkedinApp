@@ -62,6 +62,10 @@ export class PostService {
     this.postImage$.next(true);
   }
 
+  smallImageName(imageName: string): string {
+    return `${imageName.split('.')[0]}-small.${imageName.split('.')[1]}`;
+  }
+
   setPostBody(body: CreatePost) {
     this.postBody.content = body?.content;
     this.postBody.role = body?.role;

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const fs = require('fs');
 const FileType = require('file-type');
+const gm = require('gm').subClass({ imageMagick: '7+' });
 
 import path = require('path');
 import { Observable, from, switchMap, of } from 'rxjs';
@@ -23,6 +24,48 @@ const storagePath = {
   posts: 'images/userPosts',
   users: 'images/users',
 };
+
+function smallImgName(imageName: string): string {
+  return `${imageName.split('.')[0]}-small.${imageName.split('.')[1]}`;
+}
+
+export async function createSmallImage(
+  imageType: 'post' | 'user' | 'background' | 'temporary',
+  imageName: string,
+  userId: number,
+) {
+  let imagePath = '';
+  switch (imageType) {
+    case 'temporary':
+      imagePath = path.join(
+        process.cwd(),
+        `${storagePath.temporary}/users/${userId}`,
+      );
+      break;
+    case 'post':
+      imagePath = path.join(process.cwd(), `${storagePath.posts}/${userId}`);
+      break;
+    case 'user':
+      imagePath = path.join(process.cwd(), `${storagePath.users}/${userId}`);
+      break;
+    case 'background':
+      imagePath = path.join(
+        process.cwd(),
+        `${storagePath.users}/${userId}/background`,
+      );
+      break;
+    default:
+      throw new Error('wrong ImageType: ' + imageType);
+  }
+
+  const resizedImageName = smallImgName(imageName);
+
+  gm(path.join(imagePath, imageName))
+    .resize(20, 20, '!')
+    .write(path.join(imagePath, resizedImageName), (err: any) => {
+      if (err) throw new Error('Could not resize the image:' + err);
+    });
+}
 
 export async function deletePostImage(userId: number, imageName: string) {
   const imagePath = path.join(
@@ -74,19 +117,32 @@ export async function copyImageFromTemporaryToUserPost(
   userId: number,
 ) {
   await createPostImageFolder(userId);
+
   const temporaryPath = path.join(
     process.cwd(),
-    `${storagePath.temporary}/users/${userId}/${fileName}`,
+    `${storagePath.temporary}/users/${userId}`,
   );
   const userPostPath = path.join(
     process.cwd(),
-    `${storagePath.posts}/${userId}/${fileName}`,
+    `${storagePath.posts}/${userId}`,
   );
   if (fs.existsSync(temporaryPath)) {
-    await fs.copyFile(temporaryPath, userPostPath, async (err) => {
-      if (err) throw err;
-      await removeUserImageTemporaryFolder(userId);
-    });
+    const resizedImageName = smallImgName(fileName);
+    await fs.copyFile(
+      path.join(temporaryPath, resizedImageName),
+      path.join(userPostPath, resizedImageName),
+      async (err: any) => {
+        if (err) throw new Error('Could not copy smallImg');
+      },
+    );
+    await fs.copyFile(
+      path.join(temporaryPath, fileName),
+      path.join(userPostPath, fileName),
+      async (err: any) => {
+        if (err) throw err;
+        await removeUserImageTemporaryFolder(userId);
+      },
+    );
   }
 }
 
@@ -111,27 +167,27 @@ export async function createUserImageTemporaryFolder(userId: number) {
   }
 }
 
-export const savePostImageToStorage = {
-  storage: diskStorage({
-    destination: async (req, file, cb) => {
-      const { id: userId } = req.user as User;
-      await removeUserImageTemporaryFolder(userId);
-      await createPostImageFolder(userId);
-      cb(null, `${storagePath.posts}/${userId}`);
-    },
-    filename: (req, file, cb) => {
-      const fileExtension: string = path.extname(file.originalname);
-      const fileName: string = uuidv4() + fileExtension;
-      cb(null, fileName);
-    },
-  }),
-  fileFilter: (req, file, cb) => {
-    const allowedMimeTypes: validMimeType[] = validMimeTypes;
-    allowedMimeTypes.includes(file.mimetype as validMimeType)
-      ? cb(null, true)
-      : cb(null, false);
-  },
-};
+// export const savePostImageToStorage = {
+//   storage: diskStorage({
+//     destination: async (req, file, cb) => {
+//       const { id: userId } = req.user as User;
+//       await removeUserImageTemporaryFolder(userId);
+//       await createPostImageFolder(userId);
+//       cb(null, `${storagePath.posts}/${userId}`);
+//     },
+//     filename: (req, file, cb) => {
+//       const fileExtension: string = path.extname(file.originalname);
+//       const fileName: string = uuidv4() + fileExtension;
+//       cb(null, fileName);
+//     },
+//   }),
+//   fileFilter: (req, file, cb) => {
+//     const allowedMimeTypes: validMimeType[] = validMimeTypes;
+//     allowedMimeTypes.includes(file.mimetype as validMimeType)
+//       ? cb(null, true)
+//       : cb(null, false);
+//   },
+// };
 
 export const saveUserImageToTemporaryStorage = {
   storage: diskStorage({
@@ -141,9 +197,11 @@ export const saveUserImageToTemporaryStorage = {
       await createUserImageTemporaryFolder(userId);
       cb(null, `${storagePath.temporary}/users/${userId}`);
     },
-    filename: (req, file, cb) => {
+    filename: async (req, file, cb) => {
       const fileExtension: string = path.extname(file.originalname);
       const fileName: string = uuidv4() + fileExtension;
+      const { id: userId } = req.user as User;
+      await createSmallImage('temporary', fileName, userId);
       cb(null, fileName);
     },
   }),
@@ -152,6 +210,7 @@ export const saveUserImageToTemporaryStorage = {
     allowedMimeTypes.includes(file.mimetype as validMimeType)
       ? cb(null, true)
       : cb(null, false);
+    console.log('fileIsSaved');
   },
 };
 

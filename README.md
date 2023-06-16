@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.7.
 
+##To resize image: check this repo:
+I installed both exe's
+https://github.com/aheckmann/gm
+
 ## Libraries documentation:
 
 - Infinite scroll: https://www.npmjs.com/package/ngx-infinite-scroll
