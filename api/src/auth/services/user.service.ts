@@ -11,6 +11,7 @@ import {
 } from '../models/friend-request.interface';
 import { FriendRequestEntity } from '../models/friend-request.entity';
 import { relative } from 'path';
+import { UserController } from '../controllers/user.controller';
 
 @Injectable()
 export class UserService {
@@ -20,6 +21,60 @@ export class UserService {
     @InjectRepository(FriendRequestEntity)
     private readonly friendRequestRepository: Repository<FriendRequestEntity>,
   ) {}
+
+  // findUsersWhoAreInNoConnectionToAuthenticatedUser(usersNumber: number): Observable<User[]> {
+
+  // }
+
+  /** Return all users id who are with authenticated user in requests status: 'pending', 'waiting-for-current-user-response', 'accepted', 'declined' */
+  getAllUsersWhoAreInConnectionToAuthenticatedUser(
+    currentUser: User,
+  ): Observable<number[]> {
+    return from(
+      this.friendRequestRepository.find({
+        where: [
+          { creator: currentUser, status: 'pending' },
+          { creator: currentUser, status: 'waiting-for-current-user-response' },
+          { creator: currentUser, status: 'accepted' },
+          { creator: currentUser, status: 'declined' },
+          { receiver: currentUser, status: 'pending' },
+          {
+            receiver: currentUser,
+            status: 'waiting-for-current-user-response',
+          },
+          { receiver: currentUser, status: 'accepted' },
+          { receiver: currentUser, status: 'declined' },
+        ],
+        relations: ['creator', 'receiver'],
+      }),
+    ).pipe(
+      map((friendRequests: FriendRequestEntity[]) => {
+        // console.log(friendRequests);
+        type userConnectionHistory = {
+          id: number;
+          status: FriendRequest_Status;
+          user: User;
+        };
+        let usersConnectionHistory: userConnectionHistory[] = null!;
+        usersConnectionHistory = friendRequests.map(
+          (friendRequest: FriendRequestEntity) => {
+            const targetUser =
+              friendRequest.creator.id !== currentUser.id
+                ? friendRequest.creator
+                : friendRequest.receiver;
+            const historyObject = {
+              id: friendRequest.id,
+              status: friendRequest.status,
+              user: targetUser,
+            };
+            return historyObject;
+          },
+        );
+        console.log(usersConnectionHistory);
+        return [1];
+      }),
+    );
+  }
 
   findUserById(id: number): Observable<User> {
     return from(

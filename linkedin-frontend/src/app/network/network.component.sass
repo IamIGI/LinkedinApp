@@ -1,0 +1,149 @@
+@use 'src/styles/index' as i
+
+.network-container
+  $horizontalMargin: 25%
+  margin-top: 30px
+  margin: 0 $horizontalMargin
+  width: calc( 100% - 2*$horizontalMargin )
+  @include i.flex-ColumnStartCenter
+  gap: 10px
+  
+
+  .network-request-section
+    width: 100%
+    @include i.flex-ColumnStartStart
+    background-color: i.$color-white
+    border-radius: i.$radius-container
+    border: 0.5px solid i.$color-light
+
+    .network-request-title
+      width: 100%
+      @include i.flex-RowStartStart
+      justify-content: space-between
+      padding: 15px
+      border-bottom: 1px solid i.$color-light
+
+      h1
+        margin: 0px
+        font-size: i.$font-l_plus
+        font-weight: 500
+
+      p
+        margin: 0px
+        font-size: i.$font-l_plus
+        font-weight: 500
+        color: i.$color-medium-tint
+
+    .network-request-tile
+      width: 100%
+      padding: 15px
+      @include i.flex-RowStartCenter
+      justify-content: space-between
+      border-bottom: 1px solid i.$color-light
+      gap: 15px
+
+      &:last-child
+          border-bottom: 1px solid transparent
+          border-bottom-left-radius: i.$radius-container
+          border-bottom-right-radius: i.$radius-container
+
+      .network-request-tile-user
+        @include i.flex-RowStartCenter
+        gap: 15px
+
+        .network-profileImage
+          height: 80px
+          @include i.inElement-profile-image(80px)
+
+        h2
+          margin: 0px
+          font-size: i.$font-l_plus
+          font-weight: 500
+
+        p
+          margin: 0px
+          font-size: i.$font-m_plus
+          font-weight: 400
+      
+      .network-request-tile-buttons
+        @include i.flex-RowStartCenter
+        gap: 10px
+
+        button
+          font-size: i.$font-l_plus
+          border-radius: 18px 
+          height: 36px
+          font-weight: 600
+          padding: 0 20px
+          border: 2px solid 
+
+          &:first-child
+            color: i.$color-medium-tint
+            border: 2px solid transparent            
+            
+@media screen and (max-width: 1450px )
+  .network-container
+    $horizontalMargin: 20%
+    margin: 0 $horizontalMargin
+    width: calc( 100% - 2*$horizontalMargin )
+
+@media screen and (max-width: 1200px )
+  .network-container
+    $horizontalMargin: 12%
+    margin: 0 $horizontalMargin
+    width: calc( 100% - 2*$horizontalMargin )
+
+@media screen and (max-width: 920px )
+  .network-container
+    $horizontalMargin: 5%
+    margin: 0 $horizontalMargin
+    width: calc( 100% - 2*$horizontalMargin )
+
+@media screen and (max-width: 800px )
+  .network-container
+    $horizontalMargin: 2%
+    margin: 0 $horizontalMargin
+    width: calc( 100% - 2*$horizontalMargin )
+
+@media screen and (max-width: 800px )
+  .network-container
+    .network-request-section
+      .network-request-tile
+        .network-request-tile-user
+          .network-profileImage
+            height: 60px
+            @include i.inElement-profile-image(60px)
+
+            h2
+              margin: 0px
+              font-size: i.$font-l
+              font-weight: 500
+
+            p
+              margin: 0px
+              font-size: i.$font-m
+              font-weight: 400
+
+        .network-request-tile-buttons
+          button
+            font-size: i.$font-m_plus
+            border-radius: 17px 
+            height: 34px
+            font-weight: 600
+            padding: 0 17px
+            border: 2px solid 
+
+            &:first-child
+              color: i.$color-medium-tint
+              border: 2px solid transparent         
+
+
+@media screen and (max-width: 660px )
+  .network-container
+    .network-request-section
+      .network-request-tile
+        @include i.flex-ColumnStartStart
+        gap: 15px
+
+        .network-request-tile-user
+          padding-left: 15px
