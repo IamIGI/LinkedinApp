@@ -147,4 +147,13 @@ export class UserController {
     const currentUser = req.user;
     return this.userService.getFriendRequestsFromRecipients(currentUser);
   }
+
+  @UseGuards(JwtGuard)
+  @Get('friend-request/me/all')
+  getUserFriendRequestsHistory(@Request() req): Observable<Number[]> {
+    const currentUser = req.user;
+    return this.userService.getAllUsersWhoAreInConnectionToAuthenticatedUser(
+      currentUser,
+    );
+  }
 }

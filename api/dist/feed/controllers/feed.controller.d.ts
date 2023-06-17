@@ -9,7 +9,7 @@ export declare class FeedController {
     create(post: FeedPost, req: any): Observable<FeedPost>;
     findSelected(take?: number, skip?: number): Observable<FeedPost[]>;
     updatePost(id: number, feedPost: FeedPost): Observable<UpdateResult>;
-    saveImagePostTemporary(file: Express.Multer.File, req: any): Observable<{
+    saveImagePostTemporary(file: Express.Multer.File): Observable<{
         newFilename?: string;
         error?: string;
     }>;

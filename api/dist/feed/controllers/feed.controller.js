@@ -37,7 +37,7 @@ let FeedController = class FeedController {
     updatePost(id, feedPost) {
         return this.feedService.updatePost(id, feedPost);
     }
-    saveImagePostTemporary(file, req) {
+    saveImagePostTemporary(file) {
         return (0, rxjs_1.of)({ newFilename: file.filename });
     }
     removeTemporaryImagePost(userId = 0) {
@@ -105,9 +105,8 @@ __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', image_storage_1.saveUserImageToTemporaryStorage)),
     (0, common_1.Post)('temporary/image'),
     __param(0, (0, common_1.UploadedFile)()),
-    __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", rxjs_1.Observable)
 ], FeedController.prototype, "saveImagePostTemporary", null);
 __decorate([

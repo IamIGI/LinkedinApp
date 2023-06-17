@@ -1,1 +1,31 @@
-<p>network works!</p>
+<div class="network-container">
+  <div class="network-request-section">
+    <div class="network-request-title">
+      <div>
+        <h1>Zaproszenia</h1>
+      </div>
+      <div>
+        <p>Zarządzaj</p>
+      </div>
+    </div>
+    <div class="network-request-tile" *ngFor="let item of [0, 1, 2, 3]">
+      <div class="network-request-tile-user">
+        <div class="network-profileImage pointer">
+          <img
+            src="../../assets/images/profiles/profile-image.png"
+            alt="profile"
+            loading="lazy"
+          />
+        </div>
+        <div>
+          <h2 class="clickText">Igor Kłusek</h2>
+          <p>Angular Developer at Airbus Technology</p>
+        </div>
+      </div>
+      <div class="network-request-tile-buttons">
+        <button mat-stroked-button>Zignoruj</button>
+        <button mat-stroked-button color="primary">Zaakceptuj</button>
+      </div>
+    </div>
+  </div>
+</div>
