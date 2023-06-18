@@ -6,7 +6,7 @@ export interface User {
   id: number;
   email: string;
   firstName: string;
-  lastName: string | null;
+  lastName?: string | null;
   imagePath?: string | null;
   fullImagePath?: string;
   role: Role;

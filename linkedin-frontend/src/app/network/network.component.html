@@ -8,24 +8,56 @@
         <p>Zarządzaj</p>
       </div>
     </div>
-    <div class="network-request-tile" *ngFor="let item of [0, 1, 2, 3]">
-      <div class="network-request-tile-user">
-        <div class="network-profileImage pointer">
-          <img
-            src="../../assets/images/profiles/profile-image.png"
-            alt="profile"
-            loading="lazy"
-          />
+    <ng-container
+      *ngIf="
+        this.connectionProfileService.friendRequests.length !== 0;
+        else noRequests
+      "
+    >
+      <div
+        class="network-request-tile"
+        *ngFor="let request of this.connectionProfileService.friendRequests"
+      >
+        <div class="network-request-tile-user">
+          <div class="network-profileImage pointer">
+            <img
+              [routerLink]="['/', 'home', 'account', request.creator.id]"
+              [src]="request.creator.fullImagePath"
+              alt="profile"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <h2
+              class="clickText"
+              [routerLink]="['/', 'home', 'account', request.creator.id]"
+            >
+              {{ getAuthorName(request.creator) }}
+            </h2>
+            <p>Angular Developer at Airbus Technology</p>
+          </div>
         </div>
-        <div>
-          <h2 class="clickText">Igor Kłusek</h2>
-          <p>Angular Developer at Airbus Technology</p>
+        <div class="network-request-tile-buttons">
+          <button
+            mat-stroked-button
+            (click)="respondToFriendRequest(request.id, 'declined')"
+          >
+            Zignoruj
+          </button>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="respondToFriendRequest(request.id, 'accepted')"
+          >
+            Zaakceptuj
+          </button>
         </div>
       </div>
-      <div class="network-request-tile-buttons">
-        <button mat-stroked-button>Zignoruj</button>
-        <button mat-stroked-button color="primary">Zaakceptuj</button>
+    </ng-container>
+    <ng-template #noRequests>
+      <div class="noRequests">
+        <p>Jesteś na bieżaco</p>
       </div>
-    </div>
+    </ng-template>
   </div>
 </div>

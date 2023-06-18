@@ -1,3 +1,5 @@
+import { User } from 'src/app/guests/components/auth/models/user.model';
+
 export type FriendRequest_Status =
   | 'not-sent'
   | 'pending'
@@ -10,8 +12,8 @@ export interface FriendRequestStatus {
 }
 
 export interface FriendRequest {
-  id?: number;
-  creatorId: number;
-  receiverId: number;
+  id: number;
+  creator: User;
+  receiver: User;
   status: FriendRequest_Status;
 }

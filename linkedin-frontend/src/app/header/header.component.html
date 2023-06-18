@@ -90,7 +90,14 @@
           [routerLinkActiveOptions]="{ exact: true }"
         >
           <a routerLink="/home/network"
-            ><mat-icon class="icon">group</mat-icon
+            ><mat-icon
+              [matBadge]="this.connectionProfileService.friendRequests.length"
+              matBadgeColor="warn"
+              [matBadgeHidden]="
+                this.connectionProfileService.friendRequests.length === 0
+              "
+              class="icon"
+              >group</mat-icon
             ><span class="hideDescription">Sieć</span>
           </a>
           <div class="showActive"></div>

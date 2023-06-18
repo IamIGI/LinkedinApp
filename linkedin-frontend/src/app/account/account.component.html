@@ -54,8 +54,9 @@
             "
           ></ng-container> -->
           <button
+            *ngIf="friendRequestStatus !== 'accepted'"
             [disabled]="
-              ['pending', 'waiting-for-current-user-response'].includes(
+              ['waiting-for-current-user-response'].includes(
                 friendRequestStatus
               )
             "

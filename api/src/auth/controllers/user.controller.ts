@@ -121,6 +121,7 @@ export class UserController {
   ): Observable<FriendRequestStatus> {
     const receiverId = parseInt(receiverStringId);
     const currentUser = req.user;
+    // console.log(currentUser, receiverId);
     return this.userService.getFriendRequestStatus(receiverId, currentUser);
   }
 
@@ -131,6 +132,8 @@ export class UserController {
     @Body() statusResponse: FriendRequestStatus,
     @Request() req,
   ): Observable<FriendRequestStatus | { error: string }> {
+    console.log(friendRequestStringId);
+    console.log(statusResponse);
     const friendRequestId = parseInt(friendRequestStringId);
     const currentUser = req.user;
 
