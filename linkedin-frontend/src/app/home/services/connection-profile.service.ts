@@ -9,6 +9,8 @@ import { FriendRequest, FriendRequestStatus } from '../models/FriendRequest';
   providedIn: 'root',
 })
 export class ConnectionProfileService {
+  public friendRequests: FriendRequest[] = null!;
+
   private httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
@@ -31,6 +33,24 @@ export class ConnectionProfileService {
     return this.http.post<FriendRequest | { error: string }>(
       `${environment.baseApiUrl}/user/friend-request/send/${userId}`,
       {},
+      this.httpOptions
+    );
+  }
+
+  getFriendRequests(): Observable<FriendRequest[]> {
+    return this.http.get<FriendRequest[]>(
+      `${environment.baseApiUrl}/user/friend-request/me/received-request`
+    );
+  }
+
+  respondToFriendRequest(
+    requestId: number,
+    statusResponse: 'accepted' | 'declined'
+  ): Observable<FriendRequest | { error: string }> {
+    console.log(requestId, statusResponse);
+    return this.http.put<FriendRequest>(
+      `${environment.baseApiUrl}/user/friend-request/response/${requestId}`,
+      { status: statusResponse },
       this.httpOptions
     );
   }

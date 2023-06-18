@@ -33,6 +33,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.friendRequestSubscription$ = this.getFriendRequestStatus()
       .pipe(
         tap((friendRequestStatus: FriendRequestStatus) => {
+          console.log(friendRequestStatus);
           this.friendRequestStatus = friendRequestStatus.status;
           this.userRequestSubscription$ = this.getUser().subscribe({
             next: (user: User) => {
@@ -77,6 +78,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   getFriendRequestStatus(): Observable<FriendRequestStatus> {
     return this.getUserIdFromUrl().pipe(
       switchMap((userId: number) => {
+        console.log(userId);
         return this.connectionProfileService.getFriendRequestStatus(userId);
       })
     );

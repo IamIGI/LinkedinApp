@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { User } from 'src/app/guests/components/auth/models/user.model';
 import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
