@@ -74,7 +74,9 @@
     <div
       *ngIf="post.fullImagePath"
       class="post-image blur-load"
-      [ngStyle]="{ 'background-image': 'url(' + post.fullSmallImagePath + ')' }"
+      [ngStyle]="{
+        'background-image': 'url(' + post.fullSmallImagePath + ')'
+      }"
     >
       <img alt="post" [src]="post.fullImagePath" loading="lazy" />
     </div>

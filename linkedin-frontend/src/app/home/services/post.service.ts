@@ -58,8 +58,8 @@ export class PostService {
     // return of(Boolean(this.postBody.file));
   }
 
-  onImageChange() {
-    this.postImage$.next(true);
+  onImageChange(addImage: boolean) {
+    this.postImage$.next(addImage);
   }
 
   smallImageName(imageName: string): string {

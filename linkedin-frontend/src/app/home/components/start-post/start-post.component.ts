@@ -15,6 +15,11 @@ import { PostService } from '../../services/post.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 
+interface PostImage {
+  imageName: string | undefined;
+  fullImagePath: string | undefined;
+}
+
 @Component({
   selector: 'app-start-post',
   templateUrl: './start-post.component.html',
@@ -26,7 +31,8 @@ export class StartPostComponent implements OnInit, OnDestroy {
   options = options;
   postImageAdded = false;
   addImageButtonActivated = false;
-
+  postImage: PostImage = { imageName: undefined, fullImagePath: undefined };
+  userId!: number;
   userFullImagePath!: string;
   private userImagePathSubscription!: Subscription;
 
@@ -48,13 +54,17 @@ export class StartPostComponent implements OnInit, OnDestroy {
       if (result && this.addImageButtonActivated) this.addedImageTooltip();
     });
 
-    this.authService.userStream.pipe(take(1));
+    this.authService.userId.subscribe({
+      next: (id: number) => {
+        this.userId = id;
+      },
+    });
   }
 
   async openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {
       data: {
-        postData: { imageName: undefined, fullImagePath: undefined },
+        postData: this.postImage,
         editMode: false,
       },
       autoFocus: false,
@@ -62,6 +72,7 @@ export class StartPostComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       this.create.emit(result);
+      this.postImage = { imageName: undefined, fullImagePath: undefined };
     });
   }
 
@@ -80,11 +91,22 @@ export class StartPostComponent implements OnInit, OnDestroy {
     this.addImageButtonActivated = true;
     const newFile = ((event.target as HTMLInputElement).files as FileList)[0];
     if (!newFile) return;
-    this.postService.onImageChange();
+    this.postService.savePostImageTemporary(newFile).subscribe({
+      next: (postImage) => {
+        if (!postImage.error && postImage.newFilename) {
+          this.postImage.imageName = postImage.newFilename;
+          this.postImage.fullImagePath = `http://localhost:3000/api/feed/temporary/image/${postImage.newFilename}/?userId=${this.userId}`;
+        }
+        console.log(postImage.error);
+      },
+      complete: () => {
+        this.postService.onImageChange(true);
+      },
+    });
   }
 
   goToAccount() {
-    this.router.navigate(['home/account']);
+    this.router.navigate([`home/account/${this.userId}`]);
   }
 
   ngOnDestroy(): void {

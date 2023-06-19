@@ -147,12 +147,12 @@ export async function copyImageFromTemporaryToUserPost(
 }
 
 export async function removeUserImageTemporaryFolder(userId: number) {
-  const imagesFolderPath = path.join(
+  const userFolderPath = path.join(
     process.cwd(),
     `${storagePath.temporary}/users/${userId}`,
   );
-  if (fs.existsSync(imagesFolderPath)) {
-    await fs.rmSync(imagesFolderPath, { recursive: true, force: true });
+  if (fs.existsSync(userFolderPath)) {
+    await fs.rmSync(userFolderPath, { recursive: true, force: true });
   }
 }
 
