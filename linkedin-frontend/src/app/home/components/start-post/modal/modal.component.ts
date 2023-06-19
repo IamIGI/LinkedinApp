@@ -105,6 +105,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     };
     this.postService.setPostBody(body);
     this.dialogRef.close(body);
+    this.postService.onImageChange(false);
     this.addPostForm.reset();
   }
 
@@ -123,7 +124,7 @@ export class ModalComponent implements OnInit, OnDestroy {
           console.log(err);
         },
       });
-    this.postService.onImageChange();
+    this.postService.onImageChange(true);
   }
 
   onDeletePostImage() {
@@ -137,6 +138,7 @@ export class ModalComponent implements OnInit, OnDestroy {
         next: () => {
           this.passedData.postData.imageName = undefined;
           this.passedData.postData.fullImagePath = undefined;
+          this.postService.onImageChange(false);
         },
         error: (err: any) => {
           console.log(err);
@@ -161,6 +163,7 @@ export class ModalComponent implements OnInit, OnDestroy {
   cancelPost() {
     this.dialogRef.close();
     this.postService.clearUserTemporaryStorage(this.userData.id);
+    this.postService.onImageChange(false);
   }
 
   ngOnDestroy(): void {

@@ -82,9 +82,10 @@
     </div>
     <input
       #imageUpload
-      (change)="onFileSelect($event)"
       style="display: none"
       type="file"
+      (change)="onFileSelect($event)"
+      (click)="$any($event.target).value = null"
     />
   </div>
   <div class="contentModal-finish">
