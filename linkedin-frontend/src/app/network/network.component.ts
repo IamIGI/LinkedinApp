@@ -41,59 +41,11 @@ export class NetworkComponent implements OnInit, OnDestroy {
             }
           );
         },
-        // complete: () => {
-        //   console.log(this.connectionProfileService.friendRequests);
-        // },
-        // complete: () => {
-        //   console.log(this.connectionProfileService.friendRequests);
-        //   this.connectionProfileService.friendRequests.map(
-        //     (friendRequest: FriendRequest) => {
-        //       friendRequest.creator.fullImagePath =
-        //         this.authService.getFullImagePath(
-        //           friendRequest.creator.id,
-        //           friendRequest.creator.imagePath as string
-        //         );
-        //       console.log(friendRequest);
-        //       // const creatorId = (friendRequest as any)?.creator?.id;
-        //       // if (friendRequest && creatorId) {
-        //       //   this.connectionProfileService
-        //       //     .getConnectionUser(creatorId)
-        //       //     .pipe(
-        //       //       take(1),
-        //       //       tap((user: User) => {
-        //       //         friendRequest.fullImagePath = `${
-        //       //           environment.baseApiUrl
-        //       //         }/feed/image${user?.imagePath || 'blank-profile-picture.jpg'}`;
-        //       //       })
-        //       //     )
-        //       //     .subscribe();
-        //       // }
-        //     }
-        //   );
-        // },
       });
   }
 
   respondToFriendRequest(id: number, statusResponse: 'accepted' | 'declined') {
-    const handledFriendRequest: FriendRequest | undefined =
-      this.connectionProfileService.friendRequests.find(
-        (friendRequest: FriendRequest) => {
-          return friendRequest.id === id;
-        }
-      );
-
-    const unhandledFriendRequest: FriendRequest[] =
-      this.connectionProfileService.friendRequests.filter(
-        (friendRequest: FriendRequest) => {
-          return friendRequest.id !== handledFriendRequest!.id;
-        }
-      );
-
-    this.connectionProfileService.friendRequests = unhandledFriendRequest;
-
-    // if(this.connectionProfileService.friendRequests) {
-    //   await
-    // }
+    this.connectionProfileService.removeFriendRequestFromList(id);
 
     return this.connectionProfileService
       .respondToFriendRequest(id, statusResponse)

@@ -43,6 +43,21 @@ export class ConnectionProfileService {
     );
   }
 
+  removeFriendRequestFromList(friendRequestId: number) {
+    const handledFriendRequest: FriendRequest | undefined =
+      this.friendRequests.find((friendRequest: FriendRequest) => {
+        return friendRequest.id === friendRequestId;
+      });
+
+    const unhandledFriendRequest: FriendRequest[] = this.friendRequests.filter(
+      (friendRequest: FriendRequest) => {
+        return friendRequest.id !== handledFriendRequest!.id;
+      }
+    );
+
+    this.friendRequests = unhandledFriendRequest;
+  }
+
   respondToFriendRequest(
     requestId: number,
     statusResponse: 'accepted' | 'declined'

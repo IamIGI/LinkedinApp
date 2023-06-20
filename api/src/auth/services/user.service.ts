@@ -179,13 +179,25 @@ export class UserService {
         );
       }),
       switchMap((friendRequest: FriendRequest) => {
-        console.log(friendRequest);
-        // if (friendRequest?.receiver.id === currentUser.id) {
-        //   return of({
-        //     status: 'waiting-for-current-user-response' as FriendRequest_Status,
-        //   });
-        // }
-        return of({ status: friendRequest?.status || 'not-sent' });
+        if (
+          friendRequest.status === 'accepted' ||
+          friendRequest.status === 'declined'
+        ) {
+          return of({
+            id: friendRequest.id,
+            status: friendRequest.status,
+          });
+        }
+        if (currentUser.id === friendRequest?.receiver.id) {
+          return of({
+            id: friendRequest.id,
+            status: 'waiting-for-current-user-response' as FriendRequest_Status,
+          });
+        }
+        return of({
+          id: friendRequest.id,
+          status: friendRequest?.status || 'not-sent',
+        });
       }),
     );
   }
