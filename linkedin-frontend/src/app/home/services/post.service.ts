@@ -26,6 +26,7 @@ export class PostService {
   postURLwithImage = `${environment.baseApiUrl}/feed/image`;
 
   constructor(private http: HttpClient, private authService: AuthService) {
+    //fix userImage
     this.authService
       .getUserImageName()
       .pipe(
