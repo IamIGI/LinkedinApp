@@ -10,8 +10,11 @@ import { ConnectionProfileService } from '../home/services/connection-profile.se
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  // friendRequests!: FriendRequest[];
   private friendRequestsSubscription!: Subscription;
+  showMenu = true;
+
+  userFullImagePath!: string;
+  private userImagePathSubscription!: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -20,8 +23,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userImagePathSubscription =
-      this.authService.userFullImagePath.subscribe((fullImagePath: string) => {
-        this.userFullImagePath = fullImagePath;
+      this.authService.userFullImagePath.subscribe({
+        next: (fullImagePath: string) => {
+          console.log(this.userFullImagePath);
+          this.userFullImagePath = fullImagePath;
+        },
       });
 
     //get the friend requests for authenticated user
@@ -37,10 +43,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         },
       });
   }
-  showMenu = true;
-
-  userFullImagePath!: string;
-  private userImagePathSubscription!: Subscription;
 
   showMenuFromChild(data: boolean) {
     this.showMenu = data;

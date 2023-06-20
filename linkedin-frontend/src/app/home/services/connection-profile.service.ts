@@ -9,7 +9,7 @@ import { FriendRequest, FriendRequestStatus } from '../models/FriendRequest';
   providedIn: 'root',
 })
 export class ConnectionProfileService {
-  public friendRequests: FriendRequest[] = null!;
+  public friendRequests: FriendRequest[] = [];
 
   private httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

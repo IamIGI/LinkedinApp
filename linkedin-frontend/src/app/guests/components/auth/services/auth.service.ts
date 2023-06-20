@@ -88,13 +88,12 @@ export class AuthService {
       .pipe(take(1));
   }
 
-  updateUserImagePath(imagePath: string): Observable<User> {
+  updateUserImagePath(imagePath: string) {
     return this.user$.pipe(
       take(1),
       map((user: User) => {
         user.imagePath = imagePath;
         this.user$.next(user);
-        return user;
       })
     );
   }

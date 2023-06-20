@@ -8,7 +8,7 @@ export interface User {
   firstName: string;
   lastName?: string | null;
   imagePath?: string | null;
-  fullImagePath?: string;
+  fullImagePath?: string | null;
   role: Role;
   isPrivateAccount: boolean;
   company?: string | null;

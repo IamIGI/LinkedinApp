@@ -1,6 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConnectionProfileService } from '../home/services/connection-profile.service';
-import { Observable, map, switchMap, Subscription, tap, take } from 'rxjs';
+import {
+  Observable,
+  map,
+  switchMap,
+  Subscription,
+  tap,
+  take,
+  BehaviorSubject,
+} from 'rxjs';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { User } from '../guests/components/auth/models/user.model';
 import {
@@ -17,7 +25,8 @@ import { AuthService } from '../guests/components/auth/services/auth.service';
 })
 export class AccountComponent implements OnInit, OnDestroy {
   loggedUserId: number = null!;
-  user: User = null!;
+  user!: User;
+  accountLoaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
   friendRequest!: FriendRequestStatus;
   friendRequestSubscription$!: Subscription;
   userRequestSubscription$!: Subscription;
@@ -29,24 +38,28 @@ export class AccountComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.accountLoaded.next(false);
     // for task: #L-68
     // this.getUser().subscribe({ next: (x) => console.log(x) });
     this.friendRequestSubscription$ = this.getFriendRequestStatus()
       .pipe(
         tap((friendRequestStatus: FriendRequestStatus) => {
           this.friendRequest = friendRequestStatus;
-          this.userRequestSubscription$ = this.getUser().subscribe({
-            next: (user: User) => {
-              this.user = user;
-              this.user.fullImagePath = this.authService.getFullImagePath(
-                user.id,
-                user.imagePath as string
-              );
-            },
-          });
         })
       )
       .subscribe();
+
+    this.userRequestSubscription$ = this.getUser().subscribe({
+      next: (user: User) => {
+        this.user = user;
+        this.user.fullImagePath = this.authService.getFullImagePath(
+          user.id,
+          user.imagePath as string
+        );
+        console.log(this.user.fullImagePath);
+        this.accountLoaded.next(true);
+      },
+    });
 
     this.authService.userId.subscribe({
       next: (userId: number) => {
@@ -101,7 +114,6 @@ export class AccountComponent implements OnInit, OnDestroy {
   getFriendRequestStatus(): Observable<FriendRequestStatus> {
     return this.getUserIdFromUrl().pipe(
       switchMap((userId: number) => {
-        console.log(userId);
         return this.connectionProfileService.getFriendRequestStatus(userId);
       })
     );
