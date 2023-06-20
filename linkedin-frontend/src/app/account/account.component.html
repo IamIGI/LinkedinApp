@@ -44,32 +44,34 @@
       </div>
       <ng-template #foreignAccount>
         <div class="account-options">
-          <!-- <ng-container
+          <button
             *ngIf="
               [
-                'not-sent',
                 'pending',
+                'not-sent',
                 'waiting-for-current-user-response'
-              ].includes(friendRequestStatus)
+              ].includes(friendRequest.status)
             "
-          ></ng-container> -->
-          <button
-            *ngIf="friendRequestStatus !== 'accepted'"
-            [disabled]="
-              ['waiting-for-current-user-response'].includes(
-                friendRequestStatus
-              )
-            "
+            [disabled]="['pending'].includes(friendRequest.status)"
             mat-flat-button
             color="primary"
-            (click)="addUser()"
+            (click)="
+              friendRequest.status === 'waiting-for-current-user-response'
+                ? respondToFriendRequest(true)
+                : addUser()
+            "
           >
             <mat-icon>person_add_alt_1</mat-icon>
-            {{
-              friendRequestStatus === "waiting-for-current-user-response"
-                ? "Zaakceptuj"
-                : "Nawiąż kontakt"
-            }}
+            {{ friendRequestButton() }}
+          </button>
+          <button
+            *ngIf="friendRequest.status === 'waiting-for-current-user-response'"
+            mat-flat-button
+            color="primary"
+            (click)="respondToFriendRequest(false)"
+          >
+            <mat-icon>group_remove</mat-icon>
+            Zignoruj
           </button>
           <button mat-stroked-button extended color="primary">
             <mat-icon>send</mat-icon> Wiadomość

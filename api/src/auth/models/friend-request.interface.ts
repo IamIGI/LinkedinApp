@@ -8,6 +8,7 @@ export type FriendRequest_Status =
   | 'declined';
 
 export interface FriendRequestStatus {
+  id: number;
   status?: FriendRequest_Status;
 }
 
