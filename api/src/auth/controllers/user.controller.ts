@@ -130,7 +130,6 @@ export class UserController {
   ): Observable<FriendRequestStatus> {
     const receiverId = parseInt(receiverStringId);
     const currentUser = req.user;
-    console.log(receiverId, currentUser);
     if (currentUser.id === receiverId) return null;
     return this.userService.getFriendRequestStatus(receiverId, currentUser);
   }

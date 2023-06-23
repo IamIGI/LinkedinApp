@@ -90,9 +90,7 @@ export class UserService {
     return from(this.userRepository.findOne({ where: { id } })).pipe(
       map((user: User) => {
         delete user.password;
-        //to fix
         user.fullImagePath = `${process.env.BACKEND_URL_DEV}/feed/user/image/${user.imagePath}?userId=${user.id}`;
-        //-------
         return user;
       }),
     );
