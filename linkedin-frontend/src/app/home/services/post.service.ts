@@ -25,21 +25,7 @@ export class PostService {
   postURL = `${environment.baseApiUrl}/feed`;
   postURLwithImage = `${environment.baseApiUrl}/feed/image`;
 
-  constructor(private http: HttpClient, private authService: AuthService) {
-    //fix userImage
-    // this.authService
-    //   .getUserImageName()
-    //   .pipe(
-    //     take(1),
-    //     tap(({ imageName }) => {
-    //       const defaultFullImagePath = 'null';
-    //       this.authService
-    //         .updateUserImagePath(imageName || defaultFullImagePath)
-    //         .subscribe();
-    //     })
-    //   )
-    //   .subscribe();
-  }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   private httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

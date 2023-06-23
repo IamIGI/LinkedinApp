@@ -52,7 +52,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.userSubscription$ = this.getUser().subscribe({
       next: (user: User) => {
         this.user = user;
-        console.log(user);
         this.accountLoaded.next(true);
       },
     });
