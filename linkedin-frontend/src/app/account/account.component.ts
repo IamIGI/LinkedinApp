@@ -1,4 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  AfterViewInit,
+} from '@angular/core';
 import { ConnectionProfileService } from '../home/services/connection-profile.service';
 import {
   Observable,
@@ -10,26 +18,28 @@ import {
   BehaviorSubject,
 } from 'rxjs';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
-import { User } from '../guests/components/auth/models/user.model';
-import {
-  FriendRequest,
-  FriendRequestStatus,
-  FriendRequest_Status,
-} from '../home/models/FriendRequest';
+import { Role, User } from '../guests/components/auth/models/user.model';
+import { FriendRequestStatus } from '../home/models/FriendRequest';
 import { AuthService } from '../guests/components/auth/services/auth.service';
+import { roleColors } from 'src/dictionaries/user-dict';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.sass'],
 })
-export class AccountComponent implements OnInit, OnDestroy {
+export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   loggedUserId: number = null!;
   user!: User;
   accountLoaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
   friendRequest!: FriendRequestStatus;
   friendRequestSubscription$!: Subscription;
   userSubscription$!: Subscription;
+  userRoleString = '';
+
+  @ViewChildren('accountType', { read: ElementRef })
+  accountType!: QueryList<ElementRef>;
 
   constructor(
     private connectionProfileService: ConnectionProfileService,
@@ -59,6 +69,34 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.authService.userId.subscribe({
       next: (userId: number) => {
         this.loggedUserId = userId;
+      },
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.accountType.changes.pipe(take(1)).subscribe({
+      next: (element: QueryList<ElementRef>) => {
+        this.getUser().subscribe({
+          next: (user: User) => {
+            switch (user.role) {
+              case 'premium':
+                element.first.nativeElement.style.color = roleColors.premium;
+                this.userRoleString = 'Konto Premium';
+                break;
+              case 'user':
+                element.first.nativeElement.style.color = roleColors.user;
+                this.userRoleString = 'Konto Standardowe';
+                break;
+              case 'admin':
+                element.first.nativeElement.style.color = roleColors.admin;
+                this.userRoleString = 'Konto Administratora';
+                break;
+
+              default:
+                throw new Error('User role is undefined');
+            }
+          },
+        });
       },
     });
   }

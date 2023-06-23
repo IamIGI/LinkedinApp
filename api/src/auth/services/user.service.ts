@@ -49,7 +49,6 @@ export class UserService {
       }),
     ).pipe(
       map((friendRequests: FriendRequestEntity[]) => {
-        // console.log(friendRequests);
         type userConnectionHistory = {
           id: number;
           status: FriendRequest_Status;
@@ -70,7 +69,6 @@ export class UserService {
             return historyObject;
           },
         );
-        console.log(usersConnectionHistory);
         return [1];
       }),
     );
@@ -92,7 +90,18 @@ export class UserService {
     return from(this.userRepository.findOne({ where: { id } })).pipe(
       map((user: User) => {
         delete user.password;
+        //to fix
         user.fullImagePath = `${process.env.BACKEND_URL_DEV}/feed/user/image/${user.imagePath}?userId=${user.id}`;
+        //-------
+        return user;
+      }),
+    );
+  }
+
+  getUserEntity(id: number): Observable<User> {
+    return from(this.userRepository.findOne({ where: { id } })).pipe(
+      map((user: User) => {
+        delete user.password;
         return user;
       }),
     );
@@ -168,7 +177,7 @@ export class UserService {
     receiverId: number,
     currentUser: User,
   ): Observable<FriendRequestStatus> {
-    return this.findUserByIdWithoutPosts(receiverId).pipe(
+    return this.getUserEntity(receiverId).pipe(
       switchMap((receiver: User) => {
         return from(
           this.friendRequestRepository.findOne({
@@ -181,24 +190,31 @@ export class UserService {
         );
       }),
       switchMap((friendRequest: FriendRequest) => {
-        if (
-          friendRequest.status === 'accepted' ||
-          friendRequest.status === 'declined'
-        ) {
+        if (friendRequest) {
+          if (
+            friendRequest.status === 'accepted' ||
+            friendRequest.status === 'declined'
+          ) {
+            return of({
+              id: friendRequest.id,
+              status: friendRequest.status,
+            });
+          }
+          if (currentUser.id === friendRequest?.receiver.id) {
+            return of({
+              id: friendRequest.id,
+              status:
+                'waiting-for-current-user-response' as FriendRequest_Status,
+            });
+          }
           return of({
             id: friendRequest.id,
-            status: friendRequest.status,
-          });
-        }
-        if (currentUser.id === friendRequest?.receiver.id) {
-          return of({
-            id: friendRequest.id,
-            status: 'waiting-for-current-user-response' as FriendRequest_Status,
+            status: friendRequest?.status || 'not-sent',
           });
         }
         return of({
-          id: friendRequest.id,
-          status: friendRequest?.status || 'not-sent',
+          id: 0,
+          status: 'not-sent' as FriendRequest_Status,
         });
       }),
     );
@@ -220,11 +236,8 @@ export class UserService {
     statusResponse: FriendRequest_Status,
     currentUser: User,
   ): Observable<FriendRequestStatus | { error: string }> {
-    console.log(friendRequestId, statusResponse, currentUser);
-
     return this.getFriendRequestUserById(friendRequestId).pipe(
       switchMap((friendRequest: FriendRequest) => {
-        console.log(friendRequest);
         if (friendRequest.creator.id === currentUser.id) {
           return of({ error: 'The user cannot respond to his own invitation' });
         }
