@@ -7,6 +7,7 @@ export interface User {
   email?: string;
   password?: string;
   imagePath?: string;
+  fullImagePath?: string;
   role?: Role;
   isPrivateAccount?: boolean;
   company?: string;

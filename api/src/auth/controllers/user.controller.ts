@@ -103,6 +103,15 @@ export class UserController {
   }
 
   @UseGuards(JwtGuard)
+  @Get('nopost/:userId')
+  findUserByIdWithoutPosts(
+    @Param('userId') userStringId: string,
+  ): Observable<User> {
+    const userId = parseInt(userStringId);
+    return this.userService.findUserByIdWithoutPosts(userId);
+  }
+
+  @UseGuards(JwtGuard)
   @Post('friend-request/send/:receiverId')
   sendFriendRequest(
     @Param('receiverId') receiverStringId: string,

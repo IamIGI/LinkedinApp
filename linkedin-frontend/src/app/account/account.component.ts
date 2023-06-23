@@ -29,7 +29,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   accountLoaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
   friendRequest!: FriendRequestStatus;
   friendRequestSubscription$!: Subscription;
-  userRequestSubscription$!: Subscription;
+  userSubscription$!: Subscription;
 
   constructor(
     private connectionProfileService: ConnectionProfileService,
@@ -49,14 +49,9 @@ export class AccountComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    this.userRequestSubscription$ = this.getUser().subscribe({
+    this.userSubscription$ = this.getUser().subscribe({
       next: (user: User) => {
         this.user = user;
-        this.user.fullImagePath = this.authService.getFullImagePath(
-          user.id,
-          user.imagePath as string
-        );
-        console.log(this.user.fullImagePath);
         this.accountLoaded.next(true);
       },
     });
@@ -148,6 +143,6 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.friendRequestSubscription$.unsubscribe();
-    this.userRequestSubscription$.unsubscribe();
+    this.userSubscription$.unsubscribe();
   }
 }
