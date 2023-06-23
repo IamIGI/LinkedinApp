@@ -12,7 +12,17 @@
     <div class="account-information">
       <div class="account-information-user">
         <div class="account-information-personal">
-          <h1>{{ getAuthorName() }}</h1>
+          <div class="account-information-personal-type">
+            <h1 #h1tag>{{ getAuthorName() }}</h1>
+            <mat-icon
+              #accountType
+              #matTooltip="matTooltip"
+              [matTooltip]="userRoleString"
+            >
+              person</mat-icon
+            >
+          </div>
+
           <h2>Angular Developer at Airbus Technology</h2>
           <h3>
             Kraków, Woj. Małopolskie, Polska -

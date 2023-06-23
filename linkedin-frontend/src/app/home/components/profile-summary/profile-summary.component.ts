@@ -7,15 +7,11 @@ import { fromBuffer } from 'file-type/core';
 import { BehaviorSubject, Subscription, from, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { roleColors } from 'src/dictionaries/user-dict';
 
 type validFileExtension = 'png' | 'jpg' | 'jpeg';
 type validMimeType = 'image/png' | 'image/jpg' | 'image/jpeg';
 
-type BannerColors = {
-  premium: string;
-  user: string;
-  admin: string;
-};
 @Component({
   selector: 'app-profile-summary',
   templateUrl: './profile-summary.component.html',
@@ -33,15 +29,9 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
   fullName$ = new BehaviorSubject<string>(null!);
   fullName = '';
 
-  bannerColors: BannerColors = {
-    premium: '#feb236',
-    user: '#0077b5',
-    admin: '#d64161',
-  };
-
   userStream: User = null!;
 
-  userRoleBackgroundColor = this.bannerColors.user;
+  userRoleBackgroundColor = roleColors.user;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -78,15 +68,15 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
   private getBannerColors(role: Role): void {
     switch (role) {
       case 'admin':
-        this.userRoleBackgroundColor = this.bannerColors.admin;
+        this.userRoleBackgroundColor = roleColors.admin;
         break;
 
       case 'premium':
-        this.userRoleBackgroundColor = this.bannerColors.premium;
+        this.userRoleBackgroundColor = roleColors.premium;
         break;
 
       default:
-        this.userRoleBackgroundColor = this.bannerColors.user;
+        this.userRoleBackgroundColor = roleColors.user;
         break;
     }
   }
