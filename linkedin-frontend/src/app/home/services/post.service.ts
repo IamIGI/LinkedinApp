@@ -27,18 +27,18 @@ export class PostService {
 
   constructor(private http: HttpClient, private authService: AuthService) {
     //fix userImage
-    this.authService
-      .getUserImageName()
-      .pipe(
-        take(1),
-        tap(({ imageName }) => {
-          const defaultFullImagePath = 'null';
-          this.authService
-            .updateUserImagePath(imageName || defaultFullImagePath)
-            .subscribe();
-        })
-      )
-      .subscribe();
+    // this.authService
+    //   .getUserImageName()
+    //   .pipe(
+    //     take(1),
+    //     tap(({ imageName }) => {
+    //       const defaultFullImagePath = 'null';
+    //       this.authService
+    //         .updateUserImagePath(imageName || defaultFullImagePath)
+    //         .subscribe();
+    //     })
+    //   )
+    //   .subscribe();
   }
 
   private httpOptions: { headers: HttpHeaders } = {

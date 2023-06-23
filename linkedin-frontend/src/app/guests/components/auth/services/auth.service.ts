@@ -72,7 +72,19 @@ export class AuthService {
     );
   }
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.getUserImageName()
+      .pipe(
+        take(1),
+        tap(({ imageName }) => {
+          const defaultFullImagePath = 'null';
+          this.updateUserImagePath(
+            imageName || defaultFullImagePath
+          ).subscribe();
+        })
+      )
+      .subscribe();
+  }
 
   getDefaultFullImagePath(): string {
     return `${environment.baseApiUrl}/feed/user/image/null`;

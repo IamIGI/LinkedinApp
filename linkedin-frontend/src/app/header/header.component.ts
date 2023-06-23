@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userImagePathSubscription =
       this.authService.userFullImagePath.subscribe({
         next: (fullImagePath: string) => {
-          console.log(this.userFullImagePath);
           this.userFullImagePath = fullImagePath;
         },
       });

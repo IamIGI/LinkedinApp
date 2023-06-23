@@ -18,7 +18,9 @@ export class ConnectionProfileService {
   constructor(private http: HttpClient) {}
 
   getConnectionUser(userId: number): Observable<User> {
-    return this.http.get<User>(`${environment.baseApiUrl}/user/${userId}`);
+    return this.http.get<User>(
+      `${environment.baseApiUrl}/user/nopost/${userId}`
+    );
   }
 
   getFriendRequestStatus(userId: number): Observable<FriendRequestStatus> {

@@ -3,8 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-main-template',
   templateUrl: './main-template.component.html',
-  styleUrls: ['./main-template.component.sass']
+  styleUrls: ['./main-template.component.sass'],
 })
-export class MainTemplateComponent {
-
-}
+export class MainTemplateComponent {}
