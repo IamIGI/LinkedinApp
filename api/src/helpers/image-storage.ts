@@ -227,7 +227,6 @@ export const saveUserImageToTemporaryStorage = {
 export const saveUserProfileImageToStorage = {
   storage: diskStorage({
     destination: async (req, file, cb) => {
-      console.log(file);
       const { id: userId } = req.user as User;
       await createImageFolder(userId, 'profile');
       cb(null, getUserImagePath(userId, 'profile')); // './' on the beginning of the path if error
@@ -247,7 +246,6 @@ export const saveUserProfileImageToStorage = {
 export const saveUserBackgroundImageToStorage = {
   storage: diskStorage({
     destination: async (req, file, cb) => {
-      console.log(file);
       const { id: userId } = req.user as User;
       await createImageFolder(userId, 'background');
       cb(null, getUserImagePath(userId, 'background')); // './' on the beginning of the path if error

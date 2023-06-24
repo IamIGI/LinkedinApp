@@ -41,8 +41,6 @@ export class UserController {
     @Request() req,
   ): Observable<{ modifiedFileName: string } | { error: string }> {
     const fileName = file?.filename;
-    // console.log(req);
-    console.log(file);
 
     if (!fileName) return of({ error: 'File must be an png, jpg or jpeg' });
 
@@ -219,7 +217,6 @@ export class UserController {
     @Request() req,
   ): Observable<{ modifiedFileName: string } | { error: string }> {
     const fileName = file?.filename;
-    console.log(file);
     if (!fileName) return of({ error: 'File must be an png,jpg or jpeg' });
 
     const { id: userId } = req.user;
