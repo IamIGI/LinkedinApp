@@ -109,18 +109,42 @@ export class UserService {
     );
   }
 
-  updateUserImageById(id: number, imagePath: string): Observable<UpdateResult> {
+  updateDBUserImageById(
+    id: number,
+    imagePath: string,
+    imageType: 'profile' | 'background',
+  ): Observable<UpdateResult> {
     const user: User = new UserEntity();
     user.id = id;
-    user.profileImagePath = imagePath;
+    switch (imageType) {
+      case 'profile':
+        user.profileImagePath = imagePath;
+        break;
+      case 'background':
+        user.backgroundImagePath = imagePath;
+        break;
+      default:
+        throw new Error('Bad image type');
+    }
+
     return from(this.userRepository.update({ id }, user));
   }
 
-  findProfileImageNameByUserId(id: number): Observable<string> {
+  findImageNameByUserId(
+    id: number,
+    imageType: 'profile' | 'background',
+  ): Observable<string> {
     return from(this.userRepository.findOne({ where: { id } })).pipe(
       map((user: User) => {
         delete user.password;
-        return user.profileImagePath;
+        switch (imageType) {
+          case 'profile':
+            return user.profileImagePath;
+          case 'background':
+            return user.backgroundImagePath;
+          default:
+            throw new Error('Bad image type');
+        }
       }),
     );
   }
