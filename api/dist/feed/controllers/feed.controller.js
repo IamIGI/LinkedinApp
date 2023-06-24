@@ -55,13 +55,13 @@ let FeedController = class FeedController {
     deletePost(id) {
         return this.feedService.deletePost(id);
     }
-    findUserImageByName(fileName, userId = 0, res) {
+    findUserProfileImageByName(fileName, userId = 0, res) {
         if (!fileName || userId == 0 || ['null', '[null]'].includes(fileName)) {
             return res.sendFile('blank-profile-picture.jpg', {
                 root: './images/default',
             });
         }
-        return res.sendFile(fileName, { root: `./images/users/${userId}` });
+        return res.sendFile(fileName, { root: (0, image_storage_1.getUserProfileImagePath)(userId) });
     }
     findPostImageByName(fileName, userId = 0, res) {
         if (!fileName || userId == 0 || ['null', '[null]'].includes(fileName)) {
@@ -146,14 +146,14 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], FeedController.prototype, "deletePost", null);
 __decorate([
-    (0, common_1.Get)('user/image/:fileName'),
+    (0, common_1.Get)('user/image/profile/:fileName'),
     __param(0, (0, common_1.Param)('fileName')),
     __param(1, (0, common_1.Query)('userId')),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Number, Object]),
     __metadata("design:returntype", void 0)
-], FeedController.prototype, "findUserImageByName", null);
+], FeedController.prototype, "findUserProfileImageByName", null);
 __decorate([
     (0, common_1.Get)('post/image/:fileName'),
     __param(0, (0, common_1.Param)('fileName')),

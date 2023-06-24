@@ -15,6 +15,7 @@ import { UserService } from '../services/user.service';
 import { JwtGuard } from '../guards/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
+  getUserProfileImagePath,
   isFileExtensionSafe,
   removeFile,
   saveUserProfileImageToStorage,
@@ -32,9 +33,9 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @UseGuards(JwtGuard)
-  @Post('upload')
+  @Post('upload/profile')
   @UseInterceptors(FileInterceptor('file', saveUserProfileImageToStorage))
-  uploadImage(
+  uploadProfileImage(
     @UploadedFile() file: Express.Multer.File,
     @Request() req,
   ): Observable<{ modifiedFileName: string } | { error: string }> {
@@ -43,7 +44,10 @@ export class UserController {
     if (!fileName) return of({ error: 'File must be an png or jpg.jpeg' });
 
     const { id: userId } = req.user;
-    const imageFolderPath = join(process.cwd(), `images/users/${userId}`);
+    const imageFolderPath = join(
+      process.cwd(),
+      getUserProfileImagePath(userId),
+    );
     const fullImagePath = join(imageFolderPath + '/' + file.filename);
 
     return isFileExtensionSafe(fullImagePath).pipe(
@@ -63,10 +67,10 @@ export class UserController {
   }
 
   @UseGuards(JwtGuard)
-  @Get('image')
-  findImage(@Request() req, @Res() res): Observable<Object> {
+  @Get('image/profile')
+  findProfileImage(@Request() req, @Res() res): Observable<Object> {
     const { id: userId } = req.user;
-    return this.userService.findImageNameByUserId(userId).pipe(
+    return this.userService.findProfileImageNameByUserId(userId).pipe(
       switchMap((imageName: string) => {
         if (!imageName) {
           return of(
@@ -77,7 +81,7 @@ export class UserController {
         }
         return of(
           res.sendFile(imageName, {
-            root: `./images/users/${userId}`,
+            root: `./images/users/${userId}/profile`,
           }),
         );
       }),
@@ -85,10 +89,10 @@ export class UserController {
   }
 
   @UseGuards(JwtGuard)
-  @Get('image-name')
-  findUserImageName(@Request() req): Observable<{ imageName: string }> {
+  @Get('image/profile/image-name')
+  findUserProfileImageName(@Request() req): Observable<{ imageName: string }> {
     const userId = req.user.id;
-    return this.userService.findImageNameByUserId(userId).pipe(
+    return this.userService.findProfileImageNameByUserId(userId).pipe(
       switchMap((imageName: string) => {
         return of({ imageName });
       }),
@@ -165,5 +169,36 @@ export class UserController {
     return this.userService.getAllUsersWhoAreInConnectionToAuthenticatedUser(
       currentUser,
     );
+  }
+
+  @UseGuards(JwtGuard)
+  @Post('account/background-image')
+  @UseInterceptors(FileInterceptor('file', saveUserProfileImageToStorage))
+  uploadAccountBackgroundImage(
+    @UploadedFile() file: Express.Multer.File,
+    @Request() req,
+  ): Observable<{ modifiedFileName: string } | { error: string }> {
+    const fileName = file?.filename;
+
+    if (!fileName) return of({ error: 'File must be an png or jpg.jpeg' });
+
+    // const { id: userId } = req.user;
+    // const imageFolderPath = join(process.cwd(), `images/users/${userId}`);
+    // const fullImagePath = join(imageFolderPath + '/' + file.filename);
+
+    // return isFileExtensionSafe(fullImagePath).pipe(
+    //   switchMap((isFileLegit: boolean) => {
+    //     if (isFileLegit) {
+    //       const userId = req.user.id;
+    //       return this.userService.updateUserImageById(userId, fileName).pipe(
+    //         map(() => ({
+    //           modifiedFileName: file.filename,
+    //         })),
+    //       );
+    //     }
+    //     removeFile(fullImagePath);
+    //     return of({ error: 'File content does not match extension' });
+    //   }),
+    // );
   }
 }

@@ -21,7 +21,10 @@ export class UserEntity {
   password: string;
 
   @Column({ nullable: true })
-  imagePath: string;
+  profileImagePath: string;
+
+  @Column({ nullable: true })
+  backgroundImagePath: string;
 
   @Column({ type: 'enum', enum: Role, default: Role.PREMIUM }) //change for user later
   role: Role;

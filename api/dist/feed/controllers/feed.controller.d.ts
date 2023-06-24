@@ -19,6 +19,6 @@ export declare class FeedController {
         imageName: string;
     }, req: any): Observable<UpdateResult>;
     deletePost(id: number): Observable<DeleteResult>;
-    findUserImageByName(fileName: string, userId: number, res: any): any;
+    findUserProfileImageByName(fileName: string, userId: number, res: any): any;
     findPostImageByName(fileName: string, userId: number, res: any): any;
 }

@@ -7,8 +7,10 @@ export interface User {
   email: string;
   firstName: string;
   lastName?: string | null;
-  imagePath?: string | null;
-  fullImagePath?: string | null;
+  profileImagePath?: string | null;
+  profileFullImagePath?: string | null;
+  backgroundImagePath?: string | null;
+  backgroundFullImagePath?: string | null;
   role: Role;
   isPrivateAccount: boolean;
   company?: string | null;
