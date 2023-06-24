@@ -18,11 +18,10 @@ import {
   BehaviorSubject,
 } from 'rxjs';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
-import { Role, User } from '../guests/components/auth/models/user.model';
+import { User } from '../guests/components/auth/models/user.model';
 import { FriendRequestStatus } from '../home/models/FriendRequest';
 import { AuthService } from '../guests/components/auth/services/auth.service';
 import { roleColors } from 'src/dictionaries/user-dict';
-import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-account',

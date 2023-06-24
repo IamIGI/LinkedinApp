@@ -31,10 +31,10 @@ export class NetworkComponent implements OnInit, OnDestroy {
             //@ts-ignore
             (friendRequest: FriendRequest) => {
               if (friendRequest.status === 'pending') {
-                friendRequest.creator.fullImagePath =
-                  this.authService.getFullImagePath(
+                friendRequest.creator.profileFullImagePath =
+                  this.authService.getProfileFullImagePath(
                     friendRequest.creator.id,
-                    friendRequest.creator.imagePath as string
+                    friendRequest.creator.profileImagePath as string
                   );
                 return friendRequest;
               }

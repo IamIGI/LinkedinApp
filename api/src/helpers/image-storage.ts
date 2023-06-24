@@ -25,6 +25,14 @@ const storagePath = {
   users: 'images/users',
 };
 
+export function getUserProfileImagePath(userId: number): string {
+  return `${storagePath.users}/${userId}/profile`;
+}
+
+export function getUserBackgroundImagePath(userId: number): string {
+  return `${storagePath.users}/${userId}/background`;
+}
+
 function smallImgName(imageName: string): string {
   return `${imageName.split('.')[0]}-small.${imageName.split('.')[1]}`;
 }
@@ -82,17 +90,17 @@ export async function deletePostImage(userId: number, imageName: string) {
 async function createUserProfileImageFolder(userId: number) {
   const imageFolderPath = path.join(
     process.cwd(),
-    `${storagePath.users}/${userId}`,
+    getUserProfileImagePath(userId),
   );
 
   if (!fs.existsSync(imageFolderPath)) {
     await fs.mkdirSync(imageFolderPath, { recursive: true });
   } else {
-    //readdir read files before the new file was saved, so when the deleting operation begin, the new saved file is not the target
-    await fs.readdir(imageFolderPath, async (err, files) => {
+    //readdir - read files before the new file was saved, so when the deleting operation begin, the new saved file is not the target
+    await fs.readdir(imageFolderPath, async (err: Error, files: any) => {
       if (err) throw err;
       for (const file of files) {
-        await fs.unlink(path.join(imageFolderPath, file), (err) => {
+        await fs.unlink(path.join(imageFolderPath, file), (err: Error) => {
           if (err) throw err;
         });
       }
@@ -219,7 +227,7 @@ export const saveUserProfileImageToStorage = {
     destination: async (req, file, cb) => {
       const { id: userId } = req.user as User;
       await createUserProfileImageFolder(userId);
-      cb(null, `${storagePath.users}/${userId}`); // './' on the beginning of the path if error
+      cb(null, getUserProfileImagePath(userId)); // './' on the beginning of the path if error
     },
     filename: (req, file, cb) => {
       const fileExtension: string = path.extname(file.originalname);

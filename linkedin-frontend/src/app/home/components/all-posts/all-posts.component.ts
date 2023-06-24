@@ -55,9 +55,12 @@ export class AllPostsComponent
     this.userSubscription = this.authService.userStream.subscribe(
       (user: User) => {
         this.allLoadedPosts.forEach((post: Post, index: number) => {
-          if (user?.imagePath && post.author.id === user.id) {
+          if (user?.profileImagePath && post.author.id === user.id) {
             this.allLoadedPosts[index].authorFullImagePath =
-              this.authService.getFullImagePath(user.id, user.imagePath);
+              this.authService.getProfileFullImagePath(
+                user.id,
+                user.profileImagePath
+              );
           }
         });
       }
@@ -154,12 +157,12 @@ export class AllPostsComponent
   }
 
   setAuthorImage(post: Post): Post {
-    const doesAuthorHaveImage = !!post.author.imagePath;
-    let fullImagePath = this.authService.getDefaultFullImagePath();
+    const doesAuthorHaveImage = !!post.author.profileImagePath;
+    let fullImagePath = this.authService.getDefaultProfileFullImagePath();
     if (doesAuthorHaveImage) {
-      fullImagePath = this.authService.getFullImagePath(
+      fullImagePath = this.authService.getProfileFullImagePath(
         post.author.id,
-        post.author.imagePath as string
+        post.author.profileImagePath as string
       );
     }
 

@@ -10,8 +10,6 @@ import {
   FriendRequest_Status,
 } from '../models/friend-request.interface';
 import { FriendRequestEntity } from '../models/friend-request.entity';
-import { relative } from 'path';
-import { UserController } from '../controllers/user.controller';
 
 @Injectable()
 export class UserService {
@@ -80,7 +78,10 @@ export class UserService {
     ).pipe(
       map((user: User) => {
         delete user.password;
-        user.fullImagePath = `${process.env.BACKEND_URL_DEV}/feed/user/image/${user.imagePath}?userId=${user.id}`;
+        user.profileFullImagePath = this.userProfileImageURL(
+          user.profileImagePath,
+          user.id,
+        );
         return user;
       }),
     );
@@ -90,7 +91,10 @@ export class UserService {
     return from(this.userRepository.findOne({ where: { id } })).pipe(
       map((user: User) => {
         delete user.password;
-        user.fullImagePath = `${process.env.BACKEND_URL_DEV}/feed/user/image/${user.imagePath}?userId=${user.id}`;
+        user.profileFullImagePath = this.userProfileImageURL(
+          user.profileImagePath,
+          user.id,
+        );
         return user;
       }),
     );
@@ -108,15 +112,15 @@ export class UserService {
   updateUserImageById(id: number, imagePath: string): Observable<UpdateResult> {
     const user: User = new UserEntity();
     user.id = id;
-    user.imagePath = imagePath;
+    user.profileImagePath = imagePath;
     return from(this.userRepository.update({ id }, user));
   }
 
-  findImageNameByUserId(id: number): Observable<string> {
+  findProfileImageNameByUserId(id: number): Observable<string> {
     return from(this.userRepository.findOne({ where: { id } })).pipe(
       map((user: User) => {
         delete user.password;
-        return user.imagePath;
+        return user.profileImagePath;
       }),
     );
   }
@@ -150,7 +154,7 @@ export class UserService {
       });
     }
 
-    return this.findUserById(receiverId).pipe(
+    return this.getUserEntity(receiverId).pipe(
       switchMap((receiver: User) => {
         return this.hasRequestBeenSentOrReceived(creator, receiver).pipe(
           switchMap((hasRequestBeenSentOrReceived: boolean) => {
@@ -260,5 +264,9 @@ export class UserService {
         relations: ['receiver', 'creator'],
       }),
     );
+  }
+
+  private userProfileImageURL(imageName: string, userId: number) {
+    return `${process.env.BACKEND_URL_DEV}/feed/user/image/profile/${imageName}?userId=${userId}`;
   }
 }

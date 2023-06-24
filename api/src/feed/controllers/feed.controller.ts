@@ -25,6 +25,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { IsCreatorGuard } from '../guards/is-creator.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
+  getUserProfileImagePath,
   removeUserImageTemporaryFolder,
   saveUserImageToTemporaryStorage,
 } from 'src/helpers/image-storage';
@@ -106,8 +107,8 @@ export class FeedController {
     return this.feedService.deletePost(id);
   }
 
-  @Get('user/image/:fileName')
-  findUserImageByName(
+  @Get('user/image/profile/:fileName')
+  findUserProfileImageByName(
     @Param('fileName') fileName: string,
     @Query('userId') userId: number = 0,
     @Res() res,
@@ -117,7 +118,7 @@ export class FeedController {
         root: './images/default',
       });
     }
-    return res.sendFile(fileName, { root: `./images/users/${userId}` });
+    return res.sendFile(fileName, { root: getUserProfileImagePath(userId) });
   }
 
   @Get('post/image/:fileName')

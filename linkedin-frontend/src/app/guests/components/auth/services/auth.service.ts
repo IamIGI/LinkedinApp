@@ -59,12 +59,12 @@ export class AuthService {
   get userFullImagePath(): Observable<string> {
     return this.user$.asObservable().pipe(
       switchMap((user: User) => {
-        const doesAuthorHasImage = !!user?.imagePath;
-        let fullImagePath = this.getDefaultFullImagePath();
+        const doesAuthorHasImage = !!user?.profileImagePath;
+        let fullImagePath = this.getDefaultProfileFullImagePath();
         if (doesAuthorHasImage) {
-          fullImagePath = this.getFullImagePath(
+          fullImagePath = this.getProfileFullImagePath(
             user.id,
-            user.imagePath as string
+            user.profileImagePath as string
           );
         }
         return of(fullImagePath);
@@ -73,12 +73,12 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient, private router: Router) {
-    this.getUserImageName()
+    this.getUserProfileImageName()
       .pipe(
         take(1),
         tap(({ imageName }) => {
           const defaultFullImagePath = 'null';
-          this.updateUserImagePath(
+          this.updateUserProfileImagePath(
             imageName || defaultFullImagePath
           ).subscribe();
         })
@@ -86,42 +86,44 @@ export class AuthService {
       .subscribe();
   }
 
-  getDefaultFullImagePath(): string {
-    return `${environment.baseApiUrl}/feed/user/image/null`;
+  getDefaultProfileFullImagePath(): string {
+    return `${environment.baseApiUrl}/feed/user/image/profile/null`;
   }
 
-  getFullImagePath(userId: number, imageName: string): string {
-    return `${environment.baseApiUrl}/feed/user/image/${imageName}?userId=${userId}`;
+  getProfileFullImagePath(userId: number, imageName: string): string {
+    return `${environment.baseApiUrl}/feed/user/image/profile/${imageName}?userId=${userId}`;
   }
 
-  getUserImageName(): Observable<{ imageName: string }> {
+  getUserProfileImageName(): Observable<{ imageName: string }> {
     return this.http
-      .get<{ imageName: string }>(`${environment.baseApiUrl}/user/image-name`)
+      .get<{ imageName: string }>(
+        `${environment.baseApiUrl}/user/image/profile/image-name`
+      )
       .pipe(take(1));
   }
 
-  updateUserImagePath(imagePath: string) {
+  updateUserProfileImagePath(imagePath: string) {
     return this.user$.pipe(
       take(1),
       map((user: User) => {
-        user.imagePath = imagePath;
+        user.profileImagePath = imagePath;
         this.user$.next(user);
       })
     );
   }
 
-  uploadUserImage(
+  uploadUserProfileImage(
     formData: FormData
   ): Observable<{ modifiedFileName: string }> {
     return this.http
       .post<{ modifiedFileName: string }>(
-        `${environment.baseApiUrl}/user/upload`,
+        `${environment.baseApiUrl}/user/upload/profile`,
         formData
       )
       .pipe(
         tap(({ modifiedFileName }) => {
           let user = this.user$.value;
-          user.imagePath = modifiedFileName;
+          user.profileImagePath = modifiedFileName;
           this.user$.next(user);
         })
       );

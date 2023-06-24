@@ -6,8 +6,10 @@ export interface User {
   lastName?: string;
   email?: string;
   password?: string;
-  imagePath?: string;
-  fullImagePath?: string;
+  profileImagePath?: string;
+  profileFullImagePath?: string;
+  backgroundImagePath?: string;
+  backgroundFullImagePath?: string;
   role?: Role;
   isPrivateAccount?: boolean;
   company?: string;
