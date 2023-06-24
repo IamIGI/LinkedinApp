@@ -61,7 +61,9 @@ let FeedController = class FeedController {
                 root: './images/default',
             });
         }
-        return res.sendFile(fileName, { root: (0, image_storage_1.getUserProfileImagePath)(userId) });
+        return res.sendFile(fileName, {
+            root: (0, image_storage_1.getUserImagePath)(userId, 'profile'),
+        });
     }
     findPostImageByName(fileName, userId = 0, res) {
         if (!fileName || userId == 0 || ['null', '[null]'].includes(fileName)) {

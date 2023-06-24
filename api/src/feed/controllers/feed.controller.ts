@@ -25,7 +25,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { IsCreatorGuard } from '../guards/is-creator.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
-  getUserProfileImagePath,
+  getUserImagePath,
   removeUserImageTemporaryFolder,
   saveUserImageToTemporaryStorage,
 } from 'src/helpers/image-storage';
@@ -118,7 +118,9 @@ export class FeedController {
         root: './images/default',
       });
     }
-    return res.sendFile(fileName, { root: getUserProfileImagePath(userId) });
+    return res.sendFile(fileName, {
+      root: getUserImagePath(userId, 'profile'),
+    });
   }
 
   @Get('post/image/:fileName')

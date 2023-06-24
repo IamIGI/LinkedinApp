@@ -25,12 +25,11 @@ const storagePath = {
   users: 'images/users',
 };
 
-export function getUserProfileImagePath(userId: number): string {
-  return `${storagePath.users}/${userId}/profile`;
-}
-
-export function getUserBackgroundImagePath(userId: number): string {
-  return `${storagePath.users}/${userId}/background`;
+export function getUserImagePath(
+  userId: number,
+  imageType: 'profile' | 'background',
+): string {
+  return `${storagePath.users}/${userId}/${imageType}`;
 }
 
 function smallImgName(imageName: string): string {
@@ -87,10 +86,13 @@ export async function deletePostImage(userId: number, imageName: string) {
   }
 }
 
-async function createUserProfileImageFolder(userId: number) {
+async function createImageFolder(
+  userId: number,
+  imageType: 'profile' | 'background',
+) {
   const imageFolderPath = path.join(
     process.cwd(),
-    getUserProfileImagePath(userId),
+    getUserImagePath(userId, imageType),
   );
 
   if (!fs.existsSync(imageFolderPath)) {
@@ -226,8 +228,27 @@ export const saveUserProfileImageToStorage = {
   storage: diskStorage({
     destination: async (req, file, cb) => {
       const { id: userId } = req.user as User;
-      await createUserProfileImageFolder(userId);
-      cb(null, getUserProfileImagePath(userId)); // './' on the beginning of the path if error
+      await createImageFolder(userId, 'profile');
+      cb(null, getUserImagePath(userId, 'profile')); // './' on the beginning of the path if error
+    },
+    filename: (req, file, cb) => {
+      const fileExtension: string = path.extname(file.originalname);
+      const fileName: string = uuidv4() + fileExtension;
+      cb(null, fileName);
+    },
+  }),
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes: validMimeType[] = validMimeTypes;
+    allowedMimeTypes.includes(file.mimetype) ? cb(null, true) : cb(null, false);
+  },
+};
+
+export const saveUserBackgroundImageToStorage = {
+  storage: diskStorage({
+    destination: async (req, file, cb) => {
+      const { id: userId } = req.user as User;
+      await createImageFolder(userId, 'background');
+      cb(null, getUserImagePath(userId, 'background')); // './' on the beginning of the path if error
     },
     filename: (req, file, cb) => {
       const fileExtension: string = path.extname(file.originalname);

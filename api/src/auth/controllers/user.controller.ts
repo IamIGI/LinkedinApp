@@ -15,9 +15,10 @@ import { UserService } from '../services/user.service';
 import { JwtGuard } from '../guards/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
-  getUserProfileImagePath,
+  getUserImagePath,
   isFileExtensionSafe,
   removeFile,
+  saveUserBackgroundImageToStorage,
   saveUserProfileImageToStorage,
 } from '../../helpers/image-storage';
 import { Observable, map, of, switchMap } from 'rxjs';
@@ -41,12 +42,12 @@ export class UserController {
   ): Observable<{ modifiedFileName: string } | { error: string }> {
     const fileName = file?.filename;
 
-    if (!fileName) return of({ error: 'File must be an png or jpg.jpeg' });
+    if (!fileName) return of({ error: 'File must be an png, jpg or jpeg' });
 
     const { id: userId } = req.user;
     const imageFolderPath = join(
       process.cwd(),
-      getUserProfileImagePath(userId),
+      getUserImagePath(userId, 'profile'),
     );
     const fullImagePath = join(imageFolderPath + '/' + file.filename);
 
@@ -54,11 +55,13 @@ export class UserController {
       switchMap((isFileLegit: boolean) => {
         if (isFileLegit) {
           const userId = req.user.id;
-          return this.userService.updateUserImageById(userId, fileName).pipe(
-            map(() => ({
-              modifiedFileName: file.filename,
-            })),
-          );
+          return this.userService
+            .updateDBUserImageById(userId, fileName, 'profile')
+            .pipe(
+              map(() => ({
+                modifiedFileName: file.filename,
+              })),
+            );
         }
         removeFile(fullImagePath);
         return of({ error: 'File content does not match extension' });
@@ -70,7 +73,7 @@ export class UserController {
   @Get('image/profile')
   findProfileImage(@Request() req, @Res() res): Observable<Object> {
     const { id: userId } = req.user;
-    return this.userService.findProfileImageNameByUserId(userId).pipe(
+    return this.userService.findImageNameByUserId(userId, 'profile').pipe(
       switchMap((imageName: string) => {
         if (!imageName) {
           return of(
@@ -92,7 +95,42 @@ export class UserController {
   @Get('image/profile/image-name')
   findUserProfileImageName(@Request() req): Observable<{ imageName: string }> {
     const userId = req.user.id;
-    return this.userService.findProfileImageNameByUserId(userId).pipe(
+    return this.userService.findImageNameByUserId(userId, 'profile').pipe(
+      switchMap((imageName: string) => {
+        return of({ imageName });
+      }),
+    );
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('image/background')
+  findBackgroundImage(@Request() req, @Res() res): Observable<Object> {
+    const { id: userId } = req.user;
+    return this.userService.findImageNameByUserId(userId, 'background').pipe(
+      switchMap((imageName: string) => {
+        if (!imageName) {
+          return of(
+            res.sendFile('blank-background-picture.jpg', {
+              root: './images/default',
+            }),
+          );
+        }
+        return of(
+          res.sendFile(imageName, {
+            root: `./images/users/${userId}/background`,
+          }),
+        );
+      }),
+    );
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('image/background/image-name')
+  findUserBackgroundImageName(
+    @Request() req,
+  ): Observable<{ imageName: string }> {
+    const userId = req.user.id;
+    return this.userService.findImageNameByUserId(userId, 'background').pipe(
       switchMap((imageName: string) => {
         return of({ imageName });
       }),
@@ -172,33 +210,37 @@ export class UserController {
   }
 
   @UseGuards(JwtGuard)
-  @Post('account/background-image')
-  @UseInterceptors(FileInterceptor('file', saveUserProfileImageToStorage))
+  @Post('upload/background')
+  @UseInterceptors(FileInterceptor('file', saveUserBackgroundImageToStorage))
   uploadAccountBackgroundImage(
     @UploadedFile() file: Express.Multer.File,
     @Request() req,
   ): Observable<{ modifiedFileName: string } | { error: string }> {
     const fileName = file?.filename;
+    if (!fileName) return of({ error: 'File must be an png,jpg or jpeg' });
 
-    if (!fileName) return of({ error: 'File must be an png or jpg.jpeg' });
+    const { id: userId } = req.user;
+    const imageFolderPath = join(
+      process.cwd(),
+      getUserImagePath(userId, 'background'),
+    );
+    const fullImagePath = join(imageFolderPath + '/' + file.filename);
 
-    // const { id: userId } = req.user;
-    // const imageFolderPath = join(process.cwd(), `images/users/${userId}`);
-    // const fullImagePath = join(imageFolderPath + '/' + file.filename);
-
-    // return isFileExtensionSafe(fullImagePath).pipe(
-    //   switchMap((isFileLegit: boolean) => {
-    //     if (isFileLegit) {
-    //       const userId = req.user.id;
-    //       return this.userService.updateUserImageById(userId, fileName).pipe(
-    //         map(() => ({
-    //           modifiedFileName: file.filename,
-    //         })),
-    //       );
-    //     }
-    //     removeFile(fullImagePath);
-    //     return of({ error: 'File content does not match extension' });
-    //   }),
-    // );
+    return isFileExtensionSafe(fullImagePath).pipe(
+      switchMap((isFileLegit: boolean) => {
+        if (isFileLegit) {
+          const userId = req.user.id;
+          return this.userService
+            .updateDBUserImageById(userId, fileName, 'background')
+            .pipe(
+              map(() => ({
+                modifiedFileName: file.filename,
+              })),
+            );
+        }
+        removeFile(fullImagePath);
+        return of({ error: 'File content does not match extension' });
+      }),
+    );
   }
 }
