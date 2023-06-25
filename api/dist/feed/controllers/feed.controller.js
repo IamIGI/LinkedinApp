@@ -65,6 +65,16 @@ let FeedController = class FeedController {
             root: (0, image_storage_1.getUserImagePath)(userId, 'profile'),
         });
     }
+    findUserBackgroundImageByName(fileName, userId = 0, res) {
+        if (!fileName || userId == 0 || ['null', '[null]'].includes(fileName)) {
+            return res.sendFile('blank-background-picture.jpg', {
+                root: './images/default',
+            });
+        }
+        return res.sendFile(fileName, {
+            root: (0, image_storage_1.getUserImagePath)(userId, 'background'),
+        });
+    }
     findPostImageByName(fileName, userId = 0, res) {
         if (!fileName || userId == 0 || ['null', '[null]'].includes(fileName)) {
             throw new common_1.HttpException('Given Post do not have image', 500);
@@ -156,6 +166,15 @@ __decorate([
     __metadata("design:paramtypes", [String, Number, Object]),
     __metadata("design:returntype", void 0)
 ], FeedController.prototype, "findUserProfileImageByName", null);
+__decorate([
+    (0, common_1.Get)('user/image/background/:fileName'),
+    __param(0, (0, common_1.Param)('fileName')),
+    __param(1, (0, common_1.Query)('userId')),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number, Object]),
+    __metadata("design:returntype", void 0)
+], FeedController.prototype, "findUserBackgroundImageByName", null);
 __decorate([
     (0, common_1.Get)('post/image/:fileName'),
     __param(0, (0, common_1.Param)('fileName')),

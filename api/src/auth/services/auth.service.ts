@@ -8,12 +8,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../models/user.entity';
 import { Repository } from 'typeorm';
 import { authCode } from '../dictionaries/auth-dictionaries';
+import { UserService } from './user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private userService: UserService,
     private jwtService: JwtService,
   ) {}
 
@@ -37,6 +39,7 @@ export class AuthService {
           education: true,
           subscribers: true,
           profileImagePath: true,
+          backgroundImagePath: true,
         },
         where: { email },
       }),

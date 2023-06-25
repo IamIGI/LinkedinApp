@@ -78,9 +78,15 @@ export class UserService {
     ).pipe(
       map((user: User) => {
         delete user.password;
-        user.profileFullImagePath = this.userProfileImageURL(
+        user.profileFullImagePath = this.userImageURL(
           user.profileImagePath,
           user.id,
+          'profile',
+        );
+        user.backgroundFullImagePath = this.userImageURL(
+          user.backgroundImagePath,
+          user.id,
+          'background',
         );
         return user;
       }),
@@ -91,9 +97,15 @@ export class UserService {
     return from(this.userRepository.findOne({ where: { id } })).pipe(
       map((user: User) => {
         delete user.password;
-        user.profileFullImagePath = this.userProfileImageURL(
+        user.profileFullImagePath = this.userImageURL(
           user.profileImagePath,
           user.id,
+          'profile',
+        );
+        user.backgroundFullImagePath = this.userImageURL(
+          user.backgroundImagePath,
+          user.id,
+          'background',
         );
         return user;
       }),
@@ -126,7 +138,6 @@ export class UserService {
       default:
         throw new Error('Bad image type');
     }
-
     return from(this.userRepository.update({ id }, user));
   }
 
@@ -290,7 +301,11 @@ export class UserService {
     );
   }
 
-  private userProfileImageURL(imageName: string, userId: number) {
-    return `${process.env.BACKEND_URL_DEV}/feed/user/image/profile/${imageName}?userId=${userId}`;
+  userImageURL(
+    imageName: string,
+    userId: number,
+    imageType: 'profile' | 'background',
+  ) {
+    return `${process.env.BACKEND_URL_DEV}/feed/user/image/${imageType}/${imageName}?userId=${userId}`;
   }
 }

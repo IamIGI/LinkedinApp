@@ -20,5 +20,6 @@ export declare class FeedController {
     }, req: any): Observable<UpdateResult>;
     deletePost(id: number): Observable<DeleteResult>;
     findUserProfileImageByName(fileName: string, userId: number, res: any): any;
+    findUserBackgroundImageByName(fileName: string, userId: number, res: any): any;
     findPostImageByName(fileName: string, userId: number, res: any): any;
 }

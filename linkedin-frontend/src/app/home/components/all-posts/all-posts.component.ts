@@ -57,9 +57,10 @@ export class AllPostsComponent
         this.allLoadedPosts.forEach((post: Post, index: number) => {
           if (user?.profileImagePath && post.author.id === user.id) {
             this.allLoadedPosts[index].authorFullImagePath =
-              this.authService.getProfileFullImagePath(
+              this.authService.getUserFullImagePath(
                 user.id,
-                user.profileImagePath
+                user.profileImagePath,
+                'profile'
               );
           }
         });
@@ -111,7 +112,7 @@ export class AllPostsComponent
 
     this.postService.createPost().subscribe({
       next: (post: Post) => {
-        this.authService.userFullImagePath.pipe(take(1)).subscribe({
+        this.authService.userProfileFullImagePath.pipe(take(1)).subscribe({
           next: (fullImagePath: string) => {
             post.authorFullImagePath = fullImagePath;
             if (post.imageName) {
@@ -120,7 +121,7 @@ export class AllPostsComponent
             this.allLoadedPosts.unshift(post);
           },
           complete: () => {},
-          error: (err) => {
+          error: (err: Error) => {
             console.log(err);
           },
         });
@@ -158,11 +159,12 @@ export class AllPostsComponent
 
   setAuthorImage(post: Post): Post {
     const doesAuthorHaveImage = !!post.author.profileImagePath;
-    let fullImagePath = this.authService.getDefaultProfileFullImagePath();
+    let fullImagePath = this.authService.getDefaultUserFullImagePath('profile');
     if (doesAuthorHaveImage) {
-      fullImagePath = this.authService.getProfileFullImagePath(
+      fullImagePath = this.authService.getUserFullImagePath(
         post.author.id,
-        post.author.profileImagePath as string
+        post.author.profileImagePath as string,
+        'profile'
       );
     }
 
