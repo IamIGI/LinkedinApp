@@ -20,12 +20,25 @@
     .account-background-image
       height: 250px
       width: 100%
+      position: relative
       
       img
         width: 100%
         height: 100%
         border-top-left-radius: i.$radius-container
         border-top-right-radius: i.$radius-container
+
+      .account-background-change
+        position: absolute
+        top:20px
+        right: 20px
+
+        button
+          background-color: white
+
+          mat-icon
+            color: i.$color-primary
+
 
     .account-profileImage
       height: 180px

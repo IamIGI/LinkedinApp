@@ -56,15 +56,33 @@ export class AuthService {
     );
   }
 
-  get userFullImagePath(): Observable<string> {
+  get userProfileFullImagePath(): Observable<string> {
     return this.user$.asObservable().pipe(
       switchMap((user: User) => {
         const doesAuthorHasImage = !!user?.profileImagePath;
-        let fullImagePath = this.getDefaultProfileFullImagePath();
+        let fullImagePath = this.getDefaultUserFullImagePath('profile');
         if (doesAuthorHasImage) {
-          fullImagePath = this.getProfileFullImagePath(
+          fullImagePath = this.getUserFullImagePath(
             user.id,
-            user.profileImagePath as string
+            user.profileImagePath as string,
+            'profile'
+          );
+        }
+        return of(fullImagePath);
+      })
+    );
+  }
+
+  get userBackgroundFullImagePath(): Observable<string> {
+    return this.user$.asObservable().pipe(
+      switchMap((user: User) => {
+        const doesAuthorHasImage = !!user?.profileImagePath;
+        let fullImagePath = this.getDefaultUserFullImagePath('background');
+        if (doesAuthorHasImage) {
+          fullImagePath = this.getUserFullImagePath(
+            user.id,
+            user.profileImagePath as string,
+            'background'
           );
         }
         return of(fullImagePath);
@@ -86,12 +104,16 @@ export class AuthService {
       .subscribe();
   }
 
-  getDefaultProfileFullImagePath(): string {
-    return `${environment.baseApiUrl}/feed/user/image/profile/null`;
+  getDefaultUserFullImagePath(imageType: 'profile' | 'background'): string {
+    return `${environment.baseApiUrl}/feed/user/image/${imageType}/null`;
   }
 
-  getProfileFullImagePath(userId: number, imageName: string): string {
-    return `${environment.baseApiUrl}/feed/user/image/profile/${imageName}?userId=${userId}`;
+  getUserFullImagePath(
+    userId: number,
+    imageName: string,
+    imageType: 'profile' | 'background'
+  ): string {
+    return `${environment.baseApiUrl}/feed/user/image/${imageType}/${imageName}?userId=${userId}`;
   }
 
   getUserProfileImageName(): Observable<{ imageName: string }> {
@@ -107,6 +129,7 @@ export class AuthService {
       take(1),
       map((user: User) => {
         user.profileImagePath = imagePath;
+        this.updateUserDataInLocalStorage(user);
         this.user$.next(user);
       })
     );
@@ -124,6 +147,26 @@ export class AuthService {
         tap(({ modifiedFileName }) => {
           let user = this.user$.value;
           user.profileImagePath = modifiedFileName;
+          this.updateUserDataInLocalStorage(user);
+          this.user$.next(user);
+        })
+      );
+  }
+
+  uploadUserBackgroundImage(
+    formData: FormData
+  ): Observable<{ modifiedFileName: string }> {
+    return this.http
+      .post<{ modifiedFileName: string }>(
+        `${environment.baseApiUrl}/user/upload/background`,
+        formData
+      )
+      .pipe(
+        tap(({ modifiedFileName }) => {
+          let user = this.user$.value;
+          user.backgroundImagePath = modifiedFileName;
+
+          this.updateUserDataInLocalStorage(user);
           this.user$.next(user);
         })
       );
@@ -141,6 +184,7 @@ export class AuthService {
         tap((response: { token: string }) => {
           localStorage.setItem(localStorageKeys.jwtToken, response.token);
           const decodedToken: UserResponse = jwt_decode(response.token);
+          this.updateUserDataInLocalStorage(decodedToken.user);
           this.user$.next(decodedToken.user);
         })
       );
@@ -161,6 +205,8 @@ export class AuthService {
         tap((response: { token: string }) => {
           localStorage.setItem(localStorageKeys.jwtToken, response.token);
           const decodedToken: UserResponse = jwt_decode(response.token);
+
+          this.updateUserDataInLocalStorage(decodedToken.user);
           this.user$.next(decodedToken.user);
         })
       );
@@ -174,8 +220,11 @@ export class AuthService {
     const isExpired = new Date() > new Date(jwtExpirationInMsSinceUnixEpoch);
 
     if (isExpired) return false;
+    const userData: User = JSON.parse(
+      localStorage.getItem(localStorageKeys.userData)!
+    );
 
-    this.user$.next(decodedToken.user);
+    this.user$.next(userData);
     return true;
   }
 
@@ -183,5 +232,10 @@ export class AuthService {
     this.user$.next(null!);
     localStorage.removeItem(localStorageKeys.jwtToken);
     this.router.navigateByUrl('/guest');
+  }
+
+  private updateUserDataInLocalStorage(userData: User) {
+    const userDataToString = JSON.stringify(userData);
+    localStorage.setItem(localStorageKeys.userData, userDataToString);
   }
 }

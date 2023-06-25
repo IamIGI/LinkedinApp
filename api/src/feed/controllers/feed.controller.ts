@@ -123,6 +123,22 @@ export class FeedController {
     });
   }
 
+  @Get('user/image/background/:fileName')
+  findUserBackgroundImageByName(
+    @Param('fileName') fileName: string,
+    @Query('userId') userId: number = 0,
+    @Res() res,
+  ) {
+    if (!fileName || userId == 0 || ['null', '[null]'].includes(fileName)) {
+      return res.sendFile('blank-background-picture.jpg', {
+        root: './images/default',
+      });
+    }
+    return res.sendFile(fileName, {
+      root: getUserImagePath(userId, 'background'),
+    });
+  }
+
   @Get('post/image/:fileName')
   findPostImageByName(
     @Param('fileName') fileName: string,

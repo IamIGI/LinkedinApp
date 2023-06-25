@@ -3,7 +3,6 @@ import { ConnectionProfileService } from '../home/services/connection-profile.se
 import { FriendRequest } from '../home/models/FriendRequest';
 import { Subscription, take } from 'rxjs';
 import { User } from '../guests/components/auth/models/user.model';
-import { environment } from 'src/environments/environment.development';
 import { AuthService } from '../guests/components/auth/services/auth.service';
 
 @Component({
@@ -20,8 +19,6 @@ export class NetworkComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log('triggered');
-
     //get the friend requests for authenticated user
     this.friendRequestsSubscription = this.connectionProfileService
       .getFriendRequests()
@@ -32,9 +29,10 @@ export class NetworkComponent implements OnInit, OnDestroy {
             (friendRequest: FriendRequest) => {
               if (friendRequest.status === 'pending') {
                 friendRequest.creator.profileFullImagePath =
-                  this.authService.getProfileFullImagePath(
+                  this.authService.getUserFullImagePath(
                     friendRequest.creator.id,
-                    friendRequest.creator.profileImagePath as string
+                    friendRequest.creator.profileImagePath as string,
+                    'profile'
                   );
                 return friendRequest;
               }

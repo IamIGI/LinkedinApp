@@ -45,9 +45,11 @@ export class StartPostComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userImagePathSubscription =
-      this.authService.userFullImagePath.subscribe((fullImagePath: string) => {
-        this.userFullImagePath = fullImagePath;
-      });
+      this.authService.userProfileFullImagePath.subscribe(
+        (fullImagePath: string) => {
+          this.userFullImagePath = fullImagePath;
+        }
+      );
 
     this.postService.isPostImageAdded().subscribe((result: boolean) => {
       this.postImageAdded = result;

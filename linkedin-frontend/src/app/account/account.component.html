@@ -1,9 +1,21 @@
 <div class="account-container" *ngIf="accountLoaded | async">
   <div class="account-sectionOne">
     <div class="account-background-image">
-      <img
-        src="../../assets/images/profiles/background1.jpg"
-        alt="background"
+      <img [src]="user.backgroundFullImagePath" alt="background" />
+      <div class="account-background-change" *ngIf="isLoggedUser">
+        <button
+          mat-mini-fab
+          matTooltip="Zmień zdjęcie"
+          (click)="fileUpload.click()"
+        >
+          <mat-icon>camera_alt</mat-icon>
+        </button>
+      </div>
+      <input
+        #fileUpload
+        (change)="onBackgroundChange($event)"
+        style="display: none"
+        type="file"
       />
     </div>
     <div class="account-profileImage">

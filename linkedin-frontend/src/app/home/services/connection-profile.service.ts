@@ -64,7 +64,6 @@ export class ConnectionProfileService {
     requestId: number,
     statusResponse: 'accepted' | 'declined'
   ): Observable<FriendRequest | { error: string }> {
-    console.log(requestId, statusResponse);
     return this.http.put<FriendRequest>(
       `${environment.baseApiUrl}/user/friend-request/response/${requestId}`,
       { status: statusResponse },

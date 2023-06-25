@@ -11,7 +11,11 @@
   />
   <div class="profile-image pointer" (click)="fileUpload.click()">
     <div class="relative">
-      <img alt="profile" *ngIf="userFullImagePath" [src]="userFullImagePath" />
+      <img
+        alt="profile"
+        *ngIf="userProfileFullImagePath"
+        [src]="userProfileFullImagePath"
+      />
       <mat-icon class="profile-image-change">image_search</mat-icon>
     </div>
   </div>

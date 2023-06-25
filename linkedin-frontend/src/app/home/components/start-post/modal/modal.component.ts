@@ -69,9 +69,11 @@ export class ModalComponent implements OnInit, OnDestroy {
       });
 
     this.userImagePathSubscription =
-      this.authService.userFullImagePath.subscribe((fullImagePath: string) => {
-        this.userFullImagePath = fullImagePath;
-      });
+      this.authService.userProfileFullImagePath.subscribe(
+        (fullImagePath: string) => {
+          this.userFullImagePath = fullImagePath;
+        }
+      );
 
     this.authService.userFullName
       .pipe(take(1))

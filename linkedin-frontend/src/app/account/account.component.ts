@@ -16,12 +16,20 @@ import {
   tap,
   take,
   BehaviorSubject,
+  from,
+  of,
 } from 'rxjs';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { User } from '../guests/components/auth/models/user.model';
 import { FriendRequestStatus } from '../home/models/FriendRequest';
 import { AuthService } from '../guests/components/auth/services/auth.service';
 import { roleColors } from 'src/dictionaries/user-dict';
+import { fromBuffer, FileTypeResult } from 'file-type/core';
+import {
+  validFileExtension,
+  validMimeType,
+} from '../home/components/profile-summary/profile-summary.component';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-account',
@@ -30,12 +38,17 @@ import { roleColors } from 'src/dictionaries/user-dict';
 })
 export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   loggedUserId: number = null!;
-  user!: User;
+  isLoggedUser!: boolean;
   accountLoaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
   friendRequest!: FriendRequestStatus;
   friendRequestSubscription$!: Subscription;
-  userSubscription$!: Subscription;
+  private userSubscription$!: Subscription;
   userRoleString = '';
+
+  user!: User;
+
+  validFileExtensions: validFileExtension[] = ['png', 'jpg', 'jpeg'];
+  validMimeTypes: validMimeType[] = ['image/png', 'image/jpg', 'image/jpeg'];
 
   @ViewChildren('accountType', { read: ElementRef })
   accountType!: QueryList<ElementRef>;
@@ -58,18 +71,58 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       )
       .subscribe();
 
-    this.userSubscription$ = this.getUser().subscribe({
-      next: (user: User) => {
-        this.user = user;
-        this.accountLoaded.next(true);
-      },
-    });
+    this.userSubscription$ = this.authService.userId
+      .pipe(
+        tap((authUserId: number) => {
+          this.getUserIdFromUrl().subscribe({
+            next: (urlUserId: number) => {
+              if (authUserId == urlUserId) {
+                this.isLoggedUser = true;
+                return this.authService.userStream.subscribe({
+                  next: (user: User) => {
+                    user.profileFullImagePath =
+                      this.authService.getUserFullImagePath(
+                        user.id,
+                        user.profileImagePath!,
+                        'profile'
+                      );
+                    user.backgroundFullImagePath =
+                      this.authService.getUserFullImagePath(
+                        user.id,
+                        user.backgroundImagePath!,
+                        'background'
+                      );
 
-    this.authService.userId.subscribe({
-      next: (userId: number) => {
-        this.loggedUserId = userId;
-      },
-    });
+                    this.userRoleString =
+                      user.role == 'premium'
+                        ? 'Konto Premium'
+                        : user.role == 'admin'
+                        ? 'Konto Admina'
+                        : 'Konto Standardowe';
+                    this.user = user;
+                    this.accountLoaded.next(true);
+                  },
+                });
+              } else {
+                this.isLoggedUser = false;
+                return this.connectionProfileService
+                  .getConnectionUser(urlUserId)
+                  .subscribe({
+                    next: (user: User) => {
+                      this.user = user;
+                      this.accountLoaded.next(true);
+                    },
+                  });
+              }
+            },
+          });
+        })
+      )
+      .subscribe({
+        next: (userId: number) => {
+          this.loggedUserId = userId;
+        },
+      });
   }
 
   ngAfterViewInit(): void {
@@ -118,6 +171,54 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       )
       .pipe(take(1))
       .subscribe();
+  }
+
+  onBackgroundChange(event: Event): void {
+    let form!: FormGroup;
+
+    form = new FormGroup({
+      file: new FormControl(null),
+    });
+
+    const file: File = (
+      (event.target as HTMLInputElement).files as FileList
+    )[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    from(file.arrayBuffer())
+      .pipe(
+        switchMap((buffer: ArrayBuffer) => {
+          return from(fromBuffer(buffer)).pipe(
+            switchMap((fileTypeResult: FileTypeResult | undefined) => {
+              if (!fileTypeResult) {
+                // TODO: error handling
+                console.log({ error: 'file format not supported!' });
+                return of();
+              }
+              const { ext, mime } = fileTypeResult;
+              const isFileTypeLegit = this.validFileExtensions.includes(
+                ext as any
+              );
+              const isMimeTypeLegit = this.validMimeTypes.includes(mime as any);
+              const isFileLegit = isFileTypeLegit && isMimeTypeLegit;
+              if (!isFileLegit) {
+                // TODO: error handling
+                console.log({
+                  error: 'file format does not match file extension!',
+                });
+                return of();
+              }
+              return this.authService.uploadUserBackgroundImage(formData);
+            })
+          );
+        })
+      )
+      .subscribe();
+
+    form.reset();
   }
 
   respondToFriendRequest(value: boolean) {
