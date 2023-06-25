@@ -97,7 +97,6 @@ export class UserService {
     return from(this.userRepository.findOne({ where: { id } })).pipe(
       map((user: User) => {
         delete user.password;
-        //edit there
         user.profileFullImagePath = this.userImageURL(
           user.profileImagePath,
           user.id,
