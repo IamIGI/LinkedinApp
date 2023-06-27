@@ -1,5 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { Observable, from, map, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  forkJoin,
+  from,
+  map,
+  of,
+  repeat,
+  retry,
+  switchMap,
+  takeWhile,
+  tap,
+} from 'rxjs';
 import { User } from '../models/user.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../models/user.entity';
@@ -8,6 +19,7 @@ import {
   FriendRequest,
   FriendRequestStatus,
   FriendRequest_Status,
+  UserConnectionHistory,
 } from '../models/friend-request.interface';
 import { FriendRequestEntity } from '../models/friend-request.entity';
 
@@ -20,54 +32,71 @@ export class UserService {
     private readonly friendRequestRepository: Repository<FriendRequestEntity>,
   ) {}
 
-  // findUsersWhoAreInNoConnectionToAuthenticatedUser(usersNumber: number): Observable<User[]> {
+  private filterUsersForNoConnectionUsers(
+    users: User[],
+    friends: UserConnectionHistory[],
+    authenticatedUser: User,
+  ): User[] {
+    const ignoreUsers = friends.map((friend) => friend.id);
+    return users.filter((user) => {
+      console.log(
+        !ignoreUsers.includes(user.id) && user.id !== authenticatedUser.id,
+      );
+      return !ignoreUsers.includes(user.id) && user.id !== authenticatedUser.id;
+    });
+  }
 
-  // }
+  getUsersWhoAreInNoConnectionToAuthenticatedUser(
+    skip: number,
+    currentUser: User,
+  ): Observable<User[]> {
+    // TODO: when filtered array result length is < 10 then perform again, until 10 is obtained
+    let usersWithNoConnections: User[] = [];
 
-  /** Return all users id who are with authenticated user in requests status: 'pending', 'waiting-for-current-user-response', 'accepted', 'declined' */
+    return forkJoin(
+      //TODO: when users will be more ... like 1000, implement random skip value
+      this.userRepository.find({
+        skip,
+        take: 20,
+      }),
+      this.getAllUsersWhoAreInConnectionToAuthenticatedUser(currentUser),
+    ).pipe(
+      map(([users, friends]) => {
+        usersWithNoConnections.push(
+          ...this.filterUsersForNoConnectionUsers(users, friends, currentUser),
+        );
+
+        if (usersWithNoConnections.length > 8) {
+          return usersWithNoConnections.slice(0, 8);
+        }
+        return usersWithNoConnections;
+      }),
+      // takeWhile((usersWithNoConnections) => usersWithNoConnections.length < 5),
+    );
+  }
+
   getAllUsersWhoAreInConnectionToAuthenticatedUser(
     currentUser: User,
-  ): Observable<number[]> {
+  ): Observable<UserConnectionHistory[]> {
     return from(
       this.friendRequestRepository.find({
-        where: [
-          { creator: currentUser, status: 'pending' },
-          { creator: currentUser, status: 'waiting-for-current-user-response' },
-          { creator: currentUser, status: 'accepted' },
-          { creator: currentUser, status: 'declined' },
-          { receiver: currentUser, status: 'pending' },
-          {
-            receiver: currentUser,
-            status: 'waiting-for-current-user-response',
-          },
-          { receiver: currentUser, status: 'accepted' },
-          { receiver: currentUser, status: 'declined' },
-        ],
+        where: [{ creator: currentUser }, { receiver: currentUser }],
         relations: ['creator', 'receiver'],
       }),
     ).pipe(
       map((friendRequests: FriendRequestEntity[]) => {
-        type userConnectionHistory = {
-          id: number;
-          status: FriendRequest_Status;
-          user: User;
-        };
-        let usersConnectionHistory: userConnectionHistory[] = null!;
-        usersConnectionHistory = friendRequests.map(
-          (friendRequest: FriendRequestEntity) => {
-            const targetUser =
-              friendRequest.creator.id !== currentUser.id
-                ? friendRequest.creator
-                : friendRequest.receiver;
-            const historyObject = {
-              id: friendRequest.id,
-              status: friendRequest.status,
-              user: targetUser,
-            };
-            return historyObject;
-          },
-        );
-        return [1];
+        return friendRequests.map((friendRequest: FriendRequestEntity) => {
+          const targetUser =
+            friendRequest.creator.id !== currentUser.id
+              ? friendRequest.creator
+              : friendRequest.receiver;
+          const historyObject = {
+            id: friendRequest.id,
+            status: friendRequest.status,
+            user: targetUser,
+          };
+          return historyObject;
+        });
       }),
     );
   }

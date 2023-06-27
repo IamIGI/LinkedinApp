@@ -5,6 +5,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Request,
   Res,
   UploadedFile,
@@ -27,6 +28,7 @@ import { User } from '../models/user.interface';
 import {
   FriendRequest,
   FriendRequestStatus,
+  UserConnectionHistory,
 } from '../models/friend-request.interface';
 
 @Controller('user')
@@ -201,10 +203,26 @@ export class UserController {
   }
 
   @UseGuards(JwtGuard)
-  @Get('friend-request/me/all')
-  getUserFriendRequestsHistory(@Request() req): Observable<Number[]> {
+  @Get('friend-request/me/connection')
+  getUserFriendRequestsHistory(
+    @Request() req,
+  ): Observable<UserConnectionHistory[]> {
     const currentUser = req.user;
     return this.userService.getAllUsersWhoAreInConnectionToAuthenticatedUser(
+      currentUser,
+    );
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('friend-request/me/no-connection')
+  getUsersWhoHasNoConnection(
+    @Request() req,
+    @Query('skip') skip: number = 0,
+  ): Observable<User[]> {
+    const currentUser = req.user;
+
+    return this.userService.getUsersWhoAreInNoConnectionToAuthenticatedUser(
+      Number(skip),
       currentUser,
     );
   }
