@@ -18,3 +18,9 @@ export interface FriendRequest {
   receiver?: User;
   status: FriendRequest_Status;
 }
+
+export interface UserConnectionHistory {
+  id: number;
+  status: FriendRequest_Status;
+  user: User;
+}
