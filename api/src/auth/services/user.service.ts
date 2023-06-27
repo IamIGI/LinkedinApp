@@ -39,9 +39,6 @@ export class UserService {
   ): User[] {
     const ignoreUsers = friends.map((friend) => friend.id);
     return users.filter((user) => {
-      console.log(
-        !ignoreUsers.includes(user.id) && user.id !== authenticatedUser.id,
-      );
       return !ignoreUsers.includes(user.id) && user.id !== authenticatedUser.id;
     });
   }
