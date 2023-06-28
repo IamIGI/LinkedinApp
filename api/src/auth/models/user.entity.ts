@@ -1,4 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Role } from './role.enum';
 import { FeedPostEntity } from 'src/feed/models/post/post.entity';
 import { FriendRequestEntity } from './friend-request.entity';
@@ -58,4 +65,10 @@ export class UserEntity {
     (friendRequestEntity) => friendRequestEntity.receiver,
   )
   receivedFriendRequests: FriendRequestEntity[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
