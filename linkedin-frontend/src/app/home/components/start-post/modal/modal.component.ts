@@ -11,8 +11,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTooltip } from '@angular/material/tooltip';
 import { BehaviorSubject, Subscription, map, take } from 'rxjs';
-import { Role, User } from 'src/app/guests/components/auth/models/user.model';
-import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
+import { Role, User } from 'src/app/auth/models/user.model';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { Post } from 'src/app/home/models/Post';
 import { CreatePost, PostService } from 'src/app/home/services/post.service';
 

@@ -1,0 +1,95 @@
+@use 'src/styles/index' as i
+
+.content-container
+  width: 100%
+  @include i.flex-ColumnStartCenter
+
+.header
+  width: 100%
+  @include i.flex-RowStartCenter
+  padding: 0px 7%
+  margin-bottom: 4%
+
+
+.linkedin-logo
+  @include i.inElement-linkedin-logo
+
+.boxShadowContainer
+  @include i.inElement-card-layout-box-shadow
+
+  
+.section
+  @include i.flex-ColumnStartCenter
+  padding: 30px
+  gap: 15px
+  border-radius: i.$radius-container
+
+  .title
+    width: 100%
+    margin-bottom: 10px
+    
+    h2
+      font-size: i.$font-xxl
+      font-weight: 500
+      letter-spacin: 1px
+      margin: 0px
+      margin-bottom: 5px
+
+    p
+      font-size: i.$font-m
+      margin: 0px
+
+
+.join-now
+  padding: 20px
+  p
+    font-size: i.$font-m
+
+  span
+    weight: 700
+    color: i.$color-linkedin-text-primary
+
+    &:hover
+      text-decoration: underline
+      cursor: pointer
+
+
+.form
+  @include i.flex-ColumnStartStart
+  gap: 10px
+  width:100%
+  
+  $formElementWidth: 400px
+
+  mat-form-field
+    width: $formElementWidth
+    margin: 0px !important
+    padding: 0px !important
+    input
+      margin: 0px !important
+      padding: 0px !important
+      width: 100%
+  button
+    width: $formElementWidth
+    border-radius: 25px 
+    height: 50px
+  .forgot-password
+    width: 100%
+    padding: 0 5px
+    color: i.$color-linkedin-text-primary
+    margin: 0px
+    margin: left
+    font-size: i.$font-s
+    &:hover
+      text-decoration: underline
+      cursor: pointer
+
+@media screen and (max-width: 500px )
+
+  $formElementWidth: 300px
+
+  .form
+    mat-form-field
+      width: $formElementWidth
+    button
+      width: $formElementWidth

@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
-import { FormTemplateService } from '../../form-template.service';
-import { AuthService } from '../../services/auth.service';
+
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +15,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.sass'],
 })
 export class LoginComponent implements OnInit {
+  @Input()
+  showContainer?: boolean = true;
+
   hidePassword = true;
   formTitle = {
     title: 'Zaloguj się ',
@@ -28,15 +31,9 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorServerMessage = '';
 
-  constructor(
-    private formTemplateService: FormTemplateService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.formTemplateService.setFormTitleData(this.formTitle);
-
     this.loginForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required]),

@@ -1,4 +1,4 @@
-import { User } from 'src/app/guests/components/auth/models/user.model';
+import { User } from 'src/app/auth/models/user.model';
 
 export type FriendRequest_Status =
   | 'not-sent'

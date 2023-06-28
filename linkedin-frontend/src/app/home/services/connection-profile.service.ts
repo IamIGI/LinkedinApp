@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/guests/components/auth/models/user.model';
 import { environment } from 'src/environments/environment.development';
 import { FriendRequest, FriendRequestStatus } from '../models/FriendRequest';
+import { User } from 'src/app/auth/models/user.model';
 
 @Injectable({
   providedIn: 'root',

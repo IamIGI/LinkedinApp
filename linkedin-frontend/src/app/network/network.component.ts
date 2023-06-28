@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConnectionProfileService } from '../home/services/connection-profile.service';
 import { FriendRequest } from '../home/models/FriendRequest';
 import { Subscription, take } from 'rxjs';
-import { User } from '../guests/components/auth/models/user.model';
-import { AuthService } from '../guests/components/auth/services/auth.service';
+import { AuthService } from '../auth/services/auth.service';
+import { User } from '../auth/models/user.model';
 
 @Component({
   selector: 'app-network',

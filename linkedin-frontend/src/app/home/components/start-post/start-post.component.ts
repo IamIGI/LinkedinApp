@@ -10,10 +10,10 @@ import { options } from './data';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from './modal/modal.component';
 import { Subscription, take } from 'rxjs';
-import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 import { PostService } from '../../services/post.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 interface PostImage {
   imageName: string | undefined;

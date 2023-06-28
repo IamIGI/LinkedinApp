@@ -5,7 +5,8 @@ import { RouterModule } from '@angular/router';
 import { GuestRoutingModule } from './guest-routing.module';
 import { GuestHomepageComponent } from './guest-homepage.component';
 import { StartPageComponent } from './components/start-page/start-page.component';
-import { AuthModule } from './components/auth/auth.module';
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
   imports: [
@@ -13,8 +14,12 @@ import { AuthModule } from './components/auth/auth.module';
     ReactiveFormsModule,
     RouterModule,
     GuestRoutingModule,
-    AuthModule,
   ],
-  declarations: [GuestHomepageComponent, StartPageComponent],
+  declarations: [
+    GuestHomepageComponent,
+    StartPageComponent,
+    LoginComponent,
+    SignupComponent,
+  ],
 })
 export class GuestModule {}

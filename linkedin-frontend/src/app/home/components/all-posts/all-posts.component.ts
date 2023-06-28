@@ -12,12 +12,12 @@ import { CreatePost, PostService } from '../../services/post.service';
 import { Post } from '../../models/Post';
 import { ModalComponent } from '../start-post/modal/modal.component';
 import { BehaviorSubject, Subscription, take } from 'rxjs';
-import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Role, User } from 'src/app/guests/components/auth/models/user.model';
 import { ProgressSpinnerDialogComponent } from 'src/app/progress-spinner-dialog/progress-spinner-dialog.component';
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
+import { Role, User } from 'src/app/auth/models/user.model';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-all-posts',
