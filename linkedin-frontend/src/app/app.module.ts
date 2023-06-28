@@ -25,7 +25,6 @@ import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progre
   ],
   declarations: [
     AppComponent,
-    NetworkComponent,
     WorkComponent,
     MessagesComponent,
     NotificationsComponent,

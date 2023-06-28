@@ -1,0 +1,38 @@
+<div class="peopleYouMayKnown-container">
+  <div class="tile-container" *ngFor="let user of recommendedUsers">
+    <div class="tile-background-image">
+      <img
+        [routerLink]="['/', 'home', 'account', user.id]"
+        *ngIf="user.backgroundFullImagePath"
+        alt="background"
+        [src]="user.backgroundFullImagePath"
+        class="pointer"
+      />
+      <div class="tile-close">
+        <button mat-mini-fab matTooltip="Schowaj" (click)="hideUser(user.id)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="tile-profileImage">
+      <img
+        [routerLink]="['/', 'home', 'account', user.id]"
+        *ngIf="user.profileFullImagePath"
+        [src]="user.profileFullImagePath"
+        alt="profile"
+        class="pointer"
+      />
+    </div>
+    <div class="tile-information">
+      <h1 [routerLink]="['/', 'home', 'account', user.id]" class="clickText">
+        {{ getAuthorName(user) }}
+      </h1>
+      <h2>Angular Developer at Airbus Technology</h2>
+      <p>8 wspólnych kontaktów</p>
+      <button mat-stroked-button color="primary" (click)="addUser(user.id)">
+        <mat-icon>person_add_alt_1</mat-icon>
+        Nawiąż kontakt
+      </button>
+    </div>
+  </div>
+</div>
