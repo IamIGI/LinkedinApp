@@ -214,6 +214,13 @@ export class UserController {
   }
 
   @UseGuards(JwtGuard)
+  @Get('friend-request/me/statistics')
+  getUserFriendRequestsStatistics(@Request() req): Observable<FriendRequest[]> {
+    const currentUser = req.user;
+    return this.userService.getUsersFriendsStatisticsData(currentUser);
+  }
+
+  @UseGuards(JwtGuard)
   @Get('friend-request/me/no-connection')
   getUsersWhoHasNoConnection(
     @Request() req,

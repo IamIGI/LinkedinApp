@@ -100,6 +100,17 @@ export class UserService {
     );
   }
 
+  getUsersFriendsStatisticsData(
+    currentUser: User,
+  ): Observable<FriendRequest[]> {
+    return from(
+      this.friendRequestRepository.find({
+        where: [{ creator: currentUser }, { receiver: currentUser }],
+        relations: ['creator', 'receiver'],
+      }),
+    );
+  }
+
   findUserById(id: number): Observable<User> {
     return from(
       this.userRepository.findOne({ where: { id }, relations: ['feedPosts'] }),
