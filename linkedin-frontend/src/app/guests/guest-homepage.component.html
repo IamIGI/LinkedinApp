@@ -1,6 +1,6 @@
 <div class="content-container">
   <div class="header">
-    <div class="linkedin-logo" (click)="navigate('home')">
+    <div class="linkedin-logo" [routerLink]="['/', 'guest']">
       <h1>Linked<span>in</span></h1>
     </div>
     <div class="options">
@@ -42,10 +42,14 @@
         </ul>
       </div>
       <div class="account">
-        <button mat-stroked-button (click)="navigate('register')">
+        <button mat-stroked-button [routerLink]="['/', 'guest', 'signup']">
           Dołącz teraz
         </button>
-        <button mat-stroked-button color="primary" (click)="navigate('login')">
+        <button
+          mat-stroked-button
+          color="primary"
+          [routerLink]="['/', 'guest', 'login']"
+        >
           Zaloguj się
         </button>
       </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/guests/components/auth/models/user.model';
+import { User } from 'src/app/auth/models/user.model';
 import { ConnectionProfileService } from 'src/app/home/services/connection-profile.service';
 
 @Component({
@@ -17,6 +17,7 @@ export class PeopleYouMayKnownComponent implements OnInit {
     this.connectionProfileService
       .getNoConnectionUsers(0)
       .subscribe((users: User[]) => {
+        console.log(users);
         this.usersToBeRecommended = users.slice(8);
         this.recommendedUsers = users.slice(0, 8);
       });

@@ -1,0 +1,131 @@
+<div class="content-container">
+  <div class="section">
+    <div class="title">
+      <h2>{{ formTitle.title }}</h2>
+      <p>{{ formTitle.subtext }}</p>
+    </div>
+    <form
+      class="form"
+      [formGroup]="registerForm"
+      #formDirective="ngForm"
+      (ngSubmit)="onSubmit(formDirective)"
+    >
+      <mat-form-field appearance="outline">
+        <mat-label>Imie</mat-label>
+        <input type="text" matInput formControlName="firstName" required />
+        <mat-error
+          *ngIf="
+            !registerForm.get('firstName')?.hasError('required') &&
+            registerForm.get('firstName')?.hasError('minlength')
+          "
+        >
+          Minimalna ilośc znaków: <strong>3</strong>
+        </mat-error>
+        <mat-error *ngIf="registerForm.get('firstName')?.hasError('required')">
+          Imie jest <strong>wymagane</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Nazwisko</mat-label>
+        <input type="text" matInput formControlName="lastName" required />
+        <mat-error
+          *ngIf="
+            !registerForm.get('lastName')?.hasError('required') &&
+            registerForm.get('lastName')?.hasError('minlength')
+          "
+        >
+          Minimalna ilośc znaków: <strong>3</strong>
+        </mat-error>
+        <mat-error *ngIf="registerForm.get('lastName')?.hasError('required')">
+          Nazwisko jest <strong>wymagane</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email" required />
+        <mat-error
+          *ngIf="
+            registerForm.get('email')?.hasError('email') &&
+            !registerForm.get('email')?.hasError('required')
+          "
+        >
+          Proszę, wprowadzić poprawny email
+        </mat-error>
+        <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+          Email jest <strong>wymagany</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Hasło</mat-label>
+        <input
+          [type]="hidePassword ? 'password' : 'text'"
+          matInput
+          formControlName="password"
+          required
+        />
+        <mat-icon
+          class="pointer"
+          matSuffix
+          (click)="hidePassword = !hidePassword"
+          >{{ hidePassword ? "visibility_off" : "visibility" }}</mat-icon
+        >
+        <mat-error
+          *ngIf="
+            registerForm.get('password')?.hasError('pattern') &&
+            !registerForm.get('password')?.hasError('required')
+          "
+        >
+          Duza litera, cyfra, znak specjalny
+        </mat-error>
+        <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+          Hasło jest <strong>wymagane</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Powtórz hasło</mat-label>
+        <input
+          [type]="hideConfirmPassword ? 'password' : 'text'"
+          matInput
+          formControlName="confirmPassword"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-icon
+          class="pointer"
+          matSuffix
+          (click)="hideConfirmPassword = !hideConfirmPassword"
+          >{{ hideConfirmPassword ? "visibility_off" : "visibility" }}</mat-icon
+        >
+        <mat-error
+          *ngIf="
+            registerForm.hasError('notSame') &&
+            registerForm.get('confirmPassword')?.touched
+          "
+        >
+          Hasła muszą być takie same
+        </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="isPrivateAccount"
+        >Company Account</mat-checkbox
+      >
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        [disabled]="registerForm.invalid"
+      >
+        Zarejestruj się
+      </button>
+      <mat-error> {{ this.errorServerMessage }}</mat-error>
+    </form>
+  </div>
+  <div class="join-now">
+    <p>
+      {{ formTitle.footerText.text1 }}
+      <span [routerLink]="['/', 'guest', 'login']">{{
+        formTitle.footerText.text2
+      }}</span>
+    </p>
+  </div>
+</div>

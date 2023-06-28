@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormTemplateService } from '../../form-template.service';
 import {
   AbstractControl,
   FormControl,
@@ -11,8 +10,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { AuthService } from '../../services/auth.service';
+
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -46,15 +46,9 @@ export class SignupComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
   errorServerMessage = '';
 
-  constructor(
-    private formTemplateService: FormTemplateService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.formTemplateService.setFormTitleData(this.formTitle);
-
     this.registerForm = new FormGroup(
       {
         firstName: new FormControl(null, [

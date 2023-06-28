@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../guests/components/auth/services/auth.service';
 import { FriendRequest } from '../home/models/FriendRequest';
 import { ConnectionProfileService } from '../home/services/connection-profile.service';
+import { AuthService } from '../auth/services/auth.service';
 
 @Component({
   selector: 'app-header',

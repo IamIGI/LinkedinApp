@@ -20,9 +20,7 @@ import {
   of,
 } from 'rxjs';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
-import { User } from '../guests/components/auth/models/user.model';
 import { FriendRequestStatus } from '../home/models/FriendRequest';
-import { AuthService } from '../guests/components/auth/services/auth.service';
 import { roleColors } from 'src/dictionaries/user-dict';
 import { fromBuffer, FileTypeResult } from 'file-type/core';
 import {
@@ -30,6 +28,8 @@ import {
   validMimeType,
 } from '../home/components/profile-summary/profile-summary.component';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AuthService } from '../auth/services/auth.service';
+import { User } from '../auth/models/user.model';
 
 @Component({
   selector: 'app-account',

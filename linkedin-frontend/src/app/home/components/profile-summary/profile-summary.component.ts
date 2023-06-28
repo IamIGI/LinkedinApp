@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Role, User } from 'src/app/guests/components/auth/models/user.model';
-import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
 import { fromBuffer, FileTypeResult } from 'file-type/core';
 import { BehaviorSubject, Subscription, from, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { roleColors } from 'src/dictionaries/user-dict';
+import { Role, User } from 'src/app/auth/models/user.model';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 export type validFileExtension = 'png' | 'jpg' | 'jpeg';
 export type validMimeType = 'image/png' | 'image/jpg' | 'image/jpeg';

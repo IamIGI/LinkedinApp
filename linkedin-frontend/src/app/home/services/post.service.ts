@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Post } from '../models/Post';
 import { environment } from 'src/environments/environment.development';
 import { BehaviorSubject, map, take, tap, Observable } from 'rxjs';
-import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 export interface CreatePost {
   content: string;

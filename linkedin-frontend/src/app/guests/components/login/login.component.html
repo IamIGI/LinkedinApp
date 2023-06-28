@@ -1,0 +1,68 @@
+<div class="content-container">
+  <div class="section" [ngClass]="{ boxShadowContainer: showContainer }">
+    <div *ngIf="showContainer" class="title">
+      <h2>{{ formTitle.title }}</h2>
+      <p>{{ formTitle.subtext }}</p>
+    </div>
+    <form
+      class="form"
+      [formGroup]="loginForm"
+      #formDirective="ngForm"
+      (ngSubmit)="onSubmit(formDirective)"
+    >
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email" required />
+        <mat-error
+          *ngIf="
+            loginForm.get('email')?.hasError('email') &&
+            !loginForm.get('email')?.hasError('required')
+          "
+        >
+          Proszę, wprowadzić poprawny email
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          Email jest <strong>wymagany</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Hasło</mat-label>
+        <input
+          [type]="hidePassword ? 'password' : 'text'"
+          matInput
+          formControlName="password"
+          placeholder="Password"
+          required
+        />
+        <mat-icon
+          class="pointer"
+          matSuffix
+          (click)="hidePassword = !hidePassword"
+          >{{ hidePassword ? "visibility_off" : "visibility" }}</mat-icon
+        >
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Hasło jest <strong>wymagane</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <p class="forgot-password">Nie pamiętasz hasła?</p>
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        Zaloguj się
+      </button>
+      <mat-error> {{ this.errorServerMessage }}</mat-error>
+    </form>
+  </div>
+  <div *ngIf="showContainer" class="join-now">
+    <p>
+      {{ formTitle.footerText.text1 }}
+      <span [routerLink]="['/', 'guest', 'signup']">{{
+        formTitle.footerText.text2
+      }}</span>
+    </p>
+  </div>
+</div>

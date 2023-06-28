@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subscription, take } from 'rxjs';
-import { User } from 'src/app/guests/components/auth/models/user.model';
-import { AuthService } from 'src/app/guests/components/auth/services/auth.service';
+import { User } from 'src/app/auth/models/user.model';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-popover',
@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/guests/components/auth/services/auth.servic
   styleUrls: ['./popover.component.sass'],
 })
 export class PopoverComponent implements OnInit {
-  userStream: User = null!;
+  userStream!: User;
 
   fullName$ = new BehaviorSubject<string>(null!);
   fullName = '';
