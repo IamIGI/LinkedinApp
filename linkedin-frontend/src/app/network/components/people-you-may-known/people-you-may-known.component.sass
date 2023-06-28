@@ -1,0 +1,83 @@
+@use 'src/styles/index' as i
+
+.peopleYouMayKnown-container
+  @include i.flex-RowStartCenter
+  justify-content: space-evenly
+  width: 100%
+  gap: 10px
+  flex-wrap: wrap
+  
+
+.tile-container
+  @include i.flex-ColumnStartCenter
+  background-color: i.$color-white
+  width:220px
+  border-radius: i.$radius-container
+  position: relative
+  
+  
+
+.tile-background-image
+  height: 90px
+  width: 100%
+  position: relative
+  
+  img
+    width: 100%
+    height: 100%
+    border-top-left-radius: i.$radius-container
+    border-top-right-radius: i.$radius-container
+
+  .tile-close
+    position: absolute
+    top:10px
+    right: 10px
+
+    button
+      background-color: white
+
+      mat-icon
+        color: i.$color-primary
+
+.tile-profileImage
+  $imageSize: 110px
+  height: $imageSize
+  position: absolute
+  left: 55px
+  top: 35px
+  @include i.inElement-profile-image($imageSize)
+  img
+    border: 5px solid white
+
+.tile-information
+  width: 100%
+  padding: 60px 20px 10px 20px
+  @include i.flex-ColumnStartCenter
+  // gap: 20px
+
+  h1
+    margin: 0px
+    margin-bottom: 3px
+    font-size: i.$font-l_plus
+    font-weight: 500
+    // outline: 1px solid red
+  h2
+    margin: 0px
+    margin-bottom: 5px
+    font-weight: 300
+    font-size: i.$font-m
+    width: 100%
+    text-align: center
+  p
+    margin: 0px
+    margin-bottom: 5px
+    font-weight: 700
+    color: i.$color-primary
+    font-size: i.$font-m_plus
+
+  button
+    border-radius: 18px 
+    height: 36px
+    font-weight: 700
+    padding: 0 20px
+    border: 2px solid 

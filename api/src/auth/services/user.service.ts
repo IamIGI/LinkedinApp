@@ -37,7 +37,7 @@ export class UserService {
     friends: UserConnectionHistory[],
     authenticatedUser: User,
   ): User[] {
-    const ignoreUsers = friends.map((friend) => friend.id);
+    const ignoreUsers = friends.map((friend) => friend.user.id);
     return users.filter((user) => {
       return !ignoreUsers.includes(user.id) && user.id !== authenticatedUser.id;
     });
@@ -63,9 +63,11 @@ export class UserService {
           ...this.filterUsersForNoConnectionUsers(users, friends, currentUser),
         );
 
-        if (usersWithNoConnections.length > 8) {
-          return usersWithNoConnections.slice(0, 8);
+        //Users see 8 records, but can remove record from view, so then new one pops in.
+        if (usersWithNoConnections.length > 16) {
+          return usersWithNoConnections.slice(0, 16);
         }
+        users.map((user) => this.setUserImageData(user));
         return usersWithNoConnections;
       }),
       // takeWhile((usersWithNoConnections) => usersWithNoConnections.length < 5),
@@ -104,16 +106,7 @@ export class UserService {
     ).pipe(
       map((user: User) => {
         delete user.password;
-        user.profileFullImagePath = this.userImageURL(
-          user.profileImagePath,
-          user.id,
-          'profile',
-        );
-        user.backgroundFullImagePath = this.userImageURL(
-          user.backgroundImagePath,
-          user.id,
-          'background',
-        );
+        user = this.setUserImageData(user);
         return user;
       }),
     );
@@ -123,16 +116,7 @@ export class UserService {
     return from(this.userRepository.findOne({ where: { id } })).pipe(
       map((user: User) => {
         delete user.password;
-        user.profileFullImagePath = this.userImageURL(
-          user.profileImagePath,
-          user.id,
-          'profile',
-        );
-        user.backgroundFullImagePath = this.userImageURL(
-          user.backgroundImagePath,
-          user.id,
-          'background',
-        );
+        user = this.setUserImageData(user);
         return user;
       }),
     );
@@ -327,11 +311,25 @@ export class UserService {
     );
   }
 
-  userImageURL(
+  private userImageURL(
     imageName: string,
     userId: number,
     imageType: 'profile' | 'background',
   ) {
     return `${process.env.BACKEND_URL_DEV}/feed/user/image/${imageType}/${imageName}?userId=${userId}`;
+  }
+
+  private setUserImageData(user: User): User {
+    user.profileFullImagePath = this.userImageURL(
+      user.profileImagePath,
+      user.id,
+      'profile',
+    );
+    user.backgroundFullImagePath = this.userImageURL(
+      user.backgroundImagePath,
+      user.id,
+      'background',
+    );
+    return user;
   }
 }

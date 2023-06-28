@@ -70,4 +70,11 @@ export class ConnectionProfileService {
       this.httpOptions
     );
   }
+
+  getNoConnectionUsers(skip: number): Observable<User[]> {
+    return this.http.get<User[]>(
+      `${environment.baseApiUrl}/user/friend-request/me/no-connection?skip=${skip}`,
+      this.httpOptions
+    );
+  }
 }
