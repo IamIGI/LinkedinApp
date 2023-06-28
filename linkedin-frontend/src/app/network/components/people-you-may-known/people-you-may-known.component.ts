@@ -17,7 +17,6 @@ export class PeopleYouMayKnownComponent implements OnInit {
     this.connectionProfileService
       .getNoConnectionUsers(0)
       .subscribe((users: User[]) => {
-        console.log(users);
         this.usersToBeRecommended = users.slice(8);
         this.recommendedUsers = users.slice(0, 8);
       });
