@@ -16,4 +16,6 @@ export interface User {
   education?: string;
   position?: string;
   subscribers?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

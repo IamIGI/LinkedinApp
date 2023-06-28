@@ -17,6 +17,8 @@ export interface FriendRequest {
   creator?: User;
   receiver?: User;
   status: FriendRequest_Status;
+  sendedDate?: Date;
+  repliedDate?: Date;
 }
 
 export interface UserConnectionHistory {

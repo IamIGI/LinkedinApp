@@ -18,4 +18,6 @@ export interface User {
   subscribers?: number | null;
   position?: string | null;
   posts?: Post[];
+  createdAt: Date;
+  updatedAt: Date;
 }
