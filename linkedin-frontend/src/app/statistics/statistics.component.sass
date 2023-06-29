@@ -1,0 +1,80 @@
+@use 'src/styles/index' as i
+  
+.statistics-wrapper
+  $horizontalMargin: 10%
+  margin-top: 30px
+  margin: 0 $horizontalMargin
+  width:  calc( 100% - 2*$horizontalMargin )
+  @include i.flex-ColumnStartCenter
+  gap: 10px
+  padding: 10px
+  border-radius:  10px
+  background-color: i.$color-white
+
+  .filters
+    width: 100%
+    @include i.flex-RowStartCenter
+
+  .pagination
+    width: 100%
+    @include i.flex-RowStartCenter
+    justify-content: flex-end
+  
+  mat-form-field
+    width: 200px
+    margin: 0px !important
+
+  mat-header-cell
+    font-weight: 700
+
+  mat-table
+    max-width: fit-content
+    word-break: break-all
+    word-wrap: break-word
+    margin-top: 0px !important
+
+  .mat-mdc-row .mat-mdc-cell 
+    border-bottom: 1px solid transparent
+    border-top: 1px solid transparent
+    cursor: pointer
+    font-size: i.$font-m
+
+  .mat-mdc-row:hover .mat-mdc-cell
+    border-color: gray
+
+  .mat-column-id
+    font-weight: bold
+    border-right: 1px solid gray
+    min-width: 40px
+    max-width: 40px
+    padding: 0px
+    padding-left: 5px
+
+  .mat-column-status
+    font-weight: bold
+    min-width: 100px
+
+  .mat-column-creator, .mat-column-receiver
+    padding-left: 10px
+    min-width: 120px
+    padding: 0px
+    padding-left: 5px
+
+  .mat-column-repliedDate, .mat-column-sendedDate
+    min-width: 130px
+    padding: 0px
+    padding-left: 10px
+
+
+@media screen and (max-width: 820px)
+  .statistics-wrapper
+    $horizontalMargin: 3%
+    margin: 0 $horizontalMargin
+    width:  calc( 100% - 2*$horizontalMargin )
+    min-width: 650px
+  
+
+  
+
+  
+  

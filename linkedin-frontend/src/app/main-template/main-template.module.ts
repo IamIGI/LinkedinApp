@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderModule } from '../header/header.module';
 import { AccountModule } from '../account/account.module';
 import { NetworkModule } from '../network/network.module';
+import { StatisticsModule } from '../statistics/statistics.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { NetworkModule } from '../network/network.module';
     RouterModule,
     MainTemplateRoutingModule,
     HeaderModule,
+    StatisticsModule,
   ],
   declarations: [MainTemplateComponent],
 })

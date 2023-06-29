@@ -6,6 +6,7 @@ import { MessagesComponent } from '../messages/messages.component';
 import { NotificationsComponent } from '../notifications/notifications.component';
 import { AccountComponent } from '../account/account.component';
 import { NgModule } from '@angular/core';
+import { StatisticsComponent } from '../statistics/statistics.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'account/:userId',
     component: AccountComponent,
+  },
+  {
+    path: 'statistics',
+    component: StatisticsComponent,
   },
 ];
 

@@ -12,10 +12,11 @@ export class GuestHomepageComponent {
   navigate(where: string) {
     switch (where) {
       case 'register':
-        this.router.navigate(['form/signup'], { relativeTo: this.route });
+        //change for correct url path?
+        this.router.navigate(['signup'], { relativeTo: this.route });
         break;
       case 'login':
-        this.router.navigate(['form/login'], { relativeTo: this.route });
+        this.router.navigate(['login'], { relativeTo: this.route });
         break;
       case 'home':
         this.router.navigate(['guest']);
