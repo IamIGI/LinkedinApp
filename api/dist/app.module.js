@@ -14,6 +14,7 @@ const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
 const feed_module_1 = require("./feed/feed.module");
 const auth_module_1 = require("./auth/auth.module");
+const statistics_module_1 = require("./statistics/statistics.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -28,8 +29,11 @@ AppModule = __decorate([
                 password: process.env.POSTGRES_PASSWORD,
                 database: process.env.POSTGRES_DATABASE,
                 autoLoadEntities: true,
-                synchronize: true
-            }), feed_module_1.FeedModule, auth_module_1.AuthModule
+                synchronize: true,
+            }),
+            feed_module_1.FeedModule,
+            auth_module_1.AuthModule,
+            statistics_module_1.StatisticsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
