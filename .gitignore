@@ -1,11 +1,22 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 #own
+
 .env
 /linkedin-frontend/src/environments
 linkedin-frontend/src/environments
 /api/images
 api/images
+
+# Logs
+api/logs
+/api/logs
+api/logs
+/api/logs/
+logs
+logs/
+/logs
+*.log
 
 
 # Compiled output
@@ -15,6 +26,7 @@ api/images
 /bazel-out
 
 # Node
+dist
 /api/dist
 api/dist
 api/node_modules

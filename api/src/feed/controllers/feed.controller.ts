@@ -29,7 +29,7 @@ import {
   removeUserImageTemporaryFolder,
   saveUserImageToTemporaryStorage,
 } from 'src/helpers/image-storage';
-import { User } from 'src/auth/models/user.interface';
+import { User } from 'src/auth/models/user.class';
 
 @Controller('feed')
 export class FeedController {

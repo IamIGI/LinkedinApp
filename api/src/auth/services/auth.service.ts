@@ -1,9 +1,9 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import * as bcrypt from 'bcrypt';
 import { Observable, from, map, switchMap } from 'rxjs';
-import { User } from '../models/user.interface';
+import { User } from '../models/user.class';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../models/user.entity';
 import { Repository } from 'typeorm';
@@ -46,7 +46,10 @@ export class AuthService {
     ).pipe(
       map((user: User) => {
         if (!user) {
-          throw new HttpException(authCode.emailNoExists, 401);
+          throw new HttpException(
+            { status: HttpStatus.NOT_FOUND, ...authCode.emailNoExists },
+            HttpStatus.NOT_FOUND,
+          );
         }
         return user;
       }),
@@ -54,7 +57,10 @@ export class AuthService {
         from(bcrypt.compare(password, user.password)).pipe(
           map((isValidPassword: boolean) => {
             if (!isValidPassword) {
-              throw new HttpException(authCode.badPassword, 401);
+              throw new HttpException(
+                { status: HttpStatus.NOT_FOUND, ...authCode.badPassword },
+                HttpStatus.NOT_FOUND,
+              );
             }
             delete user.password;
             return user;
@@ -81,7 +87,10 @@ export class AuthService {
             })
             .catch((error) => {
               if (/(email)[\s\S]+(already exists)/.test(error.detail)) {
-                throw new HttpException(authCode.emailAlreadyTaken, 401);
+                throw new HttpException(
+                  authCode.emailAlreadyTaken,
+                  HttpStatus.NOT_FOUND,
+                );
               }
             }),
         ).pipe(

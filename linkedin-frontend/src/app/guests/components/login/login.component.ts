@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/home');
       },
       error: (err) => {
-        this.errorServerMessage = err.error.message;
+        this.errorServerMessage = err.error.error.message;
         setTimeout(() => {
           this.errorServerMessage = '';
         }, 5000);

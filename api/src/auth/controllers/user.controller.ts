@@ -24,7 +24,7 @@ import {
 } from '../../helpers/image-storage';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { join } from 'path';
-import { User } from '../models/user.interface';
+import { User } from '../models/user.class';
 import {
   FriendRequest,
   FriendRequestStatus,

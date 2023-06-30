@@ -7,7 +7,7 @@ const gm = require('gm').subClass({ imageMagick: '7+' });
 
 import path = require('path');
 import { Observable, from, switchMap, of } from 'rxjs';
-import { User } from '../auth/models/user.interface';
+import { User } from '../auth/models/user.class';
 
 export type validFileExtension = 'png' | 'jpg' | 'jpeg';
 export type validMimeType = 'image/png' | 'image/jpg' | 'image/jpeg';
