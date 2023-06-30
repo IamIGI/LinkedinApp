@@ -4,7 +4,7 @@ import { Observable, from } from 'rxjs';
 import { FriendRequestEntity } from 'src/auth/models/friend-request.entity';
 import { FriendRequest } from 'src/auth/models/friend-request.interface';
 import { UserEntity } from 'src/auth/models/user.entity';
-import { User } from 'src/auth/models/user.interface';
+import { User } from 'src/auth/models/user.class';
 import { Repository } from 'typeorm';
 
 @Injectable()

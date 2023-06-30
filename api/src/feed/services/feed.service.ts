@@ -4,7 +4,7 @@ import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { FeedPostEntity } from '../models/post/post.entity';
 import { FeedPost } from '../models/post/post.interface';
 import { from, map, Observable, of, take, delayWhen } from 'rxjs';
-import { User } from 'src/auth/models/user.interface';
+import { User } from 'src/auth/models/user.class';
 import {
   copyImageFromTemporaryToUserPost,
   deletePostImage,

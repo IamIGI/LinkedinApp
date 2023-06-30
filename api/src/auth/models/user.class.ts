@@ -1,10 +1,13 @@
+import { IsEmail, IsString } from 'class-validator';
 import { Role } from './role.enum';
 
-export interface User {
+export class User {
   id?: number;
   firstName?: string;
   lastName?: string;
+  @IsEmail()
   email?: string;
+  @IsString()
   password?: string;
   profileImagePath?: string;
   profileFullImagePath?: string;

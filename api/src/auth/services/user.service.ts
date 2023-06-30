@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import {
   Observable,
   forkJoin,
@@ -11,7 +11,7 @@ import {
   takeWhile,
   tap,
 } from 'rxjs';
-import { User } from '../models/user.interface';
+import { User } from '../models/user.class';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../models/user.entity';
 import { Repository, UpdateResult } from 'typeorm';
@@ -22,6 +22,7 @@ import {
   UserConnectionHistory,
 } from '../models/friend-request.interface';
 import { FriendRequestEntity } from '../models/friend-request.entity';
+import { userCode } from '../dictionaries/user-error.dictionaries';
 
 @Injectable()
 export class UserService {
@@ -105,6 +106,12 @@ export class UserService {
       this.userRepository.findOne({ where: { id }, relations: ['feedPosts'] }),
     ).pipe(
       map((user: User) => {
+        if (!user) {
+          throw new HttpException(
+            { status: HttpStatus.NOT_FOUND, ...userCode.userNoExists },
+            HttpStatus.NOT_FOUND,
+          );
+        }
         delete user.password;
         user = this.setUserImageData(user);
         return user;
@@ -115,6 +122,12 @@ export class UserService {
   findUserByIdWithoutPosts(id: number): Observable<User> {
     return from(this.userRepository.findOne({ where: { id } })).pipe(
       map((user: User) => {
+        if (!user) {
+          throw new HttpException(
+            { status: HttpStatus.NOT_FOUND, ...userCode.userNoExists },
+            HttpStatus.NOT_FOUND,
+          );
+        }
         delete user.password;
         user = this.setUserImageData(user);
         return user;
@@ -125,6 +138,12 @@ export class UserService {
   getUserEntity(id: number): Observable<User> {
     return from(this.userRepository.findOne({ where: { id } })).pipe(
       map((user: User) => {
+        if (!user) {
+          throw new HttpException(
+            { status: HttpStatus.NOT_FOUND, ...userCode.userNoExists },
+            HttpStatus.NOT_FOUND,
+          );
+        }
         delete user.password;
         return user;
       }),
