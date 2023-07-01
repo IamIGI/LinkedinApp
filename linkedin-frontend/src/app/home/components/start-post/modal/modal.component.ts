@@ -13,6 +13,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { BehaviorSubject, Subscription, map, take } from 'rxjs';
 import { Role, User } from 'src/app/auth/models/user.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { Post } from 'src/app/home/models/Post';
 import { CreatePost, PostService } from 'src/app/home/services/post.service';
 
@@ -52,7 +53,8 @@ export class ModalComponent implements OnInit, OnDestroy {
     public passedData: { postData: Post; editMode?: boolean },
     private postService: PostService,
     private dialogRef: MatDialogRef<ModalComponent>,
-    private authService: AuthService
+    private authService: AuthService,
+    private errorHandlerService: ErrorHandlerService
   ) {}
 
   ngOnInit() {
@@ -123,6 +125,7 @@ export class ModalComponent implements OnInit, OnDestroy {
           this.passedData.postData.fullImagePath = `http://localhost:3000/api/feed/temporary/image/${result.newFilename}/?userId=${this.userData.id}`;
         },
         error: (err: any) => {
+          console.log('here');
           console.log(err);
         },
       });

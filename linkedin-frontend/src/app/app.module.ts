@@ -11,6 +11,7 @@ import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progress-spinner-dialog.component';
 import { AuthInterceptorService } from './auth/services/auth-interceptor.service';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -18,6 +19,11 @@ import { AuthInterceptorService } from './auth/services/auth-interceptor.service
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      tapToDismiss: true,
+      positionClass: 'toast-bottom-center',
+    }), // ToastrModule added
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
