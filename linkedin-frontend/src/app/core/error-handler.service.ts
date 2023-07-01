@@ -10,7 +10,6 @@ export class ErrorHandlerService {
 
   handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.warn(`${operation} failed: ${error.message}`); //TODO: remove in production
       return of(result as T).pipe(
         tap(() => {
           this.toastr.error(error.message, 'Błąd');
