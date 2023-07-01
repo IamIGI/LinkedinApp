@@ -142,7 +142,7 @@ export class AllPostsComponent
   getPosts() {
     this.queryParams = `?take=${this.numberOfPosts}&skip=${this.skipPosts}`;
     this.toggleLoading(),
-      this.postService.getSelectedPost(this.queryParams).subscribe({
+      this.postService.getSelectedPosts(this.queryParams).subscribe({
         next: (posts: Post[]) => {
           for (let i = 0; i < posts.length; i++) {
             let post = this.setAuthorImage(posts[i]);

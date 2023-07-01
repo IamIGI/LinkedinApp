@@ -2,11 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { fromBuffer, FileTypeResult } from 'file-type/core';
 import { BehaviorSubject, Subscription, from, of } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { catchError, switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { roleColors } from 'src/dictionaries/user-dict';
 import { Role, User } from 'src/app/auth/models/user.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 
 export type validFileExtension = 'png' | 'jpg' | 'jpeg';
 export type validMimeType = 'image/png' | 'image/jpg' | 'image/jpeg';
@@ -32,7 +33,11 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
 
   userRoleBackgroundColor = roleColors.user;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private errorHandlerService: ErrorHandlerService
+  ) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -104,9 +109,7 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
           return from(fromBuffer(buffer)).pipe(
             switchMap((fileTypeResult: FileTypeResult | undefined) => {
               if (!fileTypeResult) {
-                // TODO: error handling
-                console.log({ error: 'file format not supported!' });
-                return of();
+                throw new Error('Format pliku nie wspierany');
               }
               const { ext, mime } = fileTypeResult;
               const isFileTypeLegit = this.validFileExtensions.includes(
@@ -115,14 +118,16 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
               const isMimeTypeLegit = this.validMimeTypes.includes(mime as any);
               const isFileLegit = isFileTypeLegit && isMimeTypeLegit;
               if (!isFileLegit) {
-                // TODO: error handling
-                console.log({
-                  error: 'file format does not match file extension!',
-                });
-                return of();
+                throw new Error('Nie wspierane rozszerzenie pliku');
               }
               return this.authService.uploadUserProfileImage(formData);
-            })
+            }),
+            catchError(
+              this.errorHandlerService.handleError<FileTypeResult>(
+                'uploadImage',
+                undefined
+              )
+            )
           );
         })
       )

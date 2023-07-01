@@ -2,8 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/Post';
 import { environment } from 'src/environments/environment.development';
-import { BehaviorSubject, map, take, tap, Observable } from 'rxjs';
-import { AuthService } from 'src/app/auth/services/auth.service';
+import { BehaviorSubject, map, take, tap, Observable, catchError } from 'rxjs';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { ToastrService } from 'ngx-toastr';
 
 export interface CreatePost {
   content: string;
@@ -25,7 +26,11 @@ export class PostService {
   postURL = `${environment.baseApiUrl}/feed`;
   postURLwithImage = `${environment.baseApiUrl}/feed/image`;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private errorHandlerService: ErrorHandlerService,
+    private toastr: ToastrService
+  ) {}
 
   private httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -35,9 +40,18 @@ export class PostService {
     return `${environment.baseApiUrl}/feed/post/image/${imageName}?userId=${userId}`;
   }
 
-  getSelectedPost(params: any) {
+  getSelectedPosts(params: any) {
     const modifiedURL = `${this.postURL}/${params}`;
-    return this.http.get<Post[]>(modifiedURL);
+    return this.http.get<Post[]>(modifiedURL).pipe(
+      tap((posts: Post[]) => {
+        if (posts.length === 0) {
+          throw new Error('Brak postów do załadowania');
+        }
+      }),
+      catchError(
+        this.errorHandlerService.handleError<Post[]>('getSelectedPosts', [])
+      )
+    );
   }
 
   isPostImageAdded(): Observable<boolean> {
@@ -79,6 +93,9 @@ export class PostService {
     return this.http.post<Post>(this.postURL, body).pipe(
       take(1),
       map((result: Post) => {
+        if (result.createdAt) {
+          this.toastr.success('Opublikowano Post', 'Sukces');
+        }
         this.clearPostBody();
         return result;
       })
