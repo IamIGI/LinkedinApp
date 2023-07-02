@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -30,10 +31,29 @@ import {
   FriendRequestStatus,
   UserConnectionHistory,
 } from '../models/friend-request.interface';
+import { UserNotifications } from '../models/user-notifications.interface';
+import { UpdateResult } from 'typeorm';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
+
+  //all request that have one word, have to be before other request with more words
+  // 'notifications' <- 1 word, 'upload/profile' <- 2 words
+  @UseGuards(JwtGuard)
+  @Get('notifications')
+  userNotifications(@Request() req): Observable<UserNotifications> {
+    console.log(req.user);
+    return this.userService.getUserNotificationsStatus(req.user);
+  }
+
+  @UseGuards(JwtGuard)
+  @Patch('notifications')
+  updateUserNotifications(
+    @Body() userNotificationsStatus,
+  ): Observable<UpdateResult> {
+    return this.userService.setUserNotificationsStatus(userNotificationsStatus);
+  }
 
   @UseGuards(JwtGuard)
   @Post('upload/profile')

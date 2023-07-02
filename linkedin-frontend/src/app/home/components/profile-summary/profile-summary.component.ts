@@ -2,12 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { fromBuffer, FileTypeResult } from 'file-type/core';
 import { BehaviorSubject, Subscription, from, of } from 'rxjs';
-import { catchError, switchMap, take } from 'rxjs/operators';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { roleColors } from 'src/dictionaries/user-dict';
-import { Role, User } from 'src/app/auth/models/user.model';
+import { Role, User, UserNotifications } from 'src/app/auth/models/user.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { ToastrService } from 'ngx-toastr';
+import { NotificationsService } from 'src/app/notifications/services/notifications.service';
 
 export type validFileExtension = 'png' | 'jpg' | 'jpeg';
 export type validMimeType = 'image/png' | 'image/jpg' | 'image/jpeg';
@@ -36,7 +38,8 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private errorHandlerService: ErrorHandlerService
+    private errorHandlerService: ErrorHandlerService,
+    private notificationService: NotificationsService
   ) {}
 
   ngOnInit() {
@@ -69,6 +72,11 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
           this.userProfileFullImagePath = fullImagePath;
         }
       );
+
+    this.notificationService
+      .checkNotificationsStatus('homePage')
+      .pipe(take(1))
+      .subscribe();
   }
 
   private getBannerColors(role: Role): void {
