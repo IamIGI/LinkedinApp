@@ -30,6 +30,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from '../auth/services/auth.service';
 import { User } from '../auth/models/user.model';
+import { NotificationsService } from '../notifications/services/notifications.service';
 
 @Component({
   selector: 'app-account',
@@ -56,7 +57,8 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private connectionProfileService: ConnectionProfileService,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notificationService: NotificationsService
   ) {}
 
   ngOnInit(): void {
@@ -123,6 +125,11 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
           this.loggedUserId = userId;
         },
       });
+
+    this.notificationService
+      .checkNotificationsStatus('account')
+      .pipe(take(1))
+      .subscribe();
   }
 
   ngAfterViewInit(): void {

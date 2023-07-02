@@ -2,13 +2,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Role } from './role.enum';
 import { FeedPostEntity } from 'src/feed/models/post/post.entity';
 import { FriendRequestEntity } from './friend-request.entity';
+import { UserNotificationsEntity } from './user-notifications.entity';
 
 @Entity('user')
 export class UserEntity {

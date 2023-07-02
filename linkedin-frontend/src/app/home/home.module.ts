@@ -9,11 +9,16 @@ import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ModalComponent } from './components/start-post/modal/modal.component';
+import { ProfileSummaryModule } from './components/profile-summary/profile-summary.module';
 @NgModule({
-  imports: [SharedModule, ReactiveFormsModule, InfiniteScrollModule],
+  imports: [
+    SharedModule,
+    ReactiveFormsModule,
+    InfiniteScrollModule,
+    ProfileSummaryModule,
+  ],
   declarations: [
     HomeComponent,
-    ProfileSummaryComponent,
     StartPostComponent,
     AdvertisingComponent,
     AllPostsComponent,

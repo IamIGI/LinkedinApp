@@ -4,6 +4,7 @@ import { FriendRequest } from '../home/models/FriendRequest';
 import { Subscription, take } from 'rxjs';
 import { AuthService } from '../auth/services/auth.service';
 import { User } from '../auth/models/user.model';
+import { NotificationsService } from '../notifications/services/notifications.service';
 
 @Component({
   selector: 'app-network',
@@ -15,7 +16,8 @@ export class NetworkComponent implements OnInit, OnDestroy {
 
   constructor(
     public connectionProfileService: ConnectionProfileService,
-    private authService: AuthService
+    private authService: AuthService,
+    private notificationService: NotificationsService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +42,11 @@ export class NetworkComponent implements OnInit, OnDestroy {
           );
         },
       });
+
+    this.notificationService
+      .checkNotificationsStatus('network')
+      .pipe(take(1))
+      .subscribe();
   }
 
   respondToFriendRequest(id: number, statusResponse: 'accepted' | 'declined') {

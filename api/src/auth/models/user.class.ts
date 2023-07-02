@@ -1,5 +1,6 @@
 import { IsEmail, IsString } from 'class-validator';
 import { Role } from './role.enum';
+import { UserNotifications } from './user-notifications.interface';
 
 export class User {
   id?: number;
@@ -19,6 +20,7 @@ export class User {
   education?: string;
   position?: string;
   subscribers?: number;
+  userNotifications?: UserNotifications;
   createdAt?: Date;
   updatedAt?: Date;
 }

@@ -23,6 +23,7 @@ import { ToastrModule } from 'ngx-toastr';
       timeOut: 3000,
       tapToDismiss: true,
       positionClass: 'toast-bottom-center',
+      progressBar: true,
     }), // ToastrModule added
     FormsModule,
     ReactiveFormsModule,

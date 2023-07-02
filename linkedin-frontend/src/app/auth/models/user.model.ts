@@ -2,6 +2,13 @@ import { Post } from 'src/app/home/models/Post';
 
 export type Role = 'admin' | 'premium' | 'user';
 
+export interface UserNotifications {
+  id: number;
+  firstTimeHomePage: boolean;
+  firstTimeAccountPage: boolean;
+  firstTimeNetworkPage: boolean;
+}
+
 export interface User {
   id: number;
   email: string;
@@ -18,6 +25,7 @@ export interface User {
   subscribers?: number | null;
   position?: string | null;
   posts?: Post[];
+  notifications: UserNotifications;
   createdAt: Date;
   updatedAt: Date;
 }

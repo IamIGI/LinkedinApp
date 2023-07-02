@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NewUser } from '../models/newUser.model';
-import { Role, User } from '../models/user.model';
+import { Role, User, UserNotifications } from '../models/user.model';
 import { BehaviorSubject, Observable, of, take, map } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

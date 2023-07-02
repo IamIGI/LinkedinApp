@@ -23,6 +23,8 @@ import {
 } from '../models/friend-request.interface';
 import { FriendRequestEntity } from '../models/friend-request.entity';
 import { userCode } from '../dictionaries/user-error.dictionaries';
+import { UserNotificationsEntity } from '../models/user-notifications.entity';
+import { UserNotifications } from '../models/user-notifications.interface';
 
 @Injectable()
 export class UserService {
@@ -31,6 +33,8 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(FriendRequestEntity)
     private readonly friendRequestRepository: Repository<FriendRequestEntity>,
+    @InjectRepository(UserNotificationsEntity)
+    private readonly userNotificationRepository: Repository<UserNotificationsEntity>,
   ) {}
 
   private filterUsersForNoConnectionUsers(
@@ -327,6 +331,25 @@ export class UserService {
         },
         relations: ['receiver', 'creator'],
       }),
+    );
+  }
+
+  getUserNotificationsStatus(user: User): Observable<UserNotifications> {
+    return from(
+      this.userNotificationRepository.findOne({
+        where: { user },
+      }),
+    );
+  }
+
+  setUserNotificationsStatus(
+    notification: UserNotifications,
+  ): Observable<UpdateResult> {
+    return from(
+      this.userNotificationRepository.update(
+        { id: notification.id },
+        notification,
+      ),
     );
   }
 

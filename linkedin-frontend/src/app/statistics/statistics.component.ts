@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { StatisticsService } from './services/statistics.service';
 import { FriendRequest } from '../home/models/FriendRequest';
-import { Observable, map } from 'rxjs';
+import { Observable, map, take } from 'rxjs';
 import { AuthService } from '../auth/services/auth.service';
 import { Router } from '@angular/router';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { User } from '../auth/models/user.model';
+import { NotificationsService } from '../notifications/services/notifications.service';
 
 interface ViewFriendsStatistic {
   id: number;
@@ -54,7 +55,8 @@ export class StatisticsComponent implements OnInit {
     private router: Router,
     private statisticsService: StatisticsService,
     private authService: AuthService,
-    private paginatorIntl: MatPaginatorIntl
+    private paginatorIntl: MatPaginatorIntl,
+    private notificationService: NotificationsService
   ) {
     this.paginatorIntl.itemsPerPageLabel = 'Liczba rekordów';
     this.paginatorIntl.firstPageLabel = 'Pierwsza';
@@ -69,6 +71,11 @@ export class StatisticsComponent implements OnInit {
       .subscribe((data: FriendRequest[]) => {
         this.statisticsData.data = this.createViewFriendStatisticsData(data);
       });
+
+    this.notificationService
+      .checkNotificationsStatus('statistics')
+      .pipe(take(1))
+      .subscribe();
   }
 
   setDataSourceAttributes() {
