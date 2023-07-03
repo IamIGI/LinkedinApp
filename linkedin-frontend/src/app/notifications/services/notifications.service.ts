@@ -45,7 +45,6 @@ export class NotificationsService {
             newUserNotifications[page].title,
             newUserNotifications[page].params
           );
-          console.log(page);
           this.updateUserNotificationStatus({
             ...userNotifications,
             [newUserNotifications[page].pageType as keyof UserNotifications]:
