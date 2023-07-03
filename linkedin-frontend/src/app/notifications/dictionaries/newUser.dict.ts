@@ -1,3 +1,9 @@
+export type PageNewUserNotifications =
+  | 'homePage'
+  | 'accountPage'
+  | 'networkPage'
+  | 'statisticsPage';
+
 export interface NotificationData {
   pageType: string;
   title: string;
@@ -8,7 +14,7 @@ export interface NotificationData {
   };
 }
 
-export const newUser = {
+export const newUserNotifications = {
   homePage: {
     pageType: 'firstTimeHomePage',
     title: '',
@@ -41,7 +47,7 @@ export const newUser = {
   statisticsPage: {
     pageType: 'firstTimeStatisticsPage',
     title: '',
-    message: 'Sprwadzaj statystyki swojego konta',
+    message: 'Sprawdzaj statystyki swojego konta',
     params: {
       positionClass: 'toast-top-center',
       timeOut: 5000,

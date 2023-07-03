@@ -127,7 +127,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     this.notificationService
-      .checkNotificationsStatus('account')
+      .checkNotificationsStatus('accountPage')
       .pipe(take(1))
       .subscribe();
   }
