@@ -44,7 +44,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
       });
 
     this.notificationService
-      .checkNotificationsStatus('network')
+      .checkNotificationsStatus('networkPage')
       .pipe(take(1))
       .subscribe();
   }

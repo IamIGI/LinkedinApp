@@ -73,7 +73,7 @@ export class StatisticsComponent implements OnInit {
       });
 
     this.notificationService
-      .checkNotificationsStatus('statistics')
+      .checkNotificationsStatus('statisticsPage')
       .pipe(take(1))
       .subscribe();
   }
