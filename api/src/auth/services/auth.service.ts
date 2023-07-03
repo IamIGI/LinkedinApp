@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../models/user.entity';
 import { Repository } from 'typeorm';
 import { authCode } from '../dictionaries/auth-dictionaries';
-import { UserService } from './user.service';
 import { UserNotificationsEntity } from '../models/user-notifications.entity';
 
 @Injectable()

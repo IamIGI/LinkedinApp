@@ -56,7 +56,6 @@ export class PostService {
 
   isPostImageAdded(): Observable<boolean> {
     return this.postImage$.asObservable();
-    // return of(Boolean(this.postBody.file));
   }
 
   onImageChange(addImage: boolean) {

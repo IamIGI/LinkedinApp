@@ -1,5 +1,9 @@
 @use 'src/styles/index' as i
 
+@mixin borderTop($radius)
+  border-top-right-radius: $radius
+  border-top-left-radius: $radius
+
 .account-container
   $horizontalMargin: 22%
   margin-top: 30px
@@ -25,8 +29,7 @@
       img
         width: 100%
         height: 100%
-        border-top-left-radius: i.$radius-container
-        border-top-right-radius: i.$radius-container
+        @include borderTop(i.$radius-container)
 
       .account-background-change
         position: absolute

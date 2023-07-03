@@ -1,8 +1,7 @@
 <div class="profile-information">
-  <div
-    class="wallpaper"
-    [ngStyle]="{ backgroundColor: userRoleBackgroundColor }"
-  ></div>
+  <div class="wallpaper">
+    <img [src]="userStream.backgroundFullImagePath" alt="background" />
+  </div>
   <input
     #fileUpload
     (change)="onFileSelect($event)"
@@ -13,6 +12,7 @@
     <div class="relative">
       <img
         alt="profile"
+        [ngStyle]="{ 'border-color': userRoleBackgroundColor }"
         *ngIf="userProfileFullImagePath"
         [src]="userProfileFullImagePath"
       />
