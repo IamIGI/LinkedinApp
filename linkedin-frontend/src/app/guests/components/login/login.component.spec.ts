@@ -6,13 +6,9 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { LoginComponent } from './login.component';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FiltersComponent } from 'src/app/home/components/filters/filters.component';
 import { RouterTestingModule } from '@angular/router/testing';
-
-let routerSpy: Partial<Router>;
-let authService: AuthService;
 
 const registerSuccessResponse = {
   token:
@@ -48,20 +44,15 @@ const mockAuthService: Partial<AuthService> = {
   login: () => of({ token: 'jwt' }),
 };
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
   beforeEach(async () => {
-    routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
-
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule],
       declarations: [LoginComponent],
-      providers: [
-        // { provide: Router, useValue: routerSpy },
-        { provide: AuthService, useValue: mockAuthService },
-      ],
+      providers: [{ provide: AuthService, useValue: mockAuthService }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
