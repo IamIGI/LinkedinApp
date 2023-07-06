@@ -3,22 +3,19 @@
 // regular style toast
 @import 'ngx-toastr/toastr'
 
-html 
+html
 	box-sizing: border-box
 	overflow-x: hidden //preventing scrollbar to move the site
 	margin-right: calc(-1 * (100vw - 100%)) //preventing scrollbar to move the site
-	
 
-*, *:before, *:after 
+*, *:before, *:after
 	box-sizing: inherit
-
 
 html, body
 	font-family: 'Roboto', sans-serif
 	// height: 100%
 	min-width: 400px
 	box-sizing: border-box
-	
 
 body
 	margin: 0px
@@ -26,7 +23,7 @@ body
 
 .clickText
 	cursor: pointer
-	
+
 	&:hover
 		text-decoration: underline
 
@@ -42,8 +39,8 @@ body
 
 .transparent
 	mat-dialog-container 
-		background-color: transparent
-		box-shadow: none !important
+	background-color: transparent
+	box-shadow: none !important
 
 //fix for moving scroll when opening dialogs
 // .cdk-global-scrollblock
@@ -58,19 +55,19 @@ body
 .blur-load.loaded > img
 	opacity: 1
 
-.blur-load > img 
+.blur-load > img
 	opacity: 0
 	transition: opacity 200ms ease-in-out
 
-.blur-load::before 
+.blur-load::before
 	content: ""
 	position: absolute
 	inset: 0
 	animation: pulse 2.5s infinite
 
-.blur-load.loaded::before 
+.blur-load.loaded::before
 	content: none
-	
+
 @keyframes pulse
 	0%
 		background-color: rgba(255,255,255,0)
@@ -78,3 +75,6 @@ body
 		background-color: rgba(255,255,255, 0.1)
 	100%
 		background-color: rgba(255,255,255,0)
+
+.realative
+	position: relative

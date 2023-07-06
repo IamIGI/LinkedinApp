@@ -180,7 +180,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe();
   }
 
-  onBackgroundChange(event: Event): void {
+  onImageChange(event: Event, imageType: 'background' | 'profile'): void {
     let form!: FormGroup;
 
     form = new FormGroup({
@@ -218,7 +218,14 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
                 return of();
               }
-              return this.authService.uploadUserBackgroundImage(formData);
+              switch (imageType) {
+                case 'background':
+                  return this.authService.uploadUserBackgroundImage(formData);
+                case 'profile':
+                  return this.authService.uploadUserProfileImage(formData);
+                default:
+                  throw new Error('Give image type do not exists');
+              }
             })
           );
         })

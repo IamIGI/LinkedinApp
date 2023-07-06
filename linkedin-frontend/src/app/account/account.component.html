@@ -6,20 +6,27 @@
         <button
           mat-mini-fab
           matTooltip="Zmień zdjęcie"
-          (click)="fileUpload.click()"
+          (click)="backgroundChange.click()"
         >
           <mat-icon>camera_alt</mat-icon>
         </button>
       </div>
       <input
-        #fileUpload
-        (change)="onBackgroundChange($event)"
+        #backgroundChange
+        (change)="onImageChange($event, 'background')"
         style="display: none"
         type="file"
       />
-    </div>
-    <div class="account-profileImage">
-      <img [src]="user.profileFullImagePath" alt="profile" />
+  </div>
+    <input
+    #profileChange
+    (change)="onImageChange($event, 'profile')"
+    style="display: none"
+    type="file"
+  />
+    <div class="account-profileImage relative pointer">
+      <img [src]="user.profileFullImagePath" alt="profile" (click)="profileChange.click()" />
+      <mat-icon class="profile-image-change">image_search</mat-icon>
     </div>
     <div class="account-information">
       <div class="account-information-user">

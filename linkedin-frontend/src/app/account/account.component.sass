@@ -8,7 +8,7 @@
   $horizontalMargin: 22%
   margin-top: 30px
   margin: 0 $horizontalMargin
-  width:  calc( 100% - 2*$horizontalMargin )
+  width: calc( 100% - 2*$horizontalMargin )
   @include i.flex-ColumnStartCenter
   gap: 10px
 
@@ -19,13 +19,13 @@
     position: relative
     background-color: i.$color-white
     border: 0.5px solid i.$color-light
-    padding-bottom:10px
+    padding-bottom: 10px
 
     .account-background-image
       height: 220px
       width: 100%
       position: relative
-      
+
       img
         width: 100%
         height: 100%
@@ -33,15 +33,14 @@
 
       .account-background-change
         position: absolute
-        top:20px
+        top: 20px
         right: 20px
 
         button
           background-color: white
 
           mat-icon
-            color: i.$color-primary
-
+          color: i.$color-primary
 
     .account-profileImage
       height: 180px
@@ -52,12 +51,27 @@
       img
         border: 5px solid white
 
+      .profile-image-change
+        display: none
+
+      &:hover
+
+        img
+          filter: grayscale(50%)
+
+        .profile-image-change
+          display: flex
+          position: absolute
+          top: 50%
+          left: 50%
+          transform: translate(-50%, -50%)
+          color: white
+
     .account-information
       width: 100%
       padding: 80px 20px 10px 20px
       @include i.flex-ColumnStartCenter
       gap: 20px
-      
 
       .account-information-user
         width: 100%
@@ -65,14 +79,14 @@
         @include i.flex-RowStartCenter
         justify-content: space-between
         gap: 10px
-        
+
         .account-information-personal
 
           .account-information-personal-type
             @include i.flex-RowStartCenter
             gap: 10px
 
-          width: fit-content
+            width: fit-content
           h1
             margin: 0px
             margin-bottom: 3px
@@ -104,7 +118,7 @@
           .account-information-WorkAndEducation-element
             @include i.flex-RowStartCenter
             gap: 10px
-            
+
             img
               @include i.inElement-profile-image(30px)
 
@@ -121,19 +135,17 @@
         gap: 10px
 
         button
-          border-radius: 18px 
+          border-radius: 18px
           height: 36px
           font-weight: 700
           padding: 0 20px
-          border: 2px solid 
+          border: 2px solid
 
           &:nth-child(2)
             border-color: i.$color-primary
 
           &:last-child
             color: gray
-
-        
 
       .account-information-openToWork
         width: 100%
@@ -163,27 +175,25 @@
   .account-container
     $horizontalMargin: 20%
     margin: 0 $horizontalMargin
-    width:  calc( 100% - 2*$horizontalMargin )
-
+    width: calc( 100% - 2*$horizontalMargin )
 
 @media screen and (max-width: 1250px)
   .account-container
     $horizontalMargin: 15%
     margin: 0 $horizontalMargin
-    width:  calc( 100% - 2*$horizontalMargin )
+    width: calc( 100% - 2*$horizontalMargin )
 
 @media screen and (max-width: 1050px)
   .account-container
     $horizontalMargin: 7%
     margin: 0 $horizontalMargin
-    width:  calc( 100% - 2*$horizontalMargin )
-
+    width: calc( 100% - 2*$horizontalMargin )
 
 @media screen and (max-width: 805px)
   .account-container
     $horizontalMargin: 3%
     margin: 0 $horizontalMargin
-    width:  calc( 100% - 2*$horizontalMargin )
+    width: calc( 100% - 2*$horizontalMargin )
 
 @media screen and (max-width: 600px)
   .account-container
@@ -191,7 +201,7 @@
       .account-background-image
         height: 200px
         width: 100%
-        
+
       .account-profileImage
         width: 100%
         position: absolute

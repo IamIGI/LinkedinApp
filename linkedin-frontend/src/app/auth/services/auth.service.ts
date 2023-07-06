@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NewUser } from '../models/newUser.model';
+import { NewUser } from '../models/NewUser';
 import { Role, User, UserNotifications } from '../models/user.model';
 import { BehaviorSubject, Observable, of, take, map } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -91,17 +91,17 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient, private router: Router) {
-    this.getUserProfileImageName()
-      .pipe(
-        take(1),
-        tap(({ imageName }) => {
-          const defaultFullImagePath = 'null';
-          this.updateUserProfileImagePath(
-            imageName || defaultFullImagePath
-          ).subscribe();
-        })
-      )
-      .subscribe();
+    // this.getUserProfileImageName()
+    //   .pipe(
+    //     take(1),
+    //     tap(({ imageName }) => {
+    //       const defaultFullImagePath = 'null';
+    //       this.updateUserProfileImagePath(
+    //         imageName || defaultFullImagePath
+    //       ).subscribe();
+    //     })
+    //   )
+    //   .subscribe();
   }
 
   getDefaultUserFullImagePath(imageType: 'profile' | 'background'): string {
