@@ -25,7 +25,6 @@ export interface User {
   subscribers?: number | null;
   position?: string | null;
   posts?: Post[];
-  notifications: UserNotifications;
   createdAt: Date;
   updatedAt: Date;
 }
