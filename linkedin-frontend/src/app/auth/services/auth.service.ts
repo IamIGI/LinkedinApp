@@ -91,17 +91,17 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient, private router: Router) {
-    // this.getUserProfileImageName()
-    //   .pipe(
-    //     take(1),
-    //     tap(({ imageName }) => {
-    //       const defaultFullImagePath = 'null';
-    //       this.updateUserProfileImagePath(
-    //         imageName || defaultFullImagePath
-    //       ).subscribe();
-    //     })
-    //   )
-    //   .subscribe();
+    this.getUserProfileImageName()
+      .pipe(
+        take(1),
+        tap(({ imageName }) => {
+          const defaultFullImagePath = 'null';
+          this.updateUserProfileImagePath(
+            imageName || defaultFullImagePath
+          ).subscribe();
+        })
+      )
+      .subscribe();
   }
 
   getDefaultUserFullImagePath(imageType: 'profile' | 'background'): string {
