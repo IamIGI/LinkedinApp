@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NewUser } from '../models/NewUser';
+
 import { Role, User, UserNotifications } from '../models/user.model';
 import { BehaviorSubject, Observable, of, take, map } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment.development';
 import { UserResponse } from '../models/userResponse.model';
 import jwt_decode from 'jwt-decode';
 import localStorageKeys from 'src/dictionaries/localStorage-dict';
+import { NewUser } from '../models/newUser.model';
 
 @Injectable({
   providedIn: 'root',
@@ -90,19 +91,7 @@ export class AuthService {
     );
   }
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.getUserProfileImageName()
-      .pipe(
-        take(1),
-        tap(({ imageName }) => {
-          const defaultFullImagePath = 'null';
-          this.updateUserProfileImagePath(
-            imageName || defaultFullImagePath
-          ).subscribe();
-        })
-      )
-      .subscribe();
-  }
+  constructor(private http: HttpClient, private router: Router) {}
 
   getDefaultUserFullImagePath(imageType: 'profile' | 'background'): string {
     return `${environment.baseApiUrl}/feed/user/image/${imageType}/null`;

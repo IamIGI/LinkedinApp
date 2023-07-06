@@ -1,7 +1,7 @@
 export interface NewUser {
   email: string;
   firstName: string;
-  lastName: string | null;
+  lastName?: string | null;
   isPrivateAccount: boolean;
   password: string;
 }
