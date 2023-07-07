@@ -9,10 +9,14 @@ import {
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 
-@Entity('userNotifications')
+@Entity('user_notifications')
 export class UserNotificationsEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @OneToOne(() => UserEntity)
+  @JoinColumn()
+  user: UserEntity;
 
   @Column({ default: false })
   firstTimeHomePage: boolean;
@@ -25,8 +29,4 @@ export class UserNotificationsEntity {
 
   @Column({ default: false })
   firstTimeStatisticsPage: boolean;
-
-  @OneToOne(() => UserEntity)
-  @JoinColumn()
-  user: UserEntity;
 }

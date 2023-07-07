@@ -2,21 +2,33 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Role } from './role.enum';
 import { FeedPostEntity } from 'src/feed/models/post/post.entity';
 import { FriendRequestEntity } from './friend-request.entity';
-import { UserNotificationsEntity } from './user-notifications.entity';
 
 @Entity('user')
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @OneToMany(() => FeedPostEntity, (feedPostEntity) => feedPostEntity.author)
+  feedPosts: FeedPostEntity[];
+
+  @OneToMany(
+    () => FriendRequestEntity,
+    (friendRequestEntity) => friendRequestEntity.creator,
+  )
+  sentFriendRequests: FriendRequestEntity[];
+
+  @OneToMany(
+    () => FriendRequestEntity,
+    (friendRequestEntity) => friendRequestEntity.receiver,
+  )
+  receivedFriendRequests: FriendRequestEntity[];
 
   @Column()
   firstName: string;
@@ -53,21 +65,6 @@ export class UserEntity {
 
   @Column()
   isPrivateAccount: boolean;
-
-  @OneToMany(() => FeedPostEntity, (feedPostEntity) => feedPostEntity.author)
-  feedPosts: FeedPostEntity[];
-
-  @OneToMany(
-    () => FriendRequestEntity,
-    (friendRequestEntity) => friendRequestEntity.creator,
-  )
-  sentFriendRequests: FriendRequestEntity[];
-
-  @OneToMany(
-    () => FriendRequestEntity,
-    (friendRequestEntity) => friendRequestEntity.receiver,
-  )
-  receivedFriendRequests: FriendRequestEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
