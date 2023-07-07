@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AccountComponent } from './account.component';
+import { ExperienceComponent } from './components/experience/experience.component';
 
 @NgModule({
   imports: [SharedModule, ReactiveFormsModule],
-  declarations: [AccountComponent],
+  declarations: [AccountComponent, ExperienceComponent],
 })
 export class AccountModule {}
