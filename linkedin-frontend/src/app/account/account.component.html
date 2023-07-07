@@ -17,15 +17,19 @@
         style="display: none"
         type="file"
       />
-  </div>
+    </div>
     <input
-    #profileChange
-    (change)="onImageChange($event, 'profile')"
-    style="display: none"
-    type="file"
-  />
+      #profileChange
+      (change)="onImageChange($event, 'profile')"
+      style="display: none"
+      type="file"
+    />
     <div class="account-profileImage relative pointer">
-      <img [src]="user.profileFullImagePath" alt="profile" (click)="profileChange.click()" />
+      <img
+        [src]="user.profileFullImagePath"
+        alt="profile"
+        (click)="profileChange.click()"
+      />
       <mat-icon class="profile-image-change">image_search</mat-icon>
     </div>
     <div class="account-information">
@@ -120,4 +124,5 @@
       </div>
     </div>
   </div>
+  <app-experience></app-experience>
 </div>

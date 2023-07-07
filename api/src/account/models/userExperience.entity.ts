@@ -5,9 +5,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
-  Timestamp,
 } from 'typeorm';
 
 @Entity('user_experience')
@@ -29,7 +27,10 @@ export class userExperienceEntity {
   companyName: string;
 
   @Column({ nullable: false })
-  position: string | null;
+  position: string;
+
+  @Column({ nullable: false })
+  localization: string;
 
   @Column({ default: null })
   description: string | null;
