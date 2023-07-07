@@ -43,7 +43,6 @@ export class UserController {
   @UseGuards(JwtGuard)
   @Get('notifications')
   userNotifications(@Request() req): Observable<UserNotifications> {
-    console.log(req.user);
     return this.userService.getUserNotificationsStatus(req.user);
   }
 

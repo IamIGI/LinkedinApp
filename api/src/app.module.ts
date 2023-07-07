@@ -8,6 +8,9 @@ import { AuthModule } from './auth/auth.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './core/all-exceptions.filter';
+import { AccountController } from './account/controllers/account.controller';
+import { AccountService } from './account/services/account.service';
+import { AccountModule } from './account/account.module';
 
 @Module({
   imports: [
@@ -25,6 +28,7 @@ import { AllExceptionsFilter } from './core/all-exceptions.filter';
     FeedModule,
     AuthModule,
     StatisticsModule,
+    AccountModule,
   ],
   controllers: [AppController],
   providers: [
