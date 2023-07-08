@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../service/account.service';
 import { FormOfEmployment, UserExperience } from '../../models/account.models';
 import { BehaviorSubject, Observable, map, of } from 'rxjs';
+import { TextService } from 'src/app/services/text.service';
 
 @Component({
   selector: 'app-experience',
@@ -10,12 +11,17 @@ import { BehaviorSubject, Observable, map, of } from 'rxjs';
 })
 export class ExperienceComponent implements OnInit {
   userExperience$!: Observable<UserExperience[]>;
+  readMore: Boolean[] = [];
 
-  constructor(private accountService: AccountService) {}
+  constructor(
+    public textService: TextService,
+    private accountService: AccountService
+  ) {}
   ngOnInit(): void {
     this.userExperience$ = this.accountService.getUserExperience().pipe(
       map((userExperience: UserExperience[]) => {
         return userExperience.map((experience: UserExperience) => {
+          this.readMore.push(false);
           return {
             ...experience,
             skills: (experience.skills as unknown as string).split(','),
@@ -23,6 +29,10 @@ export class ExperienceComponent implements OnInit {
         });
       })
     );
+  }
+
+  toggleReadMore(index: number) {
+    this.readMore[index] = !this.readMore[index];
   }
 
   getFormOfEmployment(type: FormOfEmployment): string {
