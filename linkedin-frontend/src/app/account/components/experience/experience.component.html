@@ -22,11 +22,16 @@
         <h2>{{ experience.position }}</h2>
         <h3>
           {{ experience.companyName }} &centerdot;
-          {{ experience.formOfEmployment }}
+          {{ getFormOfEmployment(experience.formOfEmployment) }}
         </h3>
         <p>
-          {{ experience.startDate }} -
-          {{ experience.endDate ?? "obecnie" }} &centerdot; 4 mies.
+          {{ formatExperienceDate(experience.startDate) }} -
+          {{
+            experience.endDate
+              ? formatExperienceDate(experience.endDate)
+              : "obecnie"
+          }}
+          &centerdot; {{ workingTimeDescription(experience) }}.
         </p>
       </div>
       <div class="description">
