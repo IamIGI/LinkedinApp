@@ -4,7 +4,7 @@ export interface UserExperience {
   id?: number;
   user?: User;
   startDate: string;
-  endData: string | null;
+  endDate: string | null;
   companyName: string;
   position: string;
   localization: string;
