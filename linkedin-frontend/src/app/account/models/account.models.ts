@@ -10,5 +10,14 @@ export interface UserExperience {
   localization: string;
   description: string | null;
   skills: string[];
-  formOfEmployment: string;
+  formOfEmployment: FormOfEmployment;
 }
+
+export type FormOfEmployment =
+  | 'full'
+  | 'partly'
+  | 'selfEmployment'
+  | 'internship'
+  | 'practice'
+  | 'seasonWork'
+  | 'mandateContract';

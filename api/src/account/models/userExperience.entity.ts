@@ -39,5 +39,12 @@ export class userExperienceEntity {
   skills: string;
 
   @Column({ nullable: false })
-  formOfEmployment: string;
+  formOfEmployment:
+    | 'full'
+    | 'partly'
+    | 'selfEmployment'
+    | 'internship'
+    | 'practice'
+    | 'seasonWork'
+    | 'mandateContract';
 }
