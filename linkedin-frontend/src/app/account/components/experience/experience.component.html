@@ -11,7 +11,7 @@
     </div>
   </div>
   <div
-    *ngFor="let experience of userExperience$ | async"
+    *ngFor="let experience of userExperience$ | async; index as i"
     class="experience-section"
   >
     <div class="left-side">
@@ -36,7 +36,29 @@
       </div>
       <div class="description">
         <p>
-          {{ experience.description }}
+          {{ textService.readMoreSplit(experience.description!)[0]
+          }}<span
+            *ngIf="
+              !readMore[i] &&
+              textService.readMoreSplit(experience.description!)[0].length >=
+                190
+            "
+            >...</span
+          >
+          <span
+            class="see-more clickText"
+            *ngIf="
+              textService.readMoreSplit(experience.description!).length === 2 &&
+              !readMore[i]
+            "
+            (click)="toggleReadMore(i)"
+          >
+            ...zobacz więcej
+          </span>
+          <span *ngIf="readMore[i]" (click)="toggleReadMore(i)">
+            {{ textService.readMoreSplit(experience.description!)[1] }}
+            <span class="see-more clickText">...zwiń</span>
+          </span>
         </p>
       </div>
       <div class="skills">
