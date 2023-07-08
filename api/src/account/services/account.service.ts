@@ -17,6 +17,7 @@ export class AccountService {
     return from(
       this.userExperienceRepository.find({
         where: { user },
+        order: { startDate: 'DESC' },
       }),
     );
   }

@@ -21,7 +21,7 @@ export class userExperienceEntity {
   startDate: string;
 
   @Column({ type: 'date', default: null, nullable: true })
-  endData: string | null;
+  endDate: string | null;
 
   @Column({ nullable: false })
   companyName: string;

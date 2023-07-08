@@ -1,0 +1,78 @@
+@use 'src/styles/index' as i
+
+p,h1,h2,h3
+  margin: 0px
+  margin-bottom: 3px
+
+.experience-container
+  width: 100%
+  @include i.flex-ColumnStartStart
+  gap: 10px
+  border-radius: i.$radius-container
+  background-color: i.$color-white
+  border: 0.5px solid i.$color-light
+  padding: 15px 20px
+
+
+  .experience-header
+    width: 100%
+    @include i.flex-RowStartCenter
+    justify-content: space-between
+
+    h1
+      font-size: i.$font-xl
+      font-weight: 400
+    
+    .buttons
+      @include i.flex-RowStartCenter
+      gap: 10px
+
+      .icon
+
+
+  .experience-section:not(:last-child)
+    border-bottom: 0.5px solid i.$color-light
+    padding-bottom: 15px
+
+    
+
+.experience-section
+  width: 100%
+  @include i.flex-RowStartStart
+  gap: 15px
+
+  .left-side
+    height: 100%
+    @include i.flex-ColumnStartStart
+    gap: 10px
+    img
+      @include i.inElement-profile-image(50px)
+        
+
+  .right-side
+    @include i.flex-ColumnStartStart
+    width: fit-content
+    gap:5px
+
+    .work-information
+      h2
+        font-size: i.$font-l_plus
+        font-weight: 500
+      h3
+        font-size: i.$font-m
+        font-weight: 500
+      p
+        font-size: i.$font-s
+        color: gray
+
+    .description
+      p
+        font-size: i.$font-m
+
+    .skills
+      p
+        font-size: i.$font-m
+      span:nth-child(1)
+        font-weight: 500 
+
+    

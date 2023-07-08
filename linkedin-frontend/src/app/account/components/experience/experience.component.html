@@ -1,1 +1,52 @@
-<p>experience works!</p>
+<div class="experience-container">
+  <div class="experience-header">
+    <h1>Doświadczenie</h1>
+    <div class="buttons">
+      <button class="icon" mat-icon-button>
+        <mat-icon>add</mat-icon>
+      </button>
+      <button class="icon" mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div
+    *ngFor="let experience of userExperience$ | async"
+    class="experience-section"
+  >
+    <div class="left-side">
+      <img src="../../assets/images/profiles/airbus.JPG" alt="work" />
+    </div>
+    <div class="right-side">
+      <div class="work-information">
+        <h2>{{ experience.position }}</h2>
+        <h3>
+          {{ experience.companyName }} &centerdot;
+          {{ experience.formOfEmployment }}
+        </h3>
+        <p>
+          {{ experience.startDate }} -
+          {{ experience.endDate ?? "obecnie" }} &centerdot; 4 mies.
+        </p>
+      </div>
+      <div class="description">
+        <p>
+          {{ experience.description }}
+        </p>
+      </div>
+      <div class="skills">
+        <p>
+          <span>Umiejęteności: </span>
+          <span
+            *ngFor="
+              let skill of experience.skills;
+              let i = index;
+              last as isLast
+            "
+            >{{ skill }} <span *ngIf="!isLast"> &centerdot; </span>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
