@@ -69,7 +69,8 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #startDatePicker></mat-datepicker>
       </mat-form-field>
-      <mat-form-field>
+      <mat-checkbox (click)="toggleCurrentJobFlag()">Obecna praca</mat-checkbox>
+      <mat-form-field *ngIf="!currentJobFlag">
         <mat-label>Data zakończenia</mat-label>
         <input
           matInput

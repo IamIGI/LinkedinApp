@@ -18,6 +18,7 @@ import { UserExperience } from '../../models/account.models';
 export class AddExperienceComponent implements OnInit {
   addExperienceForm!: FormGroup;
   formOfEmploymentDict = formOfEmployment;
+  currentJobFlag: boolean = false;
 
   constructor(
     private dialogRef: MatDialogRef<ModalComponent>,
@@ -33,16 +34,22 @@ export class AddExperienceComponent implements OnInit {
       companyName: new FormControl<string | null>(null, [Validators.required]),
       localization: new FormControl<string | null>(null, [Validators.required]),
       startDate: new FormControl<Date | null>(null, [Validators.required]),
-      endDate: new FormControl<Date | null>(null, [Validators.required]),
+      endDate: new FormControl<Date | null>(null),
       description: new FormControl<string | null>(null),
       skills: new FormControl(null),
     });
   }
 
   onSubmit(formDirective: FormGroupDirective) {
+    console.log('here');
     if (!this.addExperienceForm.valid) return;
     let data = this.addExperienceForm.value;
-    data = { ...data, skills: ['Angular', 'NestJS', 'SQL'] };
+    data = {
+      ...data,
+      skills: ['Angular', 'NestJS', 'SQL'],
+      endDate: this.currentJobFlag ? null : data.endDate,
+    };
+    console.log(data);
     this.accountService.addUserExperience(data).subscribe({
       next: (response) => {
         console.log(response);
@@ -55,16 +62,20 @@ export class AddExperienceComponent implements OnInit {
         // }, 5000);
       },
       complete: () => {
-        this.resetForm(formDirective);
+        // this.resetForm(formDirective);
       },
     });
 
-    this.dialogRef.close();
+    // this.dialogRef.close();
   }
 
   resetForm(formDirective: FormGroupDirective) {
     formDirective.resetForm();
     this.addExperienceForm.reset();
+  }
+
+  toggleCurrentJobFlag() {
+    this.currentJobFlag = !this.currentJobFlag;
   }
 
   cancelPost() {

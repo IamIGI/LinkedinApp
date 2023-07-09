@@ -1,11 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../service/account.service';
-import { FormOfEmployment, UserExperience } from '../../models/account.models';
+import {
+  FormOfEmployment,
+  MonthsNameDict,
+  UserExperience,
+} from '../../models/account.models';
 import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { TextService } from 'src/app/services/text.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddExperienceComponent } from '../add-experience/add-experience.component';
-import { formOfEmployment } from './dictionaries/experience.dictionaries';
+import {
+  formOfEmployment,
+  monthsName,
+} from './dictionaries/experience.dictionaries';
 
 @Component({
   selector: 'app-experience',
@@ -46,7 +53,7 @@ export class ExperienceComponent implements OnInit {
     if (!result) {
       throw new Error('Given FromOfEmployment do not exists');
     }
-    return result as string;
+    return result;
   }
 
   addExperienceDialog() {
@@ -62,37 +69,15 @@ export class ExperienceComponent implements OnInit {
     return `${monthName.shortName} ${year}`;
   }
 
-  private getMonthName(date: string): { fullName: string; shortName: string } {
-    const month = date.split('-')[1];
-    switch (month) {
-      case '01':
-        return { fullName: 'styczeń', shortName: 'sty.' };
-      case '02':
-        return { fullName: 'luty', shortName: 'lut.' };
-      case '03':
-        return { fullName: 'marzec', shortName: 'mar.' };
-      case '04':
-        return { fullName: 'kwiecień', shortName: 'kwi.' };
-      case '05':
-        return { fullName: 'maj', shortName: 'maj' };
-      case '06':
-        return { fullName: 'czerwiec', shortName: 'cze.' };
-      case '07':
-        return { fullName: 'lipiec', shortName: 'lip.' };
-      case '08':
-        return { fullName: 'sierpień', shortName: 'sie.' };
-      case '09':
-        return { fullName: 'wrzesień', shortName: 'wrz.' };
-      case '10':
-        return { fullName: 'październik', shortName: 'paz.' };
-      case '11':
-        return { fullName: 'listopad', shortName: 'lis.' };
-      case '12':
-        return { fullName: 'grudzień', shortName: 'gru.' };
-
-      default:
-        throw new Error('Bad date format: ' + date);
+  private getMonthName(date: string): MonthsNameDict {
+    const monthNumber = date.split('-')[1];
+    const result = monthsName.find((month) => {
+      return month.number === monthNumber;
+    });
+    if (!result) {
+      throw new Error('Given FromOfEmployment do not exists');
     }
+    return result;
   }
 
   workingTimeDescription(experience: UserExperience): string {
@@ -136,6 +121,9 @@ export class ExperienceComponent implements OnInit {
     if (numberOfYearsAtWork > 0) {
       return `${numberOfYearsAtWork} ${yearDescription} ${numberOfMonthsAtWork} mies.`;
     } else {
+      if (numberOfMonthsAtWork === 0) {
+        return '1 mies.';
+      }
       return `${numberOfMonthsAtWork} mies.`;
     }
   }

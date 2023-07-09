@@ -29,9 +29,11 @@ export class AccountService {
         .toISOString()
         .split('T')[0],
       endDate:
-        body.endDate !== null &&
-        (body.endDate as unknown as Date).toISOString().split('T')[0],
+        body.endDate !== null
+          ? (body.endDate as unknown as Date).toISOString().split('T')[0]
+          : null,
     };
+    console.log(modifiedBody);
     return this.http.post<UserExperience>(
       this.userExperienceApi,
       modifiedBody,
