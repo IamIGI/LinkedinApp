@@ -1,0 +1,99 @@
+<div class="addExperience-container">
+  <div class="addExperience-header">
+    <h1>Dodaj doświadczenie</h1>
+    <button type="button" mat-icon-button (click)="cancelPost()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <form
+    [formGroup]="addExperienceForm"
+    #formDirective="ngForm"
+    (ngSubmit)="onSubmit(formDirective)"
+  >
+    <div class="addExperience-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Stanowisko</mat-label>
+        <input type="text" matInput formControlName="position" required />
+        <mat-error
+          *ngIf="addExperienceForm.get('position')?.hasError('required')"
+        >
+          Stanowisko jest <strong>wymagany</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Form zatrudnienia</mat-label>
+        <mat-select formControlName="formOfEmployment">
+          <mat-option
+            *ngFor="let employmentType of formOfEmploymentDict"
+            [value]="employmentType.value"
+            >{{ employmentType.viewText }}</mat-option
+          >
+        </mat-select>
+        <mat-error
+          *ngIf="
+            addExperienceForm.get('formOfEmployment')?.hasError('required')
+          "
+        >
+          Forma zatrudnienia jest <strong>wymagany</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Firma</mat-label>
+        <input type="text" matInput formControlName="companyName" required />
+        <mat-error
+          *ngIf="addExperienceForm.get('companyName')?.hasError('required')"
+        >
+          Firma jest <strong>wymagana</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Lokalizacja</mat-label>
+        <input type="text" matInput formControlName="localization" required />
+        <mat-error
+          *ngIf="addExperienceForm.get('localization')?.hasError('required')"
+        >
+          Lokalizacja jest <strong>wymagana</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Data rozpoczęcia</mat-label>
+        <input
+          matInput
+          [matDatepicker]="startDatePicker"
+          formControlName="startDate"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="startDatePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Data zakończenia</mat-label>
+        <input
+          matInput
+          [matDatepicker]="endDatePicker"
+          formControlName="endDate"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="endDatePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Opis</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Umiejętności</mat-label>
+        <input matInput formControlName="skills" />
+      </mat-form-field>
+    </div>
+    <div class="addExperience-footer">
+      <button type="submit" mat-flat-button color="primary">Zapisz</button>
+    </div>
+  </form>
+</div>

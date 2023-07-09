@@ -1,0 +1,48 @@
+@use 'src/styles/index' as i
+
+.addExperience-container
+  @include i.flex-ColumnStartStart
+  gap: 10px
+  // min-width: fit-content
+
+  .addExperience-header
+    width: 100%
+    padding: 10px 15px
+    @include i.flex-RowStartCenter
+    justify-content: space-between
+    border-bottom: 0.5px solid i.$color-light
+    gap: 20px
+    
+    h1
+      font-size: i.$font-l_plus
+      font-weight: 400
+    
+
+  .addExperience-form
+    padding: 10px
+    @include i.flex-ColumnStartStart
+    gap: 15px
+    width:100%
+    max-height: 400px
+    overflow-y:  auto
+    min-width: 350px
+
+    mat-form-field
+      width: 100%
+      max-width: 300px
+      margin: 0px !important
+      padding: 0px !important
+      input
+        margin: 0px !important
+        padding: 0px !important
+        width: 100%
+
+  .addExperience-footer
+    width: 100%
+    @include i.flex-RowStartCenter
+    justify-content: flex-end
+    border-top: 0.5px solid i.$color-light
+    padding: 15px
+
+    button
+      border-radius: 25px

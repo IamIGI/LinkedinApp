@@ -9,7 +9,7 @@ import {
 import { options } from './data';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from './modal/modal.component';
-import { Subscription, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { PostService } from '../../services/post.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
@@ -63,7 +63,8 @@ export class StartPostComponent implements OnInit, OnDestroy {
     });
   }
 
-  async openModal() {
+  //deleted async prefix
+  openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {
       data: {
         postData: this.postImage,

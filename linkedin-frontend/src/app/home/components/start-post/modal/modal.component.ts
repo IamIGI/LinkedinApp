@@ -53,8 +53,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     public passedData: { postData: Post; editMode?: boolean },
     private postService: PostService,
     private dialogRef: MatDialogRef<ModalComponent>,
-    private authService: AuthService,
-    private errorHandlerService: ErrorHandlerService
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
