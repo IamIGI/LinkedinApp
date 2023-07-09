@@ -5,7 +5,7 @@ import {
   MonthsNameDict,
   UserExperience,
 } from '../../models/account.models';
-import { BehaviorSubject, Observable, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, map, merge, of } from 'rxjs';
 import { TextService } from 'src/app/services/text.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddExperienceComponent } from '../add-experience/add-experience.component';
@@ -13,6 +13,7 @@ import {
   formOfEmployment,
   monthsName,
 } from './dictionaries/experience.dictionaries';
+import { User } from 'src/app/auth/models/user.model';
 
 @Component({
   selector: 'app-experience',
@@ -59,7 +60,10 @@ export class ExperienceComponent implements OnInit {
   addExperienceDialog() {
     const dialogRef = this.dialog.open(AddExperienceComponent, {});
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+      if (result.data) {
+        //push new experience to list
+        this.userExperience$ = merge(this.userExperience$, of(result.data));
+      }
     });
   }
 
