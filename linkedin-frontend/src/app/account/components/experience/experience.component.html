@@ -2,7 +2,7 @@
   <div class="experience-header">
     <h1>Doświadczenie</h1>
     <div class="buttons">
-      <button class="icon" mat-icon-button>
+      <button class="icon" mat-icon-button (click)="addExperienceDialog()">
         <mat-icon>add</mat-icon>
       </button>
       <button class="icon" mat-icon-button>
@@ -34,21 +34,20 @@
           &centerdot; {{ workingTimeDescription(experience) }}.
         </p>
       </div>
-      <div class="description">
+      <div class="description" *ngIf="experience.description">
         <p>
-          {{ textService.readMoreSplit(experience.description!)[0]
+          {{ textService.readMoreSplit(experience.description)[0]
           }}<span
             *ngIf="
               !readMore[i] &&
-              textService.readMoreSplit(experience.description!)[0].length >=
-                190
+              textService.readMoreSplit(experience.description)[0].length >= 190
             "
             >...</span
           >
           <span
             class="see-more clickText"
             *ngIf="
-              textService.readMoreSplit(experience.description!).length === 2 &&
+              textService.readMoreSplit(experience.description).length === 2 &&
               !readMore[i]
             "
             (click)="toggleReadMore(i)"
@@ -56,7 +55,7 @@
             ...zobacz więcej
           </span>
           <span *ngIf="readMore[i]" (click)="toggleReadMore(i)">
-            {{ textService.readMoreSplit(experience.description!)[1] }}
+            {{ textService.readMoreSplit(experience.description)[1] }}
             <span class="see-more clickText">...zwiń</span>
           </span>
         </p>

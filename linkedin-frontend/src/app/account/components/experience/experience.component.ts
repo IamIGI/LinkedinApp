@@ -1,8 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../service/account.service';
-import { FormOfEmployment, UserExperience } from '../../models/account.models';
+import {
+  FormOfEmployment,
+  MonthsNameDict,
+  UserExperience,
+} from '../../models/account.models';
 import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { TextService } from 'src/app/services/text.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddExperienceComponent } from '../add-experience/add-experience.component';
+import {
+  formOfEmployment,
+  monthsName,
+} from './dictionaries/experience.dictionaries';
 
 @Component({
   selector: 'app-experience',
@@ -15,7 +25,8 @@ export class ExperienceComponent implements OnInit {
 
   constructor(
     public textService: TextService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private dialog: MatDialog
   ) {}
   ngOnInit(): void {
     this.userExperience$ = this.accountService.getUserExperience().pipe(
@@ -36,25 +47,20 @@ export class ExperienceComponent implements OnInit {
   }
 
   getFormOfEmployment(type: FormOfEmployment): string {
-    switch (type) {
-      case 'full':
-        return 'Pełny etat';
-      case 'internship':
-        return 'Staż';
-      case 'mandateContract':
-        return 'Umowa zlecenie';
-      case 'partly':
-        return 'Niepełny etat';
-      case 'practice':
-        return 'Praktyka';
-      case 'seasonWork':
-        return 'Praca sezonowa';
-      case 'selfEmployment':
-        return 'Samo zatrudnienie';
-
-      default:
-        throw new Error('Given FromOfEmployment do not exists');
+    const result = formOfEmployment.find((employmentType) => {
+      return employmentType.value === type;
+    })?.viewText;
+    if (!result) {
+      throw new Error('Given FromOfEmployment do not exists');
     }
+    return result;
+  }
+
+  addExperienceDialog() {
+    const dialogRef = this.dialog.open(AddExperienceComponent, {});
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+    });
   }
 
   formatExperienceDate(date: string): string {
@@ -63,37 +69,15 @@ export class ExperienceComponent implements OnInit {
     return `${monthName.shortName} ${year}`;
   }
 
-  private getMonthName(date: string): { fullName: string; shortName: string } {
-    const month = date.split('-')[1];
-    switch (month) {
-      case '01':
-        return { fullName: 'styczeń', shortName: 'sty.' };
-      case '02':
-        return { fullName: 'luty', shortName: 'lut.' };
-      case '03':
-        return { fullName: 'marzec', shortName: 'mar.' };
-      case '04':
-        return { fullName: 'kwiecień', shortName: 'kwi.' };
-      case '05':
-        return { fullName: 'maj', shortName: 'maj' };
-      case '06':
-        return { fullName: 'czerwiec', shortName: 'cze.' };
-      case '07':
-        return { fullName: 'lipiec', shortName: 'lip.' };
-      case '08':
-        return { fullName: 'sierpień', shortName: 'sie.' };
-      case '09':
-        return { fullName: 'wrzesień', shortName: 'wrz.' };
-      case '10':
-        return { fullName: 'październik', shortName: 'paz.' };
-      case '11':
-        return { fullName: 'listopad', shortName: 'lis.' };
-      case '12':
-        return { fullName: 'grudzień', shortName: 'gru.' };
-
-      default:
-        throw new Error('Bad date format: ' + date);
+  private getMonthName(date: string): MonthsNameDict {
+    const monthNumber = date.split('-')[1];
+    const result = monthsName.find((month) => {
+      return month.number === monthNumber;
+    });
+    if (!result) {
+      throw new Error('Given FromOfEmployment do not exists');
     }
+    return result;
   }
 
   workingTimeDescription(experience: UserExperience): string {
@@ -110,7 +94,7 @@ export class ExperienceComponent implements OnInit {
     const startDateString = experience.startDate;
     const endDateString =
       experience.endDate ?? new Date().toISOString().split('T')[0];
-    const startDateNumbers = getDateInNumbers(startDateString);
+    const startDateNumbers = getDateInNumbers(startDateString as string);
     const endDateNumbers = getDateInNumbers(endDateString);
     const startDateInFormat = new Date(
       startDateNumbers.year,
@@ -137,6 +121,9 @@ export class ExperienceComponent implements OnInit {
     if (numberOfYearsAtWork > 0) {
       return `${numberOfYearsAtWork} ${yearDescription} ${numberOfMonthsAtWork} mies.`;
     } else {
+      if (numberOfMonthsAtWork === 0) {
+        return '1 mies.';
+      }
       return `${numberOfMonthsAtWork} mies.`;
     }
   }

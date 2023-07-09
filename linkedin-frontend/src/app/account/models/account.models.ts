@@ -13,6 +13,12 @@ export interface UserExperience {
   formOfEmployment: FormOfEmployment;
 }
 
+export interface MonthsNameDict {
+  number: string;
+  fullName: string;
+  shortName: string;
+}
+
 export type FormOfEmployment =
   | 'full'
   | 'partly'

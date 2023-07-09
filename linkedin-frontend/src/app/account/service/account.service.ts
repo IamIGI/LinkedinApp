@@ -22,9 +22,20 @@ export class AccountService {
   }
 
   addUserExperience(body: UserExperience) {
+    const modifiedBody = {
+      ...body,
+      skills: body.skills.toString(),
+      startDate: (body.startDate as unknown as Date)
+        .toISOString()
+        .split('T')[0],
+      endDate:
+        body.endDate !== null
+          ? (body.endDate as unknown as Date).toISOString().split('T')[0]
+          : null,
+    };
     return this.http.post<UserExperience>(
       this.userExperienceApi,
-      body,
+      modifiedBody,
       this.httpOptions
     );
   }
