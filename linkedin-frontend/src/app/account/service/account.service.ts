@@ -33,7 +33,6 @@ export class AccountService {
           ? (body.endDate as unknown as Date).toISOString().split('T')[0]
           : null,
     };
-    console.log(modifiedBody);
     return this.http.post<UserExperience>(
       this.userExperienceApi,
       modifiedBody,

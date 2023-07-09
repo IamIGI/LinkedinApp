@@ -49,24 +49,24 @@ export class AddExperienceComponent implements OnInit {
       skills: ['Angular', 'NestJS', 'SQL'],
       endDate: this.currentJobFlag ? null : data.endDate,
     };
-    console.log(data);
     this.accountService.addUserExperience(data).subscribe({
       next: (response) => {
         console.log(response);
       },
       error: (err) => {
         console.log(err);
+        //TODO: error handler
         // this.errorServerMessage = err.error.error.message;
         // setTimeout(() => {
         //   this.errorServerMessage = '';
         // }, 5000);
       },
       complete: () => {
-        // this.resetForm(formDirective);
+        this.resetForm(formDirective);
       },
     });
 
-    // this.dialogRef.close();
+    this.dialogRef.close();
   }
 
   resetForm(formDirective: FormGroupDirective) {

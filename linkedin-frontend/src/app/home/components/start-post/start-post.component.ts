@@ -63,7 +63,6 @@ export class StartPostComponent implements OnInit, OnDestroy {
     });
   }
 
-  //deleted async prefix
   openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {
       data: {
