@@ -5,17 +5,22 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
-import { formOfEmployment } from '../experience/dictionaries/experience.dictionaries';
+import {
+  formOfEmployment,
+  skillsNames,
+} from '../experience/dictionaries/experience.dictionaries';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from 'src/app/home/components/start-post/modal/modal.component';
 import { AccountService } from '../../service/account.service';
-import { UserExperience } from '../../models/account.models';
+
 @Component({
   selector: 'app-add-experience',
   templateUrl: './add-experience.component.html',
   styleUrls: ['./add-experience.component.sass'],
 })
 export class AddExperienceComponent implements OnInit {
+  selectedSkills = skillsNames;
+
   addExperienceForm!: FormGroup;
   formOfEmploymentDict = formOfEmployment;
   currentJobFlag: boolean = false;
@@ -41,18 +46,14 @@ export class AddExperienceComponent implements OnInit {
   }
 
   onSubmit(formDirective: FormGroupDirective) {
-    console.log('here');
     if (!this.addExperienceForm.valid) return;
     let data = this.addExperienceForm.value;
     data = {
       ...data,
-      skills: ['Angular', 'NestJS', 'SQL'],
       endDate: this.currentJobFlag ? null : data.endDate,
     };
     this.accountService.addUserExperience(data).subscribe({
-      next: (response) => {
-        console.log(response);
-      },
+      next: (response) => {},
       error: (err) => {
         console.log(err);
         //TODO: error handler
@@ -60,13 +61,13 @@ export class AddExperienceComponent implements OnInit {
         // setTimeout(() => {
         //   this.errorServerMessage = '';
         // }, 5000);
+        this.dialogRef.close();
       },
       complete: () => {
         this.resetForm(formDirective);
+        this.dialogRef.close({ data });
       },
     });
-
-    this.dialogRef.close();
   }
 
   resetForm(formDirective: FormGroupDirective) {

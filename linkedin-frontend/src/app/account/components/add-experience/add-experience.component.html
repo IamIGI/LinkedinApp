@@ -88,9 +88,13 @@
         <mat-label>Opis</mat-label>
         <textarea matInput formControlName="description"></textarea>
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="example-form-field">
         <mat-label>Umiejętności</mat-label>
-        <input matInput formControlName="skills" />
+        <mat-select formControlName="skills" multiple>
+          <mat-option *ngFor="let skill of selectedSkills" [value]="skill">{{
+            skill
+          }}</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
     <div class="addExperience-footer">
