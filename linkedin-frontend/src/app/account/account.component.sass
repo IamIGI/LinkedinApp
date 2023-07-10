@@ -5,12 +5,13 @@
   border-top-left-radius: $radius
 
 .account-container
-  $horizontalMargin: 22%
+  $horizontalMargin: 25%
   margin-top: 30px
   margin: 0 $horizontalMargin
   width: calc( 100% - 2*$horizontalMargin )
   @include i.flex-ColumnStartCenter
-  gap: 10px
+  gap: 5px
+  max-width: 960px
 
   .account-sectionOne
     width: 100%
@@ -22,7 +23,7 @@
     padding-bottom: 10px
 
     .account-background-image
-      height: 220px
+      height: 210px
       width: 100%
       position: relative
 
@@ -43,11 +44,11 @@
           color: i.$color-primary
 
     .account-profileImage
-      height: 180px
+      height: 160px
       position: absolute
       left: 30px
-      top: 120px
-      @include i.inElement-profile-image(180px)
+      top: 110px
+      @include i.inElement-profile-image(160px)
       img
         border: 5px solid white
 
@@ -69,9 +70,9 @@
 
     .account-information
       width: 100%
-      padding: 80px 20px 10px 20px
+      padding: 65px 20px 10px 20px
       @include i.flex-ColumnStartCenter
-      gap: 20px
+      gap: 10px
 
       .account-information-user
         width: 100%
@@ -91,6 +92,7 @@
             margin: 0px
             margin-bottom: 3px
             font-size: i.$font-xl
+            font-weight: 500
           h2
             margin: 0px
             margin-bottom: 5px
@@ -149,18 +151,18 @@
 
       .account-information-openToWork
         width: 100%
-        padding: 10px
+        padding: 12px
         background-color: #dce6f1
         border-radius: i.$radius-container
 
         h4
           margin: 0px
-          margin-bottom: 5px
-          font-size: i.$font-l
+          margin-bottom: 4px
+          font-size: i.$font-m_plus
           font-weight: 500
         p
           margin: 0px
-          margin-bottom: 3px
+          margin-bottom: 2px
           font-size: i.$font-m
 
         p:last-child
@@ -170,6 +172,10 @@
           &:hover
             text-decoration: underline
             cursor: pointer
+
+@media screen and (min-width: 1920px)
+  .account-container
+    margin: auto
 
 @media screen and (max-width: 1500px)
   .account-container
