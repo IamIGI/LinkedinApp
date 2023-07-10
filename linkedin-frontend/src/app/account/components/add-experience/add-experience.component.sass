@@ -2,7 +2,7 @@
 
 .addExperience-container
   @include i.flex-ColumnStartStart
-  gap: 10px
+  // gap: 10px
   // min-width: fit-content
 
   .addExperience-header
@@ -46,3 +46,12 @@
 
     button
       border-radius: 25px
+
+
+@media screen and (max-width: 450px)
+  .addExperience-container
+    .addExperience-form
+      min-width: 310px
+      mat-form-field
+        width: 100%
+        max-width: 250px
