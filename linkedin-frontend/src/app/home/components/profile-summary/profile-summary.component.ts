@@ -57,11 +57,6 @@ export class ProfileSummaryComponent implements OnInit, OnDestroy {
 
     this.authService.userStream.pipe(take(1)).subscribe((user: User) => {
       this.userStream = user;
-      user.backgroundFullImagePath = this.authService.getUserFullImagePath(
-        user.id,
-        user.backgroundImagePath!,
-        'background'
-      );
     });
 
     this.authService.userFullName

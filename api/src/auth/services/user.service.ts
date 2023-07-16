@@ -1,16 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import {
-  Observable,
-  forkJoin,
-  from,
-  map,
-  of,
-  repeat,
-  retry,
-  switchMap,
-  takeWhile,
-  tap,
-} from 'rxjs';
+import { Observable, forkJoin, from, map, of, switchMap } from 'rxjs';
 import { User } from '../models/user.class';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../models/user.entity';

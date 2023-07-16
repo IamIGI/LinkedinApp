@@ -44,7 +44,23 @@ export class AuthService {
   }
 
   get userStream(): Observable<User> {
-    return this.user$.asObservable().pipe(map((user: User) => user));
+    return this.user$.asObservable().pipe(
+      map((user: User) => {
+        return {
+          ...user,
+          profileFullImagePath: this.getUserFullImagePath(
+            user.id,
+            user.profileImagePath!,
+            'profile'
+          ),
+          backgroundFullImagePath: this.getUserFullImagePath(
+            user.id,
+            user.backgroundImagePath!,
+            'background'
+          ),
+        };
+      })
+    );
   }
 
   get userFullName(): Observable<string> {

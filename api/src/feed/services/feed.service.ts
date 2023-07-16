@@ -50,14 +50,8 @@ export class FeedService {
             ),
           )
             .pipe(take(1))
-            .subscribe({
-              next: () => {
-                deletePostImage(oldPostData.author.id, oldPostData.imageName);
-              },
-              error: (err: any) => {
-                console.log(err);
-              },
-              complete: () => {},
+            .subscribe(() => {
+              deletePostImage(oldPostData.author.id, oldPostData.imageName);
             });
         }
       }),

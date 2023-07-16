@@ -63,38 +63,22 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.accountLoaded.next(false);
-    // for task: #L-68
-    // this.getUser().subscribe({ next: (x) => console.log(x) });
-    this.friendRequestSubscription$ = this.getFriendRequestStatus()
-      .pipe(
-        tap((friendRequestStatus: FriendRequestStatus) => {
-          this.friendRequest = friendRequestStatus;
-        })
-      )
-      .subscribe();
+    this.friendRequestSubscription$ = this.getFriendRequestStatus().subscribe(
+      (friendRequestStatus: FriendRequestStatus) => {
+        this.friendRequest = friendRequestStatus;
+      }
+    );
 
     this.userSubscription$ = this.authService.userId
       .pipe(
         tap((authUserId: number) => {
-          this.getUserIdFromUrl().subscribe({
-            next: (urlUserId: number) => {
-              if (authUserId == urlUserId) {
-                this.isLoggedUser = true;
-                return this.authService.userStream.subscribe({
-                  next: (user: User) => {
-                    user.profileFullImagePath =
-                      this.authService.getUserFullImagePath(
-                        user.id,
-                        user.profileImagePath!,
-                        'profile'
-                      );
-                    user.backgroundFullImagePath =
-                      this.authService.getUserFullImagePath(
-                        user.id,
-                        user.backgroundImagePath!,
-                        'background'
-                      );
-
+          this.loggedUserId = authUserId;
+          this.getUserIdFromUrl()
+            .pipe(
+              map((urlUserId: number) => {
+                if (authUserId == urlUserId) {
+                  this.isLoggedUser = true;
+                  this.authService.userStream.subscribe((user: User) => {
                     this.userRoleString =
                       user.role == 'premium'
                         ? 'Konto Premium'
@@ -103,28 +87,22 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
                         : 'Konto Standardowe';
                     this.user = user;
                     this.accountLoaded.next(true);
-                  },
-                });
-              } else {
-                this.isLoggedUser = false;
-                return this.connectionProfileService
-                  .getConnectionUser(urlUserId)
-                  .subscribe({
-                    next: (user: User) => {
+                  });
+                } else {
+                  this.isLoggedUser = false;
+                  this.connectionProfileService
+                    .getConnectionUser(urlUserId)
+                    .subscribe((user: User) => {
                       this.user = user;
                       this.accountLoaded.next(true);
-                    },
-                  });
-              }
-            },
-          });
+                    });
+                }
+              })
+            )
+            .subscribe();
         })
       )
-      .subscribe({
-        next: (userId: number) => {
-          this.loggedUserId = userId;
-        },
-      });
+      .subscribe();
 
     this.notificationService
       .checkNotificationsStatus('accountPage')
