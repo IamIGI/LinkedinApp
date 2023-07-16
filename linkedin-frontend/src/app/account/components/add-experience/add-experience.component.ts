@@ -48,26 +48,12 @@ export class AddExperienceComponent implements OnInit {
   onSubmit(formDirective: FormGroupDirective) {
     if (!this.addExperienceForm.valid) return;
     let data = this.addExperienceForm.value;
-    data = {
-      ...data,
-      endDate: this.currentJobFlag ? null : data.endDate,
-    };
-    this.accountService.addUserExperience(data).subscribe({
-      next: (response) => {},
-      error: (err) => {
-        console.log(err);
-        //TODO: error handler
-        // this.errorServerMessage = err.error.error.message;
-        // setTimeout(() => {
-        //   this.errorServerMessage = '';
-        // }, 5000);
-        this.dialogRef.close();
-      },
-      complete: () => {
+    this.accountService
+      .addUserExperience(data, this.currentJobFlag)
+      .subscribe((data) => {
         this.resetForm(formDirective);
         this.dialogRef.close({ data });
-      },
-    });
+      });
   }
 
   resetForm(formDirective: FormGroupDirective) {

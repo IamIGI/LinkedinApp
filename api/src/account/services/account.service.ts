@@ -3,8 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { userExperienceEntity } from '../models/userExperience.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { User } from 'src/auth/models/user.class';
-import { Observable, from } from 'rxjs';
-import { UserExperience } from '../models/userExperience.model';
+import { Observable, from, map, switchMap } from 'rxjs';
+import {
+  UserExperience,
+  UserExperienceReturnData,
+} from '../models/userExperience.model';
 
 @Injectable()
 export class AccountService {
@@ -13,11 +16,20 @@ export class AccountService {
     private readonly userExperienceRepository: Repository<userExperienceEntity>,
   ) {}
 
-  getUserExperience(user: User): Observable<UserExperience[]> {
+  getUserExperience(user: User): Observable<UserExperienceReturnData[]> {
     return from(
       this.userExperienceRepository.find({
         where: { user },
         order: { startDate: 'DESC' },
+      }),
+    ).pipe(
+      map((userExperiences: UserExperience[]) => {
+        return userExperiences.map((experience) => {
+          return {
+            ...experience,
+            skills: experience.skills && experience.skills.split(','),
+          };
+        });
       }),
     );
   }
@@ -25,9 +37,16 @@ export class AccountService {
   addUserExperience(
     experience: UserExperience,
     user: User,
-  ): Observable<UserExperience> {
+  ): Observable<UserExperienceReturnData> {
     const objectToSave = { ...experience, user };
-    return from(this.userExperienceRepository.save(objectToSave));
+    return from(this.userExperienceRepository.save(objectToSave)).pipe(
+      map((experience: UserExperience) => {
+        return {
+          ...experience,
+          skills: experience.skills && experience.skills.split(','),
+        };
+      }),
+    );
   }
 
   //user get whole object on frontend,and return it with corrected fields

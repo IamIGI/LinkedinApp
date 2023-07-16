@@ -11,7 +11,10 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
-import { UserExperience } from '../models/userExperience.model';
+import {
+  UserExperience,
+  UserExperienceReturnData,
+} from '../models/userExperience.model';
 import { AccountService } from '../services/account.service';
 import { UpdateResult } from 'typeorm';
 
@@ -21,7 +24,7 @@ export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
   @Get('experience')
-  userExperience(@Request() req): Observable<UserExperience[]> {
+  userExperience(@Request() req): Observable<UserExperienceReturnData[]> {
     return this.accountService.getUserExperience(req.user);
   }
 
@@ -29,7 +32,7 @@ export class AccountController {
   addUserExperience(
     @Request() req,
     @Body() experience: UserExperience,
-  ): Observable<UserExperience> {
+  ): Observable<UserExperienceReturnData> {
     return this.accountService.addUserExperience(experience, req.user);
   }
 

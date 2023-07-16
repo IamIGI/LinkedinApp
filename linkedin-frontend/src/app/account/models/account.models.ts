@@ -9,7 +9,7 @@ export interface UserExperience {
   position: string;
   localization: string;
   description: string | null;
-  skills: string[];
+  skills: string[] | null;
   formOfEmployment: FormOfEmployment;
 }
 
