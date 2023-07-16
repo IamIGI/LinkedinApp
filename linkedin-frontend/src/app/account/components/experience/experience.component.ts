@@ -5,7 +5,7 @@ import {
   MonthsNameDict,
   UserExperience,
 } from '../../models/account.models';
-import { BehaviorSubject, Observable, map, merge, of } from 'rxjs';
+import { Subject } from 'rxjs';
 import { TextService } from 'src/app/services/text.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddExperienceComponent } from '../add-experience/add-experience.component';
@@ -21,7 +21,8 @@ import { User } from 'src/app/auth/models/user.model';
   styleUrls: ['./experience.component.sass'],
 })
 export class ExperienceComponent implements OnInit {
-  userExperience$!: Observable<UserExperience[]>;
+  userExperience$ = new Subject<UserExperience[]>();
+  userExperience!: UserExperience[];
   readMore: Boolean[] = [];
 
   constructor(
@@ -30,17 +31,13 @@ export class ExperienceComponent implements OnInit {
     private dialog: MatDialog
   ) {}
   ngOnInit(): void {
-    this.userExperience$ = this.accountService.getUserExperience().pipe(
-      map((userExperience: UserExperience[]) => {
-        return userExperience.map((experience: UserExperience) => {
-          this.readMore.push(false);
-          return {
-            ...experience,
-            skills: (experience.skills as unknown as string).split(','),
-          };
-        });
-      })
-    );
+    this.accountService
+      .getUserExperience()
+      .subscribe((result: UserExperience[]) => {
+        this.readMore = Array(result.length).fill(false);
+        this.userExperience = result;
+        this.userExperience$.next(result);
+      });
   }
 
   toggleReadMore(index: number) {
@@ -61,8 +58,8 @@ export class ExperienceComponent implements OnInit {
     const dialogRef = this.dialog.open(AddExperienceComponent, {});
     dialogRef.afterClosed().subscribe((result) => {
       if (result.data) {
-        //push new experience to list
-        this.userExperience$ = merge(this.userExperience$, of(result.data));
+        this.userExperience.unshift(result.data);
+        this.userExperience$.next(this.userExperience);
       }
     });
   }

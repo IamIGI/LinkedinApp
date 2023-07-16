@@ -35,8 +35,8 @@ export class userExperienceEntity {
   @Column({ default: null })
   description: string | null;
 
-  @Column({ nullable: false })
-  skills: string;
+  @Column({ default: null, nullable: true })
+  skills: string | null;
 
   @Column({ nullable: false })
   formOfEmployment:

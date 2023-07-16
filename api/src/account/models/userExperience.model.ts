@@ -19,3 +19,7 @@ export interface UserExperience {
     | 'seasonWork'
     | 'mandateContract';
 }
+
+export type UserExperienceReturnData = Omit<UserExperience, 'skills'> & {
+  skills: string[] | null;
+};
