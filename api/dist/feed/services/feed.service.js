@@ -44,14 +44,8 @@ let FeedService = class FeedService {
             if (newPost.imageName && newPost.imageName !== oldPostData.imageName) {
                 (0, rxjs_1.of)((0, image_storage_1.copyImageFromTemporaryToUserPost)(newPost.imageName, oldPostData.author.id))
                     .pipe((0, rxjs_1.take)(1))
-                    .subscribe({
-                    next: () => {
-                        (0, image_storage_1.deletePostImage)(oldPostData.author.id, oldPostData.imageName);
-                    },
-                    error: (err) => {
-                        console.log(err);
-                    },
-                    complete: () => { },
+                    .subscribe(() => {
+                    (0, image_storage_1.deletePostImage)(oldPostData.author.id, oldPostData.imageName);
                 });
             }
         }));

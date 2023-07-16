@@ -54,20 +54,7 @@ export class AllPostsComponent
   ) {}
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.userStream.subscribe(
-      (user: User) => {
-        this.allLoadedPosts.forEach((post: Post, index: number) => {
-          if (user?.profileImagePath && post.author.id === user.id) {
-            this.allLoadedPosts[index].authorFullImagePath =
-              this.authService.getUserFullImagePath(
-                user.id,
-                user.profileImagePath,
-                'profile'
-              );
-          }
-        });
-      }
-    );
+    this.updateUserImage();
 
     this.getPosts();
 
@@ -139,6 +126,23 @@ export class AllPostsComponent
         loadingModalRef.close();
       },
     });
+  }
+
+  updateUserImage() {
+    this.userSubscription = this.authService.userStream.subscribe(
+      (user: User) => {
+        this.allLoadedPosts.forEach((post: Post, index: number) => {
+          if (user?.profileImagePath && post.author.id === user.id) {
+            this.allLoadedPosts[index].authorFullImagePath =
+              this.authService.getUserFullImagePath(
+                user.id,
+                user.profileImagePath,
+                'profile'
+              );
+          }
+        });
+      }
+    );
   }
 
   getPosts() {

@@ -35,6 +35,7 @@ export class NotificationsService {
   checkNotificationsStatus(page: PageNewUserNotifications) {
     return this.userNotificationsStatus.pipe(
       map((userNotifications: UserNotifications) => {
+        console.log(userNotifications);
         if (
           !userNotifications[
             newUserNotifications[page].pageType as keyof UserNotifications
