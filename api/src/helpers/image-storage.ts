@@ -220,7 +220,6 @@ export const saveUserImageToTemporaryStorage = {
     allowedMimeTypes.includes(file.mimetype as validMimeType)
       ? cb(null, true)
       : cb(null, false);
-    console.log('fileIsSaved');
   },
 };
 

@@ -89,7 +89,6 @@ export class StatisticsComponent implements OnInit {
 
   navigateToUser(data: ViewFriendsStatistic) {
     this.authService.userId.subscribe((authenticatedUserId: number) => {
-      console.log(authenticatedUserId);
       if (data.creatorId === authenticatedUserId) {
         this.router.navigate(['home', 'account', data.receiverId]);
       } else {

@@ -124,7 +124,6 @@ export class ModalComponent implements OnInit, OnDestroy {
           this.passedData.postData.fullImagePath = `http://localhost:3000/api/feed/temporary/image/${result.newFilename}/?userId=${this.userData.id}`;
         },
         error: (err: any) => {
-          console.log('here');
           console.log(err);
         },
       });

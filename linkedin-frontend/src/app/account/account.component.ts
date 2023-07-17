@@ -118,12 +118,10 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('here2');
     const accountType$ = this.accountType.changes as Observable<
       QueryList<ElementRef>
     >;
     forkJoin([accountType$, this.getUser()]).subscribe(([element, user]) => {
-      console.log(user.role);
       switch (user.role) {
         case 'premium':
           element.first.nativeElement.style.color = roleColors.premium;
