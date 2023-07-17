@@ -2,7 +2,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/Post';
 import { environment } from 'src/environments/environment.development';
-import { BehaviorSubject, map, take, tap, Observable, catchError } from 'rxjs';
+import {
+  BehaviorSubject,
+  map,
+  take,
+  tap,
+  Observable,
+  catchError,
+  EMPTY,
+} from 'rxjs';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -91,6 +99,10 @@ export class PostService {
 
     return this.http.post<Post>(this.postURL, body).pipe(
       take(1),
+      catchError((err: any) => {
+        console.log(err);
+        return EMPTY;
+      }),
       map((result: Post) => {
         if (result.createdAt) {
           this.toastr.success('Opublikowano Post', 'Sukces');

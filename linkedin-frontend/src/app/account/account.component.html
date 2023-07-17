@@ -1,4 +1,7 @@
-<div class="account-container" *ngIf="accountLoaded | async">
+<div
+  class="account-container"
+  *ngIf="(accountRoleLoaded$ | async) && (userAccountLoaded$ | async)"
+>
   <div class="account-sectionOne">
     <div class="account-background-image">
       <img [src]="user.backgroundFullImagePath" alt="background" />

@@ -18,6 +18,9 @@ import {
   BehaviorSubject,
   from,
   of,
+  forkJoin,
+  catchError,
+  EMPTY,
 } from 'rxjs';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { FriendRequestStatus } from '../home/models/FriendRequest';
@@ -40,7 +43,8 @@ import { NotificationsService } from '../notifications/services/notifications.se
 export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   loggedUserId: number = null!;
   isLoggedUser!: boolean;
-  accountLoaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  accountRoleLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  userAccountLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   friendRequest!: FriendRequestStatus;
   friendRequestSubscription$!: Subscription;
   private userSubscription$!: Subscription;
@@ -62,10 +66,13 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.accountLoaded.next(false);
+    this.accountRoleLoaded$.next(false);
+    this.userAccountLoaded$.next(false);
+
     this.friendRequestSubscription$ = this.getFriendRequestStatus().subscribe(
       (friendRequestStatus: FriendRequestStatus) => {
         this.friendRequest = friendRequestStatus;
+        this.accountRoleLoaded$.next(true);
       }
     );
 
@@ -86,7 +93,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
                         ? 'Konto Admina'
                         : 'Konto Standardowe';
                     this.user = user;
-                    this.accountLoaded.next(true);
+                    this.userAccountLoaded$.next(true);
                   });
                 } else {
                   this.isLoggedUser = false;
@@ -94,7 +101,7 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
                     .getConnectionUser(urlUserId)
                     .subscribe((user: User) => {
                       this.user = user;
-                      this.accountLoaded.next(true);
+                      this.userAccountLoaded$.next(true);
                     });
                 }
               })
@@ -111,30 +118,29 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.accountType.changes.pipe(take(1)).subscribe({
-      next: (element: QueryList<ElementRef>) => {
-        this.getUser().subscribe({
-          next: (user: User) => {
-            switch (user.role) {
-              case 'premium':
-                element.first.nativeElement.style.color = roleColors.premium;
-                this.userRoleString = 'Konto Premium';
-                break;
-              case 'user':
-                element.first.nativeElement.style.color = roleColors.user;
-                this.userRoleString = 'Konto Standardowe';
-                break;
-              case 'admin':
-                element.first.nativeElement.style.color = roleColors.admin;
-                this.userRoleString = 'Konto Administratora';
-                break;
+    console.log('here2');
+    const accountType$ = this.accountType.changes as Observable<
+      QueryList<ElementRef>
+    >;
+    forkJoin([accountType$, this.getUser()]).subscribe(([element, user]) => {
+      console.log(user.role);
+      switch (user.role) {
+        case 'premium':
+          element.first.nativeElement.style.color = roleColors.premium;
+          this.userRoleString = 'Konto Premium';
+          break;
+        case 'user':
+          element.first.nativeElement.style.color = roleColors.user;
+          this.userRoleString = 'Konto Standardowe';
+          break;
+        case 'admin':
+          element.first.nativeElement.style.color = roleColors.admin;
+          this.userRoleString = 'Konto Administratora';
+          break;
 
-              default:
-                throw new Error('User role is undefined');
-            }
-          },
-        });
-      },
+        default:
+          throw new Error('User role is undefined');
+      }
     });
   }
 
@@ -221,17 +227,15 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(take(1))
       .subscribe({
         complete: () => {
-          this.friendRequestSubscription$ = this.getFriendRequestStatus()
-            .pipe(
-              tap((friendRequestStatus: FriendRequestStatus) => {
+          this.friendRequestSubscription$ =
+            this.getFriendRequestStatus().subscribe(
+              (friendRequestStatus: FriendRequestStatus) => {
                 this.friendRequest = friendRequestStatus;
-              })
-            )
-            .subscribe(() => {
-              this.connectionProfileService.removeFriendRequestFromList(
-                this.friendRequest.id
-              );
-            });
+                this.connectionProfileService.removeFriendRequestFromList(
+                  this.friendRequest.id
+                );
+              }
+            );
         },
       });
   }
