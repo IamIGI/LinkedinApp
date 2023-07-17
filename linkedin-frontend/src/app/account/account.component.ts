@@ -22,7 +22,7 @@ import {
   catchError,
   EMPTY,
 } from 'rxjs';
-import { ActivatedRoute, UrlSegment } from '@angular/router';
+import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { FriendRequestStatus } from '../home/models/FriendRequest';
 import { roleColors } from 'src/dictionaries/user-dict';
 import { fromBuffer, FileTypeResult } from 'file-type/core';
@@ -61,11 +61,13 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private connectionProfileService: ConnectionProfileService,
     private authService: AuthService,
+    private router: Router,
     private route: ActivatedRoute,
     private notificationService: NotificationsService
   ) {}
 
   ngOnInit(): void {
+    console.log(this.router.url);
     this.accountRoleLoaded$.next(false);
     this.userAccountLoaded$.next(false);
 
@@ -80,33 +82,28 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         tap((authUserId: number) => {
           this.loggedUserId = authUserId;
-          this.getUserIdFromUrl()
-            .pipe(
-              map((urlUserId: number) => {
-                if (authUserId == urlUserId) {
-                  this.isLoggedUser = true;
-                  this.authService.userStream.subscribe((user: User) => {
-                    this.userRoleString =
-                      user.role == 'premium'
-                        ? 'Konto Premium'
-                        : user.role == 'admin'
-                        ? 'Konto Admina'
-                        : 'Konto Standardowe';
-                    this.user = user;
-                    this.userAccountLoaded$.next(true);
-                  });
-                } else {
-                  this.isLoggedUser = false;
-                  this.connectionProfileService
-                    .getConnectionUser(urlUserId)
-                    .subscribe((user: User) => {
-                      this.user = user;
-                      this.userAccountLoaded$.next(true);
-                    });
-                }
-              })
-            )
-            .subscribe();
+          const urlUserId = this.getUserIdFromUrl();
+          if (authUserId == urlUserId) {
+            this.isLoggedUser = true;
+            this.authService.userStream.subscribe((user: User) => {
+              this.userRoleString =
+                user.role == 'premium'
+                  ? 'Konto Premium'
+                  : user.role == 'admin'
+                  ? 'Konto Admina'
+                  : 'Konto Standardowe';
+              this.user = user;
+              this.userAccountLoaded$.next(true);
+            });
+          } else {
+            this.isLoggedUser = false;
+            this.connectionProfileService
+              .getConnectionUser(urlUserId)
+              .subscribe((user: User) => {
+                this.user = user;
+                this.userAccountLoaded$.next(true);
+              });
+          }
         })
       )
       .subscribe();
@@ -143,23 +140,14 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getUser(): Observable<User> {
-    return this.getUserIdFromUrl().pipe(
-      switchMap((userId: number) => {
-        return this.connectionProfileService.getConnectionUser(userId);
-      })
-    );
+    const userId = this.getUserIdFromUrl();
+    return this.connectionProfileService.getConnectionUser(userId);
   }
 
-  addUser(): Subscription {
+  addUser() {
     this.friendRequest.status = 'pending';
-    return this.getUserIdFromUrl()
-      .pipe(
-        switchMap((userId: number) => {
-          return this.connectionProfileService.addConnectionUser(userId);
-        })
-      )
-      .pipe(take(1))
-      .subscribe();
+    const userId = this.getUserIdFromUrl();
+    return this.connectionProfileService.addConnectionUser(userId);
   }
 
   onImageChange(event: Event, imageType: 'background' | 'profile'): void {
@@ -239,19 +227,13 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getFriendRequestStatus(): Observable<FriendRequestStatus> {
-    return this.getUserIdFromUrl().pipe(
-      switchMap((userId: number) => {
-        return this.connectionProfileService.getFriendRequestStatus(userId);
-      })
-    );
+    const userId = this.getUserIdFromUrl();
+    return this.connectionProfileService.getFriendRequestStatus(userId);
   }
 
-  private getUserIdFromUrl(): Observable<number> {
-    return this.route.url.pipe(
-      map((urlSegment: UrlSegment[]) => {
-        return parseInt(urlSegment[1].path);
-      })
-    );
+  private getUserIdFromUrl(): number {
+    const urlPath = this.router.url.split('/');
+    return parseInt(urlPath[3]);
   }
 
   getAuthorName(): string {

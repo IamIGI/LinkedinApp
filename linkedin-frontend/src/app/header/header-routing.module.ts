@@ -31,7 +31,10 @@ const routes: Routes = [
   },
   {
     path: 'account/:userId',
-    component: AccountComponent,
+    loadChildren: () =>
+      import('../account/account.module').then(
+        (module) => module.AccountModule
+      ),
   },
   {
     path: 'statistics',
