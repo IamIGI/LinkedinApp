@@ -13,7 +13,6 @@ import {
   formOfEmployment,
   monthsName,
 } from './dictionaries/experience.dictionaries';
-import { User } from 'src/app/auth/models/user.model';
 
 @Component({
   selector: 'app-experience',

@@ -24,23 +24,21 @@ export class NetworkComponent implements OnInit, OnDestroy {
     //get the friend requests for authenticated user
     this.friendRequestsSubscription = this.connectionProfileService
       .getFriendRequests()
-      .subscribe({
-        next: (friendRequests: FriendRequest[]) => {
-          this.connectionProfileService.friendRequests = friendRequests.filter(
-            //@ts-ignore
-            (friendRequest: FriendRequest) => {
-              if (friendRequest.status === 'pending') {
-                friendRequest.creator.profileFullImagePath =
-                  this.authService.getUserFullImagePath(
-                    friendRequest.creator.id,
-                    friendRequest.creator.profileImagePath as string,
-                    'profile'
-                  );
-                return friendRequest;
-              }
+      .subscribe((friendRequests: FriendRequest[]) => {
+        this.connectionProfileService.friendRequests = friendRequests.filter(
+          //@ts-ignore
+          (friendRequest: FriendRequest) => {
+            if (friendRequest.status === 'pending') {
+              friendRequest.creator.profileFullImagePath =
+                this.authService.getUserFullImagePath(
+                  friendRequest.creator.id,
+                  friendRequest.creator.profileImagePath as string,
+                  'profile'
+                );
+              return friendRequest;
             }
-          );
-        },
+          }
+        );
       });
 
     this.notificationService

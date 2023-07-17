@@ -11,7 +11,7 @@ import { data } from './data';
 import { CreatePost, PostService } from '../../services/post.service';
 import { Post } from '../../models/Post';
 import { ModalComponent } from '../start-post/modal/modal.component';
-import { BehaviorSubject, Subscription, take } from 'rxjs';
+import { BehaviorSubject, Subscription, catchError, map, take } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ProgressSpinnerDialogComponent } from 'src/app/progress-spinner-dialog/progress-spinner-dialog.component';
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
@@ -99,33 +99,32 @@ export class AllPostsComponent
         scrollStrategy: new NoopScrollStrategy(),
       });
 
-    this.postService.createPost().subscribe({
-      next: (post: Post) => {
-        this.authService.userProfileFullImagePath.pipe(take(1)).subscribe({
-          next: (fullImagePath: string) => {
-            post.authorFullImagePath = fullImagePath;
-            if (post.imageName) {
-              post = this.setPostImage(post);
-            }
-            this.allLoadedPosts.unshift(post);
-          },
-          complete: () => {},
-          error: (err: Error) => {
-            console.log(err);
-          },
-        });
-      },
-      complete: () => {
-        //time needed for image to render on page
-        setTimeout(() => {
-          loadingModalRef.close();
-        }, 200);
-      },
-      error: (err) => {
-        console.log(err);
-        loadingModalRef.close();
-      },
-    });
+    this.postService
+      .createPost()
+      .pipe(
+        map((post: Post) => {
+          this.authService.userProfileFullImagePath
+            .pipe(
+              take(1),
+              map((fullImagePath: string) => {
+                post.authorFullImagePath = fullImagePath;
+                if (post.imageName) {
+                  post = this.setPostImage(post);
+                }
+                this.allLoadedPosts.unshift(post);
+              })
+            )
+            .subscribe();
+        })
+      )
+      .subscribe({
+        complete: () => {
+          //time needed for image to render on page
+          setTimeout(() => {
+            loadingModalRef.close();
+          }, 200);
+        },
+      });
   }
 
   updateUserImage() {

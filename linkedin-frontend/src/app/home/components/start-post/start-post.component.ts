@@ -56,11 +56,7 @@ export class StartPostComponent implements OnInit, OnDestroy {
       if (result && this.addImageButtonActivated) this.addedImageTooltip();
     });
 
-    this.authService.userId.subscribe({
-      next: (id: number) => {
-        this.userId = id;
-      },
-    });
+    this.authService.userId.subscribe((id) => (this.userId = id));
   }
 
   openModal() {
