@@ -10,7 +10,6 @@ import {
 import { ConnectionProfileService } from '../home/services/connection-profile.service';
 import {
   Observable,
-  map,
   switchMap,
   Subscription,
   tap,
@@ -19,10 +18,8 @@ import {
   from,
   of,
   forkJoin,
-  catchError,
-  EMPTY,
 } from 'rxjs';
-import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
+import { Router } from '@angular/router';
 import { FriendRequestStatus } from '../home/models/FriendRequest';
 import { roleColors } from 'src/dictionaries/user-dict';
 import { fromBuffer, FileTypeResult } from 'file-type/core';
@@ -62,12 +59,10 @@ export class AccountComponent implements OnInit, OnDestroy, AfterViewInit {
     private connectionProfileService: ConnectionProfileService,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute,
     private notificationService: NotificationsService
   ) {}
 
   ngOnInit(): void {
-    console.log(this.router.url);
     this.accountRoleLoaded$.next(false);
     this.userAccountLoaded$.next(false);
 
