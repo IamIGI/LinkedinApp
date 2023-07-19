@@ -27,3 +27,8 @@ export type FormOfEmployment =
   | 'practice'
   | 'seasonWork'
   | 'mandateContract';
+
+export interface ExperienceDialog {
+  experience: UserExperience | undefined;
+  editMode: { isTrue: boolean; experienceId?: number | null };
+}

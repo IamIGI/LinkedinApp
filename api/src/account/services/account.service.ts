@@ -52,12 +52,14 @@ export class AccountService {
   //user get whole object on frontend,and return it with corrected fields
   updateUserExperience(
     updatedExperience: UserExperience,
-  ): Observable<UpdateResult> {
-    return from(
-      this.userExperienceRepository.update(
-        { id: updatedExperience.id },
-        updatedExperience,
-      ),
+  ): Observable<UserExperienceReturnData> {
+    return from(this.userExperienceRepository.save(updatedExperience)).pipe(
+      map((experience: UserExperience) => {
+        return {
+          ...experience,
+          skills: experience.skills && experience.skills.split(','),
+        };
+      }),
     );
   }
 

@@ -22,11 +22,9 @@ p,h1,h2,h3
       font-size: i.$font-xl
       font-weight: 400
     
-    .buttons
+    .experience-header-section
       @include i.flex-RowStartCenter
       gap: 10px
-
-      .icon
 
   .experience-section:not(:last-child)
     border-bottom: 0.5px solid i.$color-light
@@ -44,11 +42,11 @@ p,h1,h2,h3
     img
       @include i.inElement-profile-image(50px)
         
-
   .right-side
     @include i.flex-ColumnStartStart
     width: fit-content
     gap:5px
+    width: 100%
 
     .work-information
       h2
@@ -81,4 +79,8 @@ p,h1,h2,h3
       span:nth-child(1)
         font-weight: 500 
 
+    .edit-button
+      position: absolute
+      top: -8px
+      right: -5px
     
