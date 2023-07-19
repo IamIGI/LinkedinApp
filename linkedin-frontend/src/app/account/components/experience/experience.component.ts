@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AccountService } from '../../service/account.service';
 import {
+  ExperienceDialog,
   FormOfEmployment,
   MonthsNameDict,
   UserExperience,
@@ -13,6 +14,7 @@ import {
   formOfEmployment,
   monthsName,
 } from './dictionaries/experience.dictionaries';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-experience',
@@ -20,6 +22,8 @@ import {
   styleUrls: ['./experience.component.sass'],
 })
 export class ExperienceComponent implements OnInit {
+  @Input() addExperience: boolean = false;
+
   userExperience$ = new Subject<UserExperience[]>();
   userExperience!: UserExperience[];
   readMore: Boolean[] = [];
@@ -27,6 +31,7 @@ export class ExperienceComponent implements OnInit {
   constructor(
     public textService: TextService,
     private accountService: AccountService,
+    private router: Router,
     private dialog: MatDialog
   ) {}
   ngOnInit(): void {
@@ -53,14 +58,60 @@ export class ExperienceComponent implements OnInit {
     return result;
   }
 
-  addExperienceDialog() {
-    const dialogRef = this.dialog.open(AddExperienceComponent, {});
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result.data) {
-        this.userExperience.unshift(result.data);
-        this.userExperience$.next(this.userExperience);
-      }
+  openExperienceDialog(experienceId?: number) {
+    const dialogRef = this.dialog.open(AddExperienceComponent, {
+      data: prepareDataForDialog(this.userExperience),
+      autoFocus: false,
     });
+
+    dialogRef.afterClosed().subscribe((newExperienceData: ExperienceDialog) => {
+      const newExperience = updatedExperienceData(
+        newExperienceData,
+        this.userExperience
+      );
+      this.userExperience = newExperience;
+      this.userExperience$.next(newExperience);
+    });
+
+    function updatedExperienceData(
+      newExperienceData: ExperienceDialog,
+      userExperiences: UserExperience[]
+    ): UserExperience[] {
+      if (newExperienceData.experience) {
+        if (newExperienceData.editMode.isTrue) {
+          const updatedUserExperience = userExperiences.map((experience) => {
+            if (experience.id === newExperienceData.editMode.experienceId) {
+              const { user, ...newExperienceObj } =
+                newExperienceData.experience!;
+              experience = newExperienceObj;
+            }
+            return experience;
+          });
+          userExperiences = updatedUserExperience;
+        } else {
+          const { user, ...newExperienceObj } = newExperienceData.experience!;
+          userExperiences.unshift(newExperienceObj);
+        }
+      }
+      return userExperiences;
+    }
+
+    function prepareDataForDialog(
+      userExperiences: UserExperience[]
+    ): ExperienceDialog {
+      const experience = structuredClone(
+        userExperiences.find((experience) => experience.id === experienceId)
+      );
+
+      return {
+        experience,
+        editMode: { isTrue: isEditMode() },
+      };
+
+      function isEditMode() {
+        return Boolean(experienceId);
+      }
+    }
   }
 
   formatExperienceDate(date: string): string {
@@ -126,5 +177,10 @@ export class ExperienceComponent implements OnInit {
       }
       return `${numberOfMonthsAtWork} mies.`;
     }
+  }
+
+  getUserIdFromUrl(): number {
+    const urlPath = this.router.url.split('/');
+    return parseInt(urlPath[3]);
   }
 }

@@ -39,7 +39,7 @@ export class AccountController {
   @Patch('experience')
   updateUserExperience(
     @Body() experience: UserExperience,
-  ): Observable<UpdateResult> {
+  ): Observable<UserExperienceReturnData> {
     return this.accountService.updateUserExperience(experience);
   }
 

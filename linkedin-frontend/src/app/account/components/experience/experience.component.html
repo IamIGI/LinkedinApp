@@ -1,11 +1,26 @@
 <div class="experience-container">
   <div class="experience-header">
-    <h1>Doświadczenie</h1>
-    <div class="buttons">
-      <button class="icon" mat-icon-button (click)="addExperienceDialog()">
+    <div class="experience-header-section">
+      <button
+        *ngIf="addExperience"
+        class="icon"
+        mat-icon-button
+        [routerLink]="['/', 'home', 'account', getUserIdFromUrl()]"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1>Doświadczenie</h1>
+    </div>
+    <div class="experience-header-section">
+      <button class="icon" mat-icon-button (click)="openExperienceDialog()">
         <mat-icon>add</mat-icon>
       </button>
-      <button class="icon" mat-icon-button [routerLink]="['edit-experience']">
+      <button
+        *ngIf="!addExperience"
+        class="icon"
+        mat-icon-button
+        [routerLink]="['edit-experience']"
+      >
         <mat-icon>edit</mat-icon>
       </button>
     </div>
@@ -17,7 +32,7 @@
     <div class="left-side">
       <img src="../../assets/images/profiles/airbus.JPG" alt="work" />
     </div>
-    <div class="right-side">
+    <div class="right-side relative">
       <div class="work-information">
         <h2>{{ experience.position }}</h2>
         <h3>
@@ -33,6 +48,7 @@
           }}
           &centerdot; {{ workingTimeDescription(experience) }}.
         </p>
+        <p>{{ experience.localization }}</p>
       </div>
       <div class="description" *ngIf="experience.description">
         <p>
@@ -72,6 +88,15 @@
             >{{ skill }} <span *ngIf="!isLast"> &centerdot; </span>
           </span>
         </p>
+      </div>
+      <div class="edit-button" *ngIf="addExperience">
+        <button
+          class="icon"
+          mat-icon-button
+          (click)="openExperienceDialog(experience.id)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
       </div>
     </div>
   </div>
