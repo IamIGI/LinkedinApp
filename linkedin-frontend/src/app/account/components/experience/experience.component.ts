@@ -93,6 +93,12 @@ export class ExperienceComponent implements OnInit {
           userExperiences.unshift(newExperienceObj);
         }
       }
+      if (newExperienceData.deleteMode?.isTrue) {
+        userExperiences = userExperiences.filter(
+          (experience) =>
+            experience.id !== newExperienceData.deleteMode?.experienceId
+        );
+      }
       return userExperiences;
     }
 

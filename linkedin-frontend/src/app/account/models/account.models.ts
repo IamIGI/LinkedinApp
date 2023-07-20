@@ -31,4 +31,5 @@ export type FormOfEmployment =
 export interface ExperienceDialog {
   experience: UserExperience | undefined;
   editMode: { isTrue: boolean; experienceId?: number | null };
+  deleteMode?: { isTrue: boolean; experienceId: number };
 }

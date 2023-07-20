@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { UserExperience } from '../models/account.models';
 import { EMPTY, Observable, catchError } from 'rxjs';
+import { TypeOrmDeleteResponse } from 'src/app/global-models';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +51,24 @@ export class AccountService {
     );
   }
 
-  modifiedObjectToSaveExperience(
+  deleteUserExperience(id: number) {
+    return this.http.delete<TypeOrmDeleteResponse>(
+      `${this.userExperienceApi}?experienceId=${id}`
+    );
+  }
+
+  private modifySkillsField(value: string[] | null): string | null {
+    if (!value) return null;
+    const result = value.toString();
+    if (result === '') return null;
+    return result;
+  }
+
+  private modifyDataField(value: Date): string {
+    return value.toISOString().split('T')[0];
+  }
+
+  private modifiedObjectToSaveExperience(
     userExperience: UserExperience,
     currentJobFlag: boolean
   ) {
@@ -64,20 +82,5 @@ export class AccountService {
         ? null
         : this.modifyDataField(userExperience.endDate as unknown as Date),
     };
-  }
-
-  deleteUserExperience(id: number) {
-    return this.http.delete(`${this.userExperienceApi}?experienceId=${id}`);
-  }
-
-  private modifySkillsField(value: string[] | null): string | null {
-    if (!value) return null;
-    const result = value.toString();
-    if (result === '') return null;
-    return result;
-  }
-
-  private modifyDataField(value: Date): string {
-    return value.toISOString().split('T')[0];
   }
 }

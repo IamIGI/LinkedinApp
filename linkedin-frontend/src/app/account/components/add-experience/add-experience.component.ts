@@ -110,6 +110,23 @@ export class AddExperienceComponent implements OnInit {
       });
   }
 
+  onDelete(experienceId: number) {
+    this.accountService
+      .deleteUserExperience(experienceId)
+      .subscribe((response) => {
+        if (response.affected >= 1) {
+          let data: ExperienceDialog = {
+            experience: undefined,
+            editMode: { isTrue: false },
+            deleteMode: { isTrue: true, experienceId },
+          };
+          this.dialogRef.close(data);
+        } else {
+          this.cancelPost();
+        }
+      });
+  }
+
   resetForm(formDirective: FormGroupDirective) {
     formDirective.resetForm();
     this.addExperienceForm.reset();
