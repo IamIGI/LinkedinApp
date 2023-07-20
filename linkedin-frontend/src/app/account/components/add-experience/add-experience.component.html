@@ -103,6 +103,15 @@
     </div>
     <div class="addExperience-footer">
       <button type="submit" mat-flat-button color="primary">Zapisz</button>
+      <button
+        *ngIf="passedData.editMode.isTrue"
+        class="delete"
+        type="button"
+        mat-flat-button
+        (click)="onDelete(passedData.experience?.id!)"
+      >
+        Usuń doświadczenie
+      </button>
     </div>
   </form>
 </div>
