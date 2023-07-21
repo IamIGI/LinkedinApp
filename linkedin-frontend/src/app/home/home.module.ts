@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { ProfileSummaryComponent } from './components/profile-summary/profile-summary.component';
 import { StartPostComponent } from './components/start-post/start-post.component';
 import { AdvertisingComponent } from './components/advertising/advertising.component';
 import { HomeComponent } from './home.component';

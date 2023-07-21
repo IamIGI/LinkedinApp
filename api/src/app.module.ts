@@ -11,6 +11,7 @@ import { AllExceptionsFilter } from './core/all-exceptions.filter';
 import { AccountController } from './account/controllers/account.controller';
 import { AccountService } from './account/services/account.service';
 import { AccountModule } from './account/account.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AccountModule } from './account/account.module';
     AuthModule,
     StatisticsModule,
     AccountModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [
