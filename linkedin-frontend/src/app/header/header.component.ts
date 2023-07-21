@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { FriendRequest } from '../home/models/FriendRequest';
 import { ConnectionProfileService } from '../home/services/connection-profile.service';
 import { AuthService } from '../auth/services/auth.service';
+import { URLLinks, headerRouterLinks } from './header.dictionaries';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,7 @@ import { AuthService } from '../auth/services/auth.service';
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  urlLinks: URLLinks = headerRouterLinks;
   private friendRequestsSubscription!: Subscription;
   showMenu = true;
 

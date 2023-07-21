@@ -18,6 +18,7 @@ const statistics_module_1 = require("./statistics/statistics.module");
 const core_1 = require("@nestjs/core");
 const all_exceptions_filter_1 = require("./core/all-exceptions.filter");
 const account_module_1 = require("./account/account.module");
+const chat_module_1 = require("./chat/chat.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -38,6 +39,7 @@ AppModule = __decorate([
             auth_module_1.AuthModule,
             statistics_module_1.StatisticsModule,
             account_module_1.AccountModule,
+            chat_module_1.ChatModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [

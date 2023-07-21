@@ -21,7 +21,7 @@
                   routerLinkActive="activeLink"
                   [routerLinkActiveOptions]="{ exact: true }"
                 >
-                  <a routerLink="/home">
+                  <a [routerLink]="urlLinks.home">
                     <mat-icon class="icon">home</mat-icon>
                     <span class="hideDescription"> Strona główna</span>
                   </a>
@@ -31,7 +31,7 @@
                   routerLinkActive="activeLink"
                   [routerLinkActiveOptions]="{ exact: true }"
                 >
-                  <a routerLink="/home/network"
+                  <a [routerLink]="urlLinks.network"
                     ><mat-icon class="icon">group</mat-icon
                     ><span class="hideDescription">Sieć</span>
                   </a>
@@ -41,7 +41,7 @@
                   routerLinkActive="activeLink"
                   [routerLinkActiveOptions]="{ exact: true }"
                 >
-                  <a routerLink="/home/work"
+                  <a [routerLink]="urlLinks.work"
                     ><mat-icon class="icon">work</mat-icon
                     ><span class="hideDescription">Praca</span>
                   </a>
@@ -51,7 +51,7 @@
                   routerLinkActive="activeLink"
                   [routerLinkActiveOptions]="{ exact: true }"
                 >
-                  <a routerLink="/home/messages"
+                  <a [routerLink]="urlLinks.messages"
                     ><mat-icon class="icon">sms</mat-icon>
                     <span class="hideDescription">Wiadomość</span>
                   </a>
@@ -61,7 +61,7 @@
                   routerLinkActive="activeLink"
                   [routerLinkActiveOptions]="{ exact: true }"
                 >
-                  <a routerLink="/home/notifications"
+                  <a [routerLink]="urlLinks.notifications"
                     ><mat-icon matBadge="15" matBadgeColor="warn"
                       >notifications</mat-icon
                     >
@@ -79,7 +79,7 @@
             routerLinkActive="activeLink"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <a routerLink="/" class="link2">
+            <a [routerLink]="urlLinks.home" class="link2">
               <mat-icon class="icon">home</mat-icon>
               <span class="hideDescription"> Strona główna</span>
             </a>
@@ -90,7 +90,7 @@
             routerLinkActive="activeLink"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <a routerLink="/home/network"
+            <a [routerLink]="urlLinks.network"
               ><mat-icon
                 [matBadge]="this.connectionProfileService.friendRequests.length"
                 matBadgeColor="warn"
@@ -108,7 +108,7 @@
             routerLinkActive="/home/activeLink"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <a routerLink="/home/work"
+            <a [routerLink]="urlLinks.work"
               ><mat-icon class="icon">work</mat-icon
               ><span class="hideDescription">Praca</span>
             </a>
@@ -119,7 +119,7 @@
             routerLinkActive="activeLink"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <a routerLink="/home/messages"
+            <a [routerLink]="urlLinks.messages"
               ><mat-icon class="icon">sms</mat-icon>
               <span class="hideDescription">Wiadomość</span>
             </a>
@@ -130,7 +130,7 @@
             routerLinkActive="activeLink"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <a routerLink="/home/notifications"
+            <a [routerLink]="urlLinks.notifications"
               ><mat-icon matBadge="15" matBadgeColor="warn"
                 >notifications</mat-icon
               >
