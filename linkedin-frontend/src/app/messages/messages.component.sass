@@ -7,7 +7,6 @@
 .messages-wrapper
   max-width: 1020px
   $horizontalMargin:22%
-  // margin-top: 10px
   margin: 0 $horizontalMargin
   width: calc( 100% - 2*$horizontalMargin )
   @include i.flex-RowStartStart
@@ -68,11 +67,10 @@
           margin-bottom: 7px
 
           &:hover
-            background-color: i.$color-light
+            background-color: i.$color-ultra-light
 
       .messagePreview-tile
         width: 100%
-        // outline: 1px solid green
         height: 70px
         @include i.flex-RowStartCenter
         .messagePreview-image
@@ -82,7 +80,6 @@
         .messagePreview-data
           @include i.flex-ColumnStartStart
           gap: 5px
-          // outline: 1px solid red
           padding: 5px  10px
           height: 100%
           width: 100%
@@ -169,7 +166,7 @@
           margin-bottom: 7px
 
           &:hover
-            background-color: i.$color-light
+            background-color: i.$color-ultra-light
 
       .message-section
         height: fit-content
@@ -245,7 +242,6 @@
           height: 30px
           font-weight: 500
           padding: 0 15px   
-        // border: 2px solid
 
 
 
