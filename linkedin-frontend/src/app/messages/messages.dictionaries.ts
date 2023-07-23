@@ -1,4 +1,4 @@
-import { UsersListMessageRoom } from './messages.model';
+import { ChatHistory, UsersListMessageRoom } from './messages.model';
 
 export const usersListMock: UsersListMessageRoom[] = [
   {
@@ -504,5 +504,191 @@ export const usersListMock: UsersListMessageRoom[] = [
       updatedAt: '2023-07-23T07:03:22.679Z' as unknown as Date,
     },
     lastMessage: { message: 'Hello Jim', date: '21 maj' },
+  },
+];
+
+export const userFromChatMock = {
+  userName: 'Piotr Kowalski',
+  profileFullImagePath:
+    'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+  position: 'Inżynieria Biomedyczna',
+};
+
+export const messageHistoryMock: ChatHistory[] = [
+  {
+    userNr: 1,
+    userName: 'Piotr Kowalski',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:03',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
+  },
+  {
+    userNr: 2,
+    userName: 'Mariusz Wlazły',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:06:',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+  },
+  {
+    userNr: 1,
+    userName: 'Piotr Kowalski',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:03',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
+  },
+  {
+    userNr: 2,
+    userName: 'Mariusz Wlazły',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:06:',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+  },
+  {
+    userNr: 1,
+    userName: 'Piotr Kowalski',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:03',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
+  },
+  {
+    userNr: 2,
+    userName: 'Mariusz Wlazły',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:06:',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+  },
+  {
+    userNr: 1,
+    userName: 'Piotr Kowalski',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:03',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
+  },
+  {
+    userNr: 2,
+    userName: 'Mariusz Wlazły',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:06:',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+  },
+  {
+    userNr: 1,
+    userName: 'Piotr Kowalski',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:03',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
+  },
+  {
+    userNr: 2,
+    userName: 'Mariusz Wlazły',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:06:',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+  },
+  {
+    userNr: 1,
+    userName: 'Piotr Kowalski',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:03',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
+  },
+  {
+    userNr: 2,
+    userName: 'Mariusz Wlazły',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:06:',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+  },
+  {
+    userNr: 1,
+    userName: 'Piotr Kowalski',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:03',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
+  },
+  {
+    userNr: 2,
+    userName: 'Mariusz Wlazły',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:06:',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+  },
+  {
+    userNr: 1,
+    userName: 'Piotr Kowalski',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:03',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
+  },
+  {
+    userNr: 2,
+    userName: 'Mariusz Wlazły',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:06:',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+  },
+  {
+    userNr: 1,
+    userName: 'Piotr Kowalski',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:03',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
+  },
+  {
+    userNr: 2,
+    userName: 'Mariusz Wlazły',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:06:',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+  },
+  {
+    userNr: 1,
+    userName: 'Piotr Kowalski',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:03',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
+  },
+  {
+    userNr: 2,
+    userName: 'Mariusz Wlazły',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:06:',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+  },
+  {
+    userNr: 1,
+    userName: 'Piotr Kowalski',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:03',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
+  },
+  {
+    userNr: 2,
+    userName: 'Mariusz Wlazły',
+    profileFullImagePath:
+      'http://localhost:3000/api/feed/user/image/profile/c79d625a-0dca-460b-b645-f2804dfecd48.JPG?userId=9',
+    timeSend: '11:06:',
+    message: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
   },
 ];
