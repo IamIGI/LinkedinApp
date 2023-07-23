@@ -7,7 +7,6 @@
 .messages-wrapper
   max-width: 1020px
   $horizontalMargin:22%
-  // margin-top: 10px
   margin: 0 $horizontalMargin
   width: calc( 100% - 2*$horizontalMargin )
   @include i.flex-RowStartStart
@@ -68,11 +67,10 @@
           margin-bottom: 7px
 
           &:hover
-            background-color: i.$color-light
+            background-color: i.$color-ultra-light
 
       .messagePreview-tile
         width: 100%
-        // outline: 1px solid green
         height: 70px
         @include i.flex-RowStartCenter
         .messagePreview-image
@@ -82,7 +80,6 @@
         .messagePreview-data
           @include i.flex-ColumnStartStart
           gap: 5px
-          // outline: 1px solid red
           padding: 5px  10px
           height: 100%
           width: 100%
@@ -108,14 +105,143 @@
               font-weight: 500
               font-size: i.$font-s_minus 
 
-
-
-
-
-
-      
-
   .chat-container
     width: 100%
     height: 100%
     @include i.flex-ColumnStartStart
+
+  .chat-history-section
+    width: 100%
+    overflow-y: auto
+    gap: 10px
+    @include i.flex-ColumnStartStart
+
+    .chat-history-global-date
+      padding: 0 10px
+      @include i.flex-RowStartCenter
+      width: 100%
+      gap: 5px
+
+      .chat-history-globale-date-line
+        flex-grow: 1
+        border-bottom: 2px solid i.$color-light
+      
+      .chat-history-globale-date-string
+        color: i.$color-medium-shade
+        font-weight: 500
+        font-size: i.$font-s 
+      
+
+
+    .chat-history-user
+      width:100%
+      @include i.flex-ColumnStartStart
+      padding-left: 5px
+
+      .chat-history-user-image
+        @include i.inElement-profile-image(70px)
+      
+      .chat-history-user-data
+        padding-left: 15px
+        h2
+          margin: 0px
+          margin-bottom: 5px
+          font-weight: 500
+          font-size: i.$font-m_plus
+        h3
+          margin: 0px
+          font-weight: 400
+          color: i.$color-medium-shade
+          font-size: i.$font-m
+
+    .chat-history-messages
+      width: 100%
+      ul
+        list-style-type: none
+        margin: 0px 
+        padding: 0px
+
+        li
+          margin: 0 2px
+          margin-bottom: 7px
+
+          &:hover
+            background-color: i.$color-ultra-light
+
+      .message-section
+        height: fit-content
+        padding: 5px 0px
+        width: 100%
+        @include i.flex-RowStartStart
+        gap: 15px
+        .message-user-image
+          padding-left: 5px
+          @include i.inElement-profile-image(45px)
+
+        .message-data
+          width: 100%
+          @include i.flex-ColumnStartStart
+          gap: 10px
+
+          .message-data-user
+            width:100%
+            @include i.flex-RowStartStart
+            gap: 5px
+            h4
+              margin: 0px
+              font-weight: 500
+              font-size: i.$font-m
+              span
+                font-weight: 400
+                color: i.$color-medium-shade
+            
+          .message-message
+            p
+              margin: 0px
+              font-weight: 400
+              font-size: i.$font-m
+
+  .chat-sendMessage-section
+    width: 100%
+    height: fit-content
+    @inclulde i.flex-ColumnStartStart
+    
+    .chat-sendMessage-textArea
+      padding: 10px 10px
+      border-top: 0.5px solid i.$color-light 
+      border-bottom: 0.5px solid i.$color-light 
+      textarea
+        border: none
+        overflow: auto
+        outline: none
+        -webkit-box-shadow: none
+        -moz-box-shadow: none
+        box-shadow: none
+        width: 90%
+        min-height: 100px
+        border: 0px
+        border-radius: 10px
+        font-size: i.$font-m_plus
+        resize: none
+        padding: 10px
+        color: gray
+        background-color: i.$color-ultra-light
+
+    .chat-sendMessage-options
+      height: fit-content
+      padding: 5px 10px 
+      @include i.flex-RowStartCenter
+      justify-content: space-between
+      .chat-sendMessage-options-buttons
+        @include i.flex-RowStartCenter
+        gap: 10px
+
+      .chat-sendMessage-options-sendButton
+        button
+          border-radius: 15px
+          height: 30px
+          font-weight: 500
+          padding: 0 15px   
+
+
+

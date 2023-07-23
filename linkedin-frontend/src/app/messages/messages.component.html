@@ -59,6 +59,67 @@
         </button>
       </div>
     </div>
+    <div class="chat-history-section">
+      <div class="chat-history-user">
+        <div class="chat-history-user-image">
+          <img [src]="userFromChat.profileFullImagePath" alt="profile" />
+        </div>
+        <div class="chat-history-user-data">
+          <h2>{{ userFromChat.userName }}</h2>
+          <h3>{{ userFromChat.position }}</h3>
+        </div>
+      </div>
+      <div class="chat-history-global-date">
+        <div class="chat-history-globale-date-line"></div>
+        <div class="chat-history-globale-date-string">29 MAR 2023</div>
+        <div class="chat-history-globale-date-line"></div>
+      </div>
+      <div class="chat-history-messages">
+        <ul>
+          <li *ngFor="let message of messageHistory">
+            <div class="message-section">
+              <div class="message-user-image">
+                <img [src]="message.profileFullImagePath" alt="profile" />
+              </div>
+              <div class="message-data">
+                <div class="message-data-user">
+                  <h4>
+                    {{ message.userName }} • <span>{{ message.timeSend }}</span>
+                  </h4>
+                </div>
+                <div class="message-message">
+                  {{ message.message }}
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="chat-sendMessage-section">
+      <div class="chat-sendMessage-textArea">
+        <textarea></textarea>
+      </div>
+      <div class="chat-sendMessage-options">
+        <div class="chat-sendMessage-options-buttonss">
+          <button mat-icon-button>
+            <mat-icon>image</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>gif</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>insert_emoticon</mat-icon>
+          </button>
+        </div>
+        <div class="chat-sendMessage-options-sendButton">
+          <button mat-raised-button color="primary">Wyślij</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

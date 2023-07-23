@@ -3,8 +3,12 @@ import { Observable, Subscription, take } from 'rxjs';
 import { ChatService } from './services/chat.service';
 import { NgForm } from '@angular/forms';
 import { User } from '../auth/models/user.model';
-import { usersListMock } from './messages.dictionaries';
-import { UsersListMessageRoom } from './messages.model';
+import {
+  messageHistoryMock,
+  userFromChatMock,
+  usersListMock,
+} from './messages.dictionaries';
+import { ChatHistory, UsersListMessageRoom } from './messages.model';
 
 @Component({
   selector: 'app-messages',
@@ -20,6 +24,12 @@ export class MessagesComponent implements OnInit, OnDestroy {
   messages: string[] = [];
 
   friends: UsersListMessageRoom[] = usersListMock;
+  userFromChat: {
+    userName: string;
+    profileFullImagePath: string;
+    position: string;
+  } = userFromChatMock;
+  messageHistory: ChatHistory[] = messageHistoryMock;
 
   constructor(private chatService: ChatService) {}
 
