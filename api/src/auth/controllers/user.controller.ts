@@ -280,4 +280,11 @@ export class UserController {
       }),
     );
   }
+
+  @UseGuards(JwtGuard)
+  @Get('friends/my')
+  getUserFriends(@Request() req) {
+    const currentUser = req.user;
+    return this.userService.getFriends(currentUser);
+  }
 }

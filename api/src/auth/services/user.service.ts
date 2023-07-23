@@ -363,4 +363,19 @@ export class UserService {
     );
     return user;
   }
+
+  // for chat purpose
+  getFriends(currentUser: User): Observable<User[]> {
+    return this.getAllUsersWhoAreInConnectionToAuthenticatedUser(
+      currentUser,
+    ).pipe(
+      map((userConnectionHistory: UserConnectionHistory[]) => {
+        return userConnectionHistory.map((history: UserConnectionHistory) => {
+          if (history.status === 'accepted') {
+            return history.user;
+          }
+        });
+      }),
+    );
+  }
 }

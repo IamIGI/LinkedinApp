@@ -1,8 +1,72 @@
-<div>
+<div class="messages-wrapper">
+  <div class="usersList-container">
+    <div class="title-container">
+      <div class="title-container-section">
+        <h1>Wiadomości</h1>
+      </div>
+      <div class="title-container-buttons">
+        <button mat-icon-button>
+          <mat-icon>keyboard_control</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon>drive_file_rename_outline</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="usersList-section">
+      <ul>
+        <li *ngFor="let messagePreview of friends" class="pointer">
+          <div class="messagePreview-tile">
+            <div class="messagePreview-image">
+              <img
+                [src]="messagePreview.user.profileFullImagePath"
+                alt="profile"
+              />
+            </div>
+            <div class="messagePreview-data">
+              <div class="messagePreview-data-user">
+                <div class="userName">
+                  <h4>{{ messagePreview.user.firstName }}</h4>
+                </div>
+                <div class="last-message-date">
+                  {{ messagePreview.lastMessage.date }}
+                </div>
+              </div>
+              <div class="messagePreview-data-lastMessage">
+                <p>{{ messagePreview.lastMessage.message }}</p>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="chat-container">
+    <div class="title-container">
+      <div class="title-container-section">
+        <h2>Karolina Punny</h2>
+        <h3>Inżyniera Biomedyczna</h3>
+      </div>
+      <div class="title-container-buttons">
+        <button mat-icon-button>
+          <mat-icon>keyboard_control</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon>video_camera_front</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon>star_border</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div>
   <span>Chat room</span>
   <p *ngFor="let message of messages">{{ message }}</p>
   <form class="formContainer" #form="ngForm" (ngSubmit)="onSubmit()">
     <input ngModel type="text" name="message" required />
     <button [disabled]="!form.valid" type="submit">send message</button>
   </form>
-</div>
+</div> -->
