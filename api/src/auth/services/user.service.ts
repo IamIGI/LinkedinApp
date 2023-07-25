@@ -372,6 +372,7 @@ export class UserService {
       map((userConnectionHistory: UserConnectionHistory[]) => {
         return userConnectionHistory.map((history: UserConnectionHistory) => {
           if (history.status === 'accepted') {
+            history.user = this.setUserImageData(history.user);
             return history.user;
           }
         });
