@@ -52,19 +52,23 @@
     max-width: 300px
     width: 100%
     height: 100%
-   
 
     .usersList-section
       overflow-y:  auto
       width: 100%
+      
       ul
         list-style-type: none
         margin: 0px 
         padding: 0px
 
-        li
+        .list-item
           margin: 0 2px
-          margin-bottom: 7px
+          border-left: 3px solid transparent
+          
+        .selected-conversation
+          border-left: 3px solid #057642
+          background-color: #eef3f8
 
           &:hover
             background-color: i.$color-ultra-light
@@ -130,8 +134,6 @@
         color: i.$color-medium-shade
         font-weight: 500
         font-size: i.$font-s 
-      
-
 
     .chat-history-user
       width:100%
@@ -194,7 +196,7 @@
               span
                 font-weight: 400
                 color: i.$color-medium-shade
-            
+                        
           .message-message
             p
               margin: 0px

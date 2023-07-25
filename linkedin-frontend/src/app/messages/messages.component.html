@@ -15,25 +15,29 @@
     </div>
     <div class="usersList-section">
       <ul>
-        <li *ngFor="let messagePreview of friends" class="pointer">
+        <li
+          *ngFor="let friend of friends; let i = index"
+          class="list-item pointer"
+          (click)="openConversation(friend.user, i)"
+          [ngClass]="{
+            'selected-conversation': selectedConversationIndex === i
+          }"
+        >
           <div class="messagePreview-tile">
             <div class="messagePreview-image">
-              <img
-                [src]="messagePreview.user.profileFullImagePath"
-                alt="profile"
-              />
+              <img [src]="friend.user.profileFullImagePath" alt="profile" />
             </div>
             <div class="messagePreview-data">
               <div class="messagePreview-data-user">
                 <div class="userName">
-                  <h4>{{ messagePreview.user.firstName }}</h4>
+                  <h4>{{ friend.user.firstName }}</h4>
                 </div>
                 <div class="last-message-date">
-                  {{ messagePreview.lastMessage.date }}
+                  {{ friend.lastMessage.date }}
                 </div>
               </div>
               <div class="messagePreview-data-lastMessage">
-                <p>{{ messagePreview.lastMessage.message }}</p>
+                <p>{{ friend.lastMessage.message }}</p>
               </div>
             </div>
           </div>
@@ -76,7 +80,7 @@
       </div>
       <div class="chat-history-messages">
         <ul>
-          <li *ngFor="let message of messageHistory">
+          <li *ngFor="let message of messages">
             <div class="message-section">
               <div class="message-user-image">
                 <img [src]="message.profileFullImagePath" alt="profile" />
@@ -96,30 +100,46 @@
         </ul>
       </div>
     </div>
-    <div class="chat-sendMessage-section">
+    <form
+      class="chat-sendMessage-section"
+      [formGroup]="sendMessageForm"
+      (ngSubmit)="onSubmit()"
+    >
       <div class="chat-sendMessage-textArea">
-        <textarea></textarea>
+        <textarea
+          name="message"
+          id="message"
+          formControlName="message"
+          placeholder="Write a message..."
+        ></textarea>
       </div>
       <div class="chat-sendMessage-options">
         <div class="chat-sendMessage-options-buttonss">
-          <button mat-icon-button>
+          <button mat-icon-button matTooltip="Zdjęcie (w implementacji)">
             <mat-icon>image</mat-icon>
           </button>
-          <button mat-icon-button>
+          <button mat-icon-button matTooltip="Załącznik (w implementacji)">
             <mat-icon>attach_file</mat-icon>
           </button>
-          <button mat-icon-button>
+          <button mat-icon-button matTooltip="GIF (w implementacji)">
             <mat-icon>gif</mat-icon>
           </button>
-          <button mat-icon-button>
+          <button mat-icon-button matTooltip="Emotka (w implementacji)">
             <mat-icon>insert_emoticon</mat-icon>
           </button>
         </div>
         <div class="chat-sendMessage-options-sendButton">
-          <button mat-raised-button color="primary">Wyślij</button>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="sendMessageForm.invalid"
+          >
+            Wyślij
+          </button>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 

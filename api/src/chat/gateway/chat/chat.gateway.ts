@@ -9,11 +9,6 @@ import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({ cors: { origin: ['http://localhost:4200'] } })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  // @SubscribeMessage('message')
-  // handleMessage(client: any, payload: any): string {
-  //   return 'Hello world!';
-  // }
-
   @WebSocketServer()
   server: Server;
 
