@@ -1,4 +1,4 @@
-<div class="messages-wrapper">
+<div class="messages-wrapper" *ngIf="friend">
   <div class="usersList-container">
     <div class="title-container">
       <div class="title-container-section">
@@ -18,26 +18,27 @@
         <li
           *ngFor="let friend of friends; let i = index"
           class="list-item pointer"
-          (click)="openConversation(friend.user, i)"
+          (click)="openConversation(friend, i)"
           [ngClass]="{
             'selected-conversation': selectedConversationIndex === i
           }"
         >
           <div class="messagePreview-tile">
             <div class="messagePreview-image">
-              <img [src]="friend.user.profileFullImagePath" alt="profile" />
+              <img [src]="friend.profileFullImagePath" alt="profile" />
             </div>
             <div class="messagePreview-data">
               <div class="messagePreview-data-user">
                 <div class="userName">
-                  <h4>{{ friend.user.firstName }}</h4>
+                  <h4>{{ friend.firstName }}</h4>
                 </div>
-                <div class="last-message-date">
-                  {{ friend.lastMessage.date }}
-                </div>
+                <!-- TODO: LAST message Mock -->
+                <div class="last-message-date">21 maja</div>
               </div>
               <div class="messagePreview-data-lastMessage">
-                <p>{{ friend.lastMessage.message }}</p>
+                <p>last message mock</p>
+                <!-- TODO: last message date -->
+                <!-- <p>{{ friend.lastMessage.message }}</p> -->
               </div>
             </div>
           </div>
@@ -48,7 +49,7 @@
   <div class="chat-container">
     <div class="title-container">
       <div class="title-container-section">
-        <h2>Karolina Punny</h2>
+        <h2>{{ friend.firstName }}</h2>
         <h3>Inżyniera Biomedyczna</h3>
       </div>
       <div class="title-container-buttons">
@@ -66,11 +67,12 @@
     <div class="chat-history-section">
       <div class="chat-history-user">
         <div class="chat-history-user-image">
-          <img [src]="userFromChat.profileFullImagePath" alt="profile" />
+          <img [src]="friend.profileFullImagePath" alt="profile" />
         </div>
         <div class="chat-history-user-data">
-          <h2>{{ userFromChat.userName }}</h2>
-          <h3>{{ userFromChat.position }}</h3>
+          <!-- TODO: get method for userName-->
+          <h2>{{ friend.firstName }}</h2>
+          <h3>{{ friend.position }}</h3>
         </div>
       </div>
       <div class="chat-history-global-date">
@@ -83,12 +85,16 @@
           <li *ngFor="let message of messages">
             <div class="message-section">
               <div class="message-user-image">
-                <img [src]="message.profileFullImagePath" alt="profile" />
+                <img [src]="message.user?.profileFullImagePath" alt="profile" />
               </div>
               <div class="message-data">
                 <div class="message-data-user">
                   <h4>
-                    {{ message.userName }} • <span>{{ message.timeSend }}</span>
+                    <!-- TODO: get method for userName-->
+                    <!-- TODO: createdAt to rework -->
+                    <!-- {{ message.user?.firstName }} • <span>{{ message.createdAt }}</span> -->
+                    {{ message.user?.firstName }} •
+                    <span>{{ message.createdAt | date : "short" }}</span>
                   </h4>
                 </div>
                 <div class="message-message">

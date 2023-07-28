@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/auth/models/user.model';
 import { ChatSocketService } from 'src/app/core/chat-socket.service';
 import { environment } from 'src/environments/environment.development';
+import { Message } from '../models/Messages.interface';
+import { Conversation } from '../models/Conversation.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -11,15 +13,39 @@ import { environment } from 'src/environments/environment.development';
 export class ChatService {
   constructor(private socket: ChatSocketService, private http: HttpClient) {}
 
-  sendMessage(message: string): void {
-    this.socket.emit('sendMessage', message);
-  }
-
-  getNewMessage(): Observable<{ message: string }> {
-    return this.socket.fromEvent<{ message: string }>('newMessage');
-  }
-
   getFriends(): Observable<User[]> {
     return this.http.get<User[]>(`${environment.baseApiUrl}/user/friends/my`);
+  }
+
+  sendMessage(message: string, conversation: Conversation): void {
+    const newMessage: Message = {
+      message,
+      conversation,
+    };
+    this.socket.emit('sendMessage', newMessage);
+  }
+
+  getNewMessage(): Observable<Message> {
+    return this.socket.fromEvent<Message>('newMessage');
+  }
+
+  createConversation(friend: User): void {
+    this.socket.emit('createConversation', friend);
+  }
+
+  joinConversation(friendId: number): void {
+    this.socket.emit('joinConversation', friendId);
+  }
+
+  leaveConversation(): void {
+    this.socket.emit('leaveConversation');
+  }
+
+  getConversationMessages(): Observable<Message[]> {
+    return this.socket.fromEvent<Message[]>('messages');
+  }
+
+  getConversations(): Observable<Conversation[]> {
+    return this.socket.fromEvent<Conversation[]>('conversations');
   }
 }

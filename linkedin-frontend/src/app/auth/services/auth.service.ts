@@ -235,6 +235,7 @@ export class AuthService {
 
   logout(): void {
     this.user$.next(null!);
+    localStorage.removeItem(localStorageKeys.userData);
     localStorage.removeItem(localStorageKeys.jwtToken);
     this.router.navigateByUrl('/guest');
   }
