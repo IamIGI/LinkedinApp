@@ -109,6 +109,7 @@
     <form
       class="chat-sendMessage-section"
       [formGroup]="sendMessageForm"
+      (keydown.enter)="onSubmit()"
       (ngSubmit)="onSubmit()"
     >
       <div class="chat-sendMessage-textArea">
@@ -148,12 +149,3 @@
     </form>
   </div>
 </div>
-
-<!-- <div>
-  <span>Chat room</span>
-  <p *ngFor="let message of messages">{{ message }}</p>
-  <form class="formContainer" #form="ngForm" (ngSubmit)="onSubmit()">
-    <input ngModel type="text" name="message" required />
-    <button [disabled]="!form.valid" type="submit">send message</button>
-  </form>
-</div> -->
