@@ -1,23 +1,12 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription, take } from 'rxjs';
 import { ChatService } from './services/chat.service';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Role, User } from '../auth/models/user.model';
-import { messageHistoryMock, userFromChatMock } from './messages.dictionaries';
-import { ChatHistory, UsersListMessageRoom } from './messages.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from '../auth/models/user.model';
+
 import { Message } from './models/Messages.interface';
 import { Conversation } from './models/Conversation.interface';
 import { AuthService } from '../auth/services/auth.service';
-
-const MOCK_USER_DATA = {
-  id: 0,
-  email: 'email@gmail.com',
-  firstName: 'firstName',
-  role: 'user' as Role,
-  isPrivateAccount: true,
-  createdAt: new Date(),
-  updatedAt: new Date(),
-};
 
 @Component({
   selector: 'app-messages',
