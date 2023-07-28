@@ -350,7 +350,7 @@ export class UserService {
     return `${process.env.BACKEND_URL_DEV}/feed/user/image/${imageType}/${imageName}?userId=${userId}`;
   }
 
-  private setUserImageData(user: User): User {
+  setUserImageData(user: User): User {
     user.profileFullImagePath = this.userImageURL(
       user.profileImagePath,
       user.id,

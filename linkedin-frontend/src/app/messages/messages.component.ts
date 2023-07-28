@@ -131,18 +131,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
     if (!this.sendMessageForm.valid) return;
     const message = this.sendMessageForm.value.message;
 
-    let conversationUserIds = [
-      this.authenticatedUser.id,
-      this.friend!.id,
-    ].sort();
+    this.setCurrentConversation();
 
-    this.conversations.forEach((conversation: Conversation) => {
-      let userIds = conversation.users?.map((user: User) => user.id).sort();
-
-      if (JSON.stringify(conversationUserIds) === JSON.stringify(userIds)) {
-        this.conversation = conversation;
-      }
-    });
     this.chatService.sendMessage(message, this.conversation!);
     this.sendMessageForm.reset();
   }
@@ -156,6 +146,20 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.friend = friend;
     this.friend$.next(this.friend);
     this.messages = [];
+  }
+
+  private setCurrentConversation() {
+    let conversationUserIds = [
+      this.authenticatedUser.id,
+      this.friend!.id,
+    ].sort();
+
+    this.conversations.forEach((conversation: Conversation) => {
+      let userIds = conversation.users?.map((user: User) => user.id).sort();
+      if (JSON.stringify(conversationUserIds) === JSON.stringify(userIds)) {
+        this.conversation = conversation;
+      }
+    });
   }
 
   ngOnDestroy(): void {

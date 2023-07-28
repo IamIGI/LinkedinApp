@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -9,6 +10,8 @@ import {
 import { Role } from './role.enum';
 import { FeedPostEntity } from 'src/feed/models/post/post.entity';
 import { FriendRequestEntity } from './friend-request.entity';
+import { ConversationEntity } from 'src/chat/models/conversation.entity';
+import { MessageEntity } from 'src/chat/models/message.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -29,6 +32,15 @@ export class UserEntity {
     (friendRequestEntity) => friendRequestEntity.receiver,
   )
   receivedFriendRequests: FriendRequestEntity[];
+
+  @ManyToMany(
+    () => ConversationEntity,
+    (conversationEntity) => conversationEntity.users,
+  )
+  conversations: ConversationEntity[];
+
+  @OneToMany(() => MessageEntity, (messageEntity) => messageEntity.user)
+  messages: MessageEntity[];
 
   @Column()
   firstName: string;
